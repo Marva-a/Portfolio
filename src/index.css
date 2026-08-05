@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --gradient-brand: linear-gradient(
+    90deg,
+    #69debe 28%,
+    #7cd2f2 44%,
+    #8f74ff 60%,
+    #ff806e 75%
+  );
+  --fluid-mt-para: clamp(40px, calc(40px + 16 * ((100vw - 375px) / 1025)), 56px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "DM Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-georgia {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* Fluid type: scales continuously between the 375px and 1400px viewport
+   widths instead of jumping at breakpoints. */
+.fluid-headline {
+  font-size: clamp(36px, calc(36px + 60 * ((100vw - 375px) / 1025)), 96px);
+}
+
+.fluid-body {
+  font-size: clamp(14px, calc(14px + 10 * ((100vw - 375px) / 1025)), 24px);
+}
+
+.text-gradient-brand {
+  background-image: var(--gradient-brand);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-drift 7s ease-in-out infinite alternate;
+}
+
+@keyframes gradient-drift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-brand {
+    animation: none;
+  }
+}
+
+.gradient-border {
+  position: relative;
+  background: var(--gradient-brand);
+}
+
+.gradient-border > .gradient-border-inner {
+  background: #fffdf7;
+}
+
+.gradient-border-anim {
+  background-image: var(--gradient-brand);
+  background-size: 200% 100%;
+  animation: gradient-drift 7s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-border-anim {
+    animation: none;
+  }
+}
+
+.skill-word {
+  color: rgba(77, 71, 106, 0.7);
+  transition: color 0.3s ease;
+}
+
+.skill-word:hover {
+  color: #1c1833;
+}
+
+/* Vertical timeline progress line — same brand hues as --gradient-brand,
+   reordered top-to-bottom (coral, purple, sky, teal) since this bar is
+   read top-down rather than left-to-right. */
+.timeline-progress {
+  background: linear-gradient(
+    180deg,
+    #ff806e 0%,
+    #8f74ff 33%,
+    #7cd2f2 66%,
+    #69debe 100%
+  );
+}
+
+.tag-shadow {
+  box-shadow: 6px 6px 22px 0px rgba(28, 24, 51, 0.06);
+}
+
+.status-dot {
+  animation: status-blink 2.2s ease-in-out infinite;
+}
+
+@keyframes status-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot {
+    animation: none;
+  }
+}
+
+.mesh-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(110px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Same idea as .mesh-blob, scaled down for card-sized containers — a
+   lighter blur so it isn't as costly to render when there are several
+   of these rotating at once across the project cards. */
+.mesh-blob-card {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(45px);
+  pointer-events: none;
+}
+
+.mesh-purple {
+  background: radial-gradient(
+    circle,
+    #8f74ff 0%,
+    rgba(143, 116, 255, 0) 70%
+  );
+  opacity: 0.45;
+}
+
+.mesh-teal {
+  background: radial-gradient(
+    circle,
+    #70f2cf 0%,
+    rgba(112, 242, 207, 0) 70%
+  );
+  opacity: 0.45;
+}
+
+.mesh-yellow {
+  background: radial-gradient(
+    circle,
+    #ffd166 0%,
+    rgba(255, 209, 102, 0) 70%
+  );
+  opacity: 0.65;
+}
+
+/* Contact's warm blob — the same role as .mesh-yellow elsewhere, but coral
+   so it reads against that section's deeper purple background. */
+.mesh-coral {
+  background: radial-gradient(
+    circle,
+    #ff7f6e 0%,
+    rgba(255, 127, 110, 0) 70%
+  );
+  opacity: 0.65;
+}
+
+/* The three blobs orbit together around the section's center, clockwise,
+   very slowly — slow and steady enough that the motion itself is never
+   really "seen", just the blobs gradually trading places over time. */
+.mesh-orbit {
+  animation: mesh-rotate 220s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes mesh-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mesh-orbit {
+    animation: none;
+  }
+}
+
+/* A quieter alternative to .mesh-orbit for sections that want a hint of
+   life in the background without the hero's more noticeable rotation —
+   just a few px of side-to-side sway, staggered per-blob via animation-delay
+   so they don't move in lockstep. */
+.mesh-sway {
+  animation: mesh-sway 16s ease-in-out infinite alternate;
+}
+
+@keyframes mesh-sway {
+  from {
+    transform: translateX(-6px);
+  }
+  to {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mesh-sway {
+    animation: none;
+  }
+}
+
+/* Vertical counterpart to .mesh-sway — a few px of drift up and down.
+   Pair with a per-blob animationDelay so they don't move in lockstep,
+   reading as loose/random rather than a synced bounce. */
+.mesh-float {
+  animation: mesh-float 13s ease-in-out infinite alternate;
+}
+
+@keyframes mesh-float {
+  from {
+    transform: translateY(-8px);
+  }
+  to {
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mesh-float {
+    animation: none;
+  }
+}
