@@ -7,7 +7,7 @@ import heroPhoto from "../assets/hero-photo.jpg";
 
 const pills = [
   { label: "0-to-1", bg: "#E8FFF6" },
-  { label: "System Thinking", bg: "#E6F6FF" },
+  { label: "Systems Thinking", bg: "#E6F6FF" },
   { label: "B2B2C", bg: "#F0E9FF" },
   { label: "SaaS", bg: "#FFE1D6" },
 ];
@@ -156,8 +156,11 @@ export default function Hero() {
 
       {/* Open to new roles — sits in the hero, scrolls away with it */}
       <div className="tag-shadow absolute right-6 top-8 z-10 flex items-center gap-2 rounded-full bg-[#fffdf7] px-5 py-2.5 md:right-24 md:top-10">
-        <span className="status-dot h-2 w-2 rounded-full bg-emerald-400" />
-        <span className="text-sm font-medium text-[#1c1833]">
+        {/* Dot stays static — the shimmer on the label now carries the
+            "live status" signal, and two idle animations on one small pill
+            compete with each other. */}
+        <span className="h-2 w-2 rounded-full bg-emerald-400" />
+        <span className="text-shimmer text-sm font-medium">
           Open to new roles
         </span>
       </div>

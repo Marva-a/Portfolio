@@ -2,14 +2,14 @@ import { useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 
 const stats = [
-  { value: "42%", direction: "up", label: "Faster complience review" },
+  { value: "42%", direction: "up", label: "Faster compliance review" },
   { value: "65%", direction: "down", label: "Reduction in risk resolution time" },
 ];
 
 const projects = [
   {
     id: "02",
-    title: "02 . Project Name",
+    title: "02. Project Name",
     tag: "SaaS",
     tagBg: "#FFE1D6",
     meshColor: "#70F2CF",
@@ -20,7 +20,7 @@ const projects = [
   },
   {
     id: "03",
-    title: "03 . Project Name",
+    title: "03. Project Name",
     tag: "B2B2C",
     tagBg: "#F0E9FF",
     meshColor: "#8F74FF",
@@ -31,7 +31,7 @@ const projects = [
   },
   {
     id: "04",
-    title: "04 . Project Name",
+    title: "04. Project Name",
     tag: "0-to-1",
     tagBg: "#E8FFF6",
     meshColor: "#7DDCFF",
@@ -42,7 +42,7 @@ const projects = [
   },
   {
     id: "05",
-    title: "05 . Project Name",
+    title: "05. Project Name",
     tag: "B2B2C",
     tagBg: "#F0E9FF",
     meshColor: "#FF7F6E",
@@ -133,7 +133,7 @@ export default function SelectedWork() {
   };
 
   return (
-    <section className="bg-[#181229] px-6 pb-[200px] pt-[200px] text-white md:px-24">
+    <section className="bg-[#24174A] px-6 pb-[200px] pt-[200px] text-white md:px-24">
       <div className="mx-auto" style={{ maxWidth: 1232 }}>
         <p
           id="projects"
@@ -155,7 +155,7 @@ export default function SelectedWork() {
 
         {/* Featured project */}
         <div
-          className="cursor-none relative mt-10 h-[500px] overflow-hidden rounded-3xl bg-[#1b1530] p-6 md:p-10"
+          className="cursor-none relative mt-10 h-[500px] overflow-hidden rounded-3xl bg-[#24174A] p-6 md:p-10"
           {...cardHoverProps}
         >
           <CardMesh
@@ -165,7 +165,7 @@ export default function SelectedWork() {
           />
 
           <div className="absolute right-6 top-6 z-10 flex gap-2 md:right-10 md:top-10">
-            {["0-to-1", "System Thinking"].map((tag, i) => (
+            {["0-to-1", "Systems Thinking"].map((tag, i) => (
               <span
                 key={tag}
                 className="tag-shadow rounded-full px-4 py-1.5 text-xs font-medium text-[#1c1833]"
@@ -189,7 +189,7 @@ export default function SelectedWork() {
 
         <div className="mt-8 text-left">
           <h3 className="font-georgia text-[32px] font-bold" style={{ color: "#FFFDF7" }}>
-            0.1 Project Name
+            01. Project Name
           </h3>
           <p className="mt-2 text-[20px]" style={{ color: "#FFF7E8" }}>
             Explore the case studies, strategic thinking behind each key
@@ -202,7 +202,7 @@ export default function SelectedWork() {
           {projects.map((project) => (
             <div key={project.id}>
               <div
-                className="cursor-none relative h-[437px] overflow-hidden rounded-3xl bg-[#171236]"
+                className="cursor-none relative h-[437px] overflow-hidden rounded-3xl bg-[#24174A]"
                 {...cardHoverProps}
               >
                 <CardMesh

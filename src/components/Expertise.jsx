@@ -15,7 +15,7 @@ const PILL_COLORS = ["#E8FFF6", "#E6F6FF", "#F0E9FF", "#FFE1D6"];
 const skills = [
   {
     id: "strategy",
-    label: "Product strategy & 0→1",
+    label: "Product strategy & 0-to-1",
     size: 32,
     weight: "font-bold",
     pill: "Core practice",
@@ -133,10 +133,10 @@ const chapters = [
     year: "2024 – Present",
     title: "04. Lead Product Designer",
     eyebrow: "Chapter 04",
-    heading: "Leading 0→1 product direction.",
-    tags: ["0 to 1", "AI Product Design", "Leadership"],
+    heading: "Leading 0-to-1 product direction.",
+    tags: ["0-to-1", "AI Product Design", "Leadership"],
     bullets: [
-      { icon: "💼", strong: "Lead Product Designer", text: "IBM Creative" },
+      { icon: "💼", strong: "Lead Product Designer", text: "ISM Creative" },
       { icon: "🧭", strong: "Product Strategy", text: "Across cross-functional teams" },
     ],
   },
@@ -154,7 +154,9 @@ const LINE_WIDTH = 3;
 export default function Expertise() {
   const [active, setActive] = useState(0);
   const chapter = chapters[active];
-  const [activeSkillId, setActiveSkillId] = useState("ai-design");
+  // "Designing the AI" — the poster's headline idea — is the one selected on
+  // load. Note the near-identical "ai-design" ("Designing with AI") id above.
+  const [activeSkillId, setActiveSkillId] = useState("designing-the-ai");
   const activeSkill = skills.find((s) => s.id === activeSkillId);
 
   const timelineRef = useRef(null);

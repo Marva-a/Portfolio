@@ -1,11 +1,19 @@
+import { useState } from "react";
+
 const MUTED_LIGHT = "#FFF7E8";
 const TITLE_LIGHT = "#FFFDF7";
 
+// Web3Forms access key. Safe to ship in client code — it only permits
+// submitting *to this form*, it can't read past submissions or send mail
+// anywhere else.
+const WEB3FORMS_ACCESS_KEY = "8a2aa822-a9be-4f0c-9512-64d2964e6419";
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+
 const fields = [
-  { label: "Name*", name: "name", type: "text" },
-  { label: "Organization*", name: "organization", type: "text" },
-  { label: "Email*", name: "email", type: "email" },
-  { label: "Role*", name: "role", type: "text" },
+  { label: "Name*", name: "name", type: "text", required: true },
+  { label: "Organization*", name: "organization", type: "text", required: true },
+  { label: "Email*", name: "email", type: "email", required: true },
+  { label: "Role*", name: "role", type: "text", required: true },
 ];
 
 function MailIcon(props) {
@@ -29,6 +37,37 @@ function LinkedInIcon(props) {
 }
 
 export default function Contact() {
+  // "idle" | "sending" | "sent" | "error"
+  const [status, setStatus] = useState("idle");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (status === "sending") return;
+
+    const form = e.currentTarget;
+    setStatus("sending");
+
+    try {
+      const res = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form),
+      });
+      const data = await res.json();
+
+      // Web3Forms returns 200 with { success: false } for a bad key, so the
+      // body has to be checked too — res.ok alone would report a false win.
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Submission failed");
+      }
+
+      form.reset();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <section
       className="relative overflow-clip bg-[#24174A] px-6 pb-[120px] pt-[260px] text-white md:px-24"
@@ -145,20 +184,45 @@ export default function Contact() {
             // Measured from glyph ink tops, not box edges, since the two have
             // very different half-leading above their glyphs.
             style={{ marginTop: 121 }}
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit}
           >
+            {/* Web3Forms control fields — not user-facing */}
+            <input
+              type="hidden"
+              name="access_key"
+              value={WEB3FORMS_ACCESS_KEY}
+            />
+            <input
+              type="hidden"
+              name="subject"
+              value="New message from marva.design"
+            />
+            {/* Honeypot: invisible to people, irresistible to bots. Web3Forms
+                silently drops any submission where this comes back filled. */}
+            <input
+              type="checkbox"
+              name="botcheck"
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
+
             <div className="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2">
               {fields.map((field) => (
                 <div key={field.name}>
                   <label
                     className="text-[18px]"
                     style={{ color: TITLE_LIGHT }}
+                    htmlFor={`contact-${field.name}`}
                   >
                     {field.label}
                   </label>
                   <input
+                    id={`contact-${field.name}`}
                     type={field.type}
                     name={field.name}
+                    required={field.required}
                     className="mt-3 w-full border-0 border-b bg-transparent pb-2 text-[16px] outline-none transition"
                     style={{ borderColor: "rgba(255,253,247,0.3)", color: TITLE_LIGHT }}
                     onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(255,253,247,0.8)")}
@@ -169,12 +233,18 @@ export default function Contact() {
             </div>
 
             <div>
-              <label className="text-[18px]" style={{ color: TITLE_LIGHT }}>
+              <label
+                className="text-[18px]"
+                style={{ color: TITLE_LIGHT }}
+                htmlFor="contact-message"
+              >
                 Message*
               </label>
               <textarea
+                id="contact-message"
                 name="message"
                 rows={3}
+                required
                 className="mt-3 w-full resize-none border-0 border-b bg-transparent pb-2 text-[16px] outline-none transition"
                 style={{ borderColor: "rgba(255,253,247,0.3)", color: TITLE_LIGHT }}
                 onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(255,253,247,0.8)")}
@@ -182,12 +252,29 @@ export default function Contact() {
               />
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex items-center justify-end gap-5">
+              {/* aria-live so screen readers announce the outcome, which is
+                  otherwise only conveyed visually */}
+              <p
+                aria-live="polite"
+                className="text-sm"
+                style={{
+                  color: status === "error" ? "#FFB4A8" : MUTED_LIGHT,
+                  opacity: status === "idle" || status === "sending" ? 0 : 1,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                {status === "sent" && "Thanks — I’ll be in touch soon."}
+                {status === "error" &&
+                  "Something went wrong. Please email me directly."}
+              </p>
+
               <button
                 type="submit"
-                className="gradient-border-anim rounded-full px-8 py-3 text-sm font-semibold text-[#0b0a14]"
+                disabled={status === "sending"}
+                className="gradient-border-anim rounded-full px-8 py-3 text-sm font-semibold text-[#0b0a14] transition disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Send
+                {status === "sending" ? "Sending…" : "Send"}
               </button>
             </div>
           </form>

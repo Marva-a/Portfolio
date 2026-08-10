@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import heroPhoto from "../assets/hero-photo.jpg";
 import marvaDog from "../assets/marva-dog.jpg";
 import scottPhoto from "../assets/Scott.jpeg";
@@ -17,13 +17,66 @@ const stackPhotos = [
 ];
 
 const stats = [
-  { value: "6+", label: "Years of work experience" },
-  { value: "100+", label: "Hours of user tests" },
-  { value: "9,999+", label: "Infinite ideas" },
+  { value: 6, suffix: "+", label: "Years of work experience" },
+  { value: 10, suffix: "+", label: "Products shaped from idea to delivery" },
+  { value: 20, suffix: "+", label: "Teams & clients partnered with" },
 ];
+
+const COUNT_DURATION = 1400;
+
+// Counts up from zero the first time the number scrolls into view, then
+// stays put — it's an accent on arrival, not something that replays every
+// time you scroll past.
+function CountUp({ to, suffix }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setValue(to);
+      return undefined;
+    }
+
+    let frame;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        const start = performance.now();
+        const step = (now) => {
+          const t = Math.min((now - start) / COUNT_DURATION, 1);
+          // easeOutCubic: quick off the mark, gently settling on the value
+          setValue(Math.round((1 - Math.pow(1 - t, 3)) * to));
+          if (t < 1) frame = requestAnimationFrame(step);
+        };
+        frame = requestAnimationFrame(step);
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [to]);
+
+  return (
+    <span ref={ref}>
+      {value}
+      {suffix}
+    </span>
+  );
+}
 
 const CARD_WIDTH = 380;
 const CARD_HEIGHT = 500;
+// White border around each photo. Shared so the "Swipe or tap" hint below can
+// be centred on the card's true outer width rather than guessing at it.
+const CARD_PADDING = 16;
 
 // Position within the stack (0 = front, draggable) → resting offset. Cards
 // further back fan out in different directions with only a slight tilt —
@@ -130,8 +183,9 @@ function PhotoStack() {
                   }
                 : undefined
             }
-            className="tag-shadow absolute left-0 top-0 select-none rounded-[28px] bg-[#fffdf7] p-4"
+            className="tag-shadow absolute left-0 top-0 select-none rounded-[28px] bg-[#fffdf7]"
             style={{
+              padding: CARD_PADDING,
               zIndex: stackPhotos.length - stackPos,
               cursor: isFront ? (isDragging ? "grabbing" : "grab") : "default",
               touchAction: isFront ? "pan-y" : "auto",
@@ -191,22 +245,25 @@ export default function About() {
           style={{ color: MUTED, maxWidth: 1232 }}
         >
           My approach to design is anchored by an unorthodox trajectory. I
-          started with my hands, a{" "}
-          <strong style={{ color: DARK }}>BA in Sculpture</strong>, spending
-          years in the studio shaping clay and space long before I touched a
-          screen. Then came <strong style={{ color: DARK }}>Game Design</strong>,
-          followed by a{" "}
+          started with my hands — a{" "}
+          <strong style={{ color: DARK }}>BA in Sculpture</strong>, shaping
+          clay and space long before I touched a screen. Then came{" "}
+          <strong style={{ color: DARK }}>Game Design</strong>, followed by a{" "}
           <strong style={{ color: DARK }}>
-            Master's in Human-Computer Interaction.
+            Master’s in Human-Computer Interaction
           </strong>
+          .
         </p>
 
         <div className="mt-14 grid gap-20 md:grid-cols-[460px_1fr]">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-start">
             <PhotoStack />
+            {/* Centred on the front card, not on the stack wrapper — the
+                wrapper is wider than the card to leave room for the fanned
+                cards behind it, so centring on it would sit visibly off. */}
             <p
-              className="mt-4 text-sm font-medium"
-              style={{ color: MUTED }}
+              className="mt-4 text-center text-sm font-medium"
+              style={{ color: MUTED, width: CARD_WIDTH + CARD_PADDING * 2 }}
             >
               Swipe or tap to see more
             </p>
@@ -217,48 +274,34 @@ export default function About() {
             style={{ color: MUTED }}
           >
             <p>
-              Somewhere in that evolution, I realized{" "}
+              Somewhere along the way, I realized{" "}
               <strong style={{ color: DARK }}>design</strong> was the thread
-              tying it all together, the same foundational instinct for form,
-              for human behaviour, and for how an environment feels to move
-              through.
+              tying it all together: an instinct for form, human behaviour,
+              and how an experience feels to move through.
             </p>
             <p>
               What{" "}
               <strong style={{ color: DARK }}>
                 I love most is the messy middle of a project
-              </strong>
-              , the early, foggy phase where the strategy is unmapped. Give
-              me an ambiguous problem and a cross-functional team to think
-              out loud with, and I'm exactly where I want to be: asking the
-              foundational questions and turning conceptual fog into
-              something we can actually build. Lately, I've been applying
-              this to AI and spatial products, where the design paradigms are
+              </strong>{" "}
+              — that early, foggy phase where the strategy is still unmapped.
+              Give me an ambiguous problem and a cross-functional team to
+              think out loud with, and I’m exactly where I want to be: asking
+              the foundational questions and turning conceptual fog into
+              something we can actually build. Lately, I’ve been applying
+              that thinking to AI and spatial products, where the rules are
               still being written.
             </p>
             <p>
-              I drive product success by focusing on two core pillars:
-              ensuring the system is genuinely{" "}
-              <strong style={{ color: DARK }}>intuitive for the user,</strong>{" "}
-              and protecting the{" "}
-              <strong style={{ color: DARK }}>culture of the team</strong>{" "}
-              building it. The most impactful products I've shipped came from
-              cross-functional environments built on{" "}
-              <strong style={{ color: DARK }}>zero ego and deep trust</strong>.
+              Off the screen, the creating doesn’t stop, it just gets more
+              hands-on as I play with form and colour through sculpture and
+              painting. When I’m not making something, I’m usually chasing
+              daylight with Pepper, my six-pound Pomeranian who firmly
+              manages me and runs the operation. It’s a grounding mix that
+              keeps me energized for the next digital problem.
             </p>
           </div>
         </div>
-
-        <p
-          className="mt-20 text-[20px] leading-relaxed"
-          style={{ color: MUTED, maxWidth: 1232 }}
-        >
-          Off the screen, the creating doesn't stop, it just gets a bit more
-          hands-on. I spend my time chasing daylight, using sculpture as a
-          fun, grounding way to play with form, or being firmly managed by my
-          six-pound Pomeranian who runs the operation. It's a grounding
-          routine that keeps me energized for the next digital problem.
-        </p>
 
         {/* Kind words */}
         <div className="relative mt-[100px]">
@@ -349,7 +392,7 @@ export default function About() {
                   className="font-georgia text-[40px] font-bold"
                   style={{ color: DARK }}
                 >
-                  {stat.value}
+                  <CountUp to={stat.value} suffix={stat.suffix} />
                 </p>
                 <p className="mt-1 text-sm" style={{ color: MUTED }}>
                   {stat.label}

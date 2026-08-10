@@ -33,8 +33,11 @@ body {
   font-size: clamp(36px, calc(36px + 60 * ((100vw - 375px) / 1025)), 96px);
 }
 
+/* Ceiling is 22px rather than 24px: the hero's text column stops widening at
+   965px, so a larger size pushed the intro paragraph onto a 4th line on wide
+   screens. 22px is the largest size that keeps it to 3 lines. */
 .fluid-body {
-  font-size: clamp(14px, calc(14px + 10 * ((100vw - 375px) / 1025)), 24px);
+  font-size: clamp(14px, calc(14px + 8 * ((100vw - 375px) / 1025)), 22px);
 }
 
 .text-gradient-brand {
@@ -89,6 +92,56 @@ body {
 
 .skill-word:hover {
   color: #1c1833;
+}
+
+/* A pale band swept through the letters via background-clip, the same
+   mechanism as .text-gradient-brand. Reserved for the one true status
+   element on the page ("Open to new roles") — spread across the label pills
+   it would read as noise rather than as an accent.
+
+   The band is a lighter tone of the text colour rather than a near-white
+   highlight: on dark navy over cream, a bright sweep reads as the word
+   momentarily washing out instead of gleaming.
+
+   Timing is a quick pass then a long hold, not a slow continuous crawl —
+   the sweep runs in the first 24% (~1.2s of the 5s loop) and the band sits
+   fully off the text for the rest, so it punctuates instead of drones.
+   background-size 300% keeps the band clear of both edges at rest, which is
+   what makes the loop restart invisible. */
+.text-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    #1c1833 0%,
+    #1c1833 45%,
+    #8b83b8 50%,
+    #1c1833 55%,
+    #1c1833 100%
+  );
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: text-shimmer 5s ease-in-out infinite;
+}
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  24% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-shimmer {
+    animation: none;
+    background-image: none;
+    color: #1c1833;
+  }
 }
 
 /* Vertical timeline progress line — same brand hues as --gradient-brand,
