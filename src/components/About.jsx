@@ -22,6 +22,52 @@ const stats = [
   { value: 20, suffix: "+", label: "Teams & clients partnered with" },
 ];
 
+// Only the first entry is a real endorsement. The rest are empty slots kept
+// deliberately blank — writing filler praise here would put words in real
+// people's mouths on a public page. Swap in the actual quote, name, role and
+// photo as they come in; delete any slot you don't need and the avatar row
+// resizes itself.
+const testimonials = [
+  {
+    id: "scott",
+    name: "Scott Mallory",
+    role: "Founder & Director of Design @ ISM Creative",
+    photo: scottPhoto,
+    quote:
+      "Marva wrangles and decodes abstract ideas, rapidly streamlines them through design thinking, and then makes the solutions relevant to a client's businesses in an analytical and practical way, far beyond just waiting for instructions. She is sharp at articulating and communicating connections between design and business for clients based on research, and adapting to clients' preferences.",
+  },
+  {
+    id: "slot-2",
+    name: "Add a name",
+    role: "Role @ Company",
+    photo: null,
+    quote: "This slot is empty — add the testimonial text here.",
+  },
+  {
+    id: "slot-3",
+    name: "Add a name",
+    role: "Role @ Company",
+    photo: null,
+    quote: "This slot is empty — add the testimonial text here.",
+  },
+  {
+    id: "slot-4",
+    name: "Add a name",
+    role: "Role @ Company",
+    photo: null,
+    quote: "This slot is empty — add the testimonial text here.",
+  },
+  {
+    id: "slot-5",
+    name: "Add a name",
+    role: "Role @ Company",
+    photo: null,
+    quote: "This slot is empty — add the testimonial text here.",
+  },
+];
+
+const SWIPE_MIN = 60; // px of horizontal drag before it counts as a swipe
+
 const COUNT_DURATION = 1400;
 
 // Counts up from zero the first time the number scrolls into view, then
@@ -224,6 +270,28 @@ function PhotoStack() {
 }
 
 export default function About() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const quoteStartX = useRef(null);
+  const active = testimonials[activeIndex];
+
+  // Wraps in both directions so you can keep swiping past either end
+  const step = (delta) =>
+    setActiveIndex(
+      (i) => (i + delta + testimonials.length) % testimonials.length,
+    );
+
+  const onQuotePointerDown = (e) => {
+    quoteStartX.current = e.clientX;
+  };
+
+  const onQuotePointerUp = (e) => {
+    if (quoteStartX.current === null) return;
+    const dx = e.clientX - quoteStartX.current;
+    quoteStartX.current = null;
+    // Swipe left → next (content moves the way your finger went)
+    if (Math.abs(dx) > SWIPE_MIN) step(dx < 0 ? 1 : -1);
+  };
+
   return (
     <section className="relative overflow-clip bg-[#fffdf7] px-6 pb-[200px] pt-[200px] md:px-24">
       <div className="mx-auto" style={{ maxWidth: 1232 }}>
@@ -337,7 +405,12 @@ export default function About() {
               I've collaborated with along the way.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+            <div
+              className="mt-10 flex flex-wrap items-center justify-between gap-4"
+              style={{ touchAction: "pan-y" }}
+              onPointerDown={onQuotePointerDown}
+              onPointerUp={onQuotePointerUp}
+            >
               <div className="flex items-center gap-4">
                 <GradientFrame
                   className="shrink-0"
@@ -345,44 +418,73 @@ export default function About() {
                   padding="2.5px"
                   innerClassName="overflow-hidden"
                 >
-                  <img
-                    src={scottPhoto}
-                    alt="Scott Mallory"
-                    className="h-[72px] w-[72px] rounded-full object-cover"
-                  />
+                  {active.photo ? (
+                    <img
+                      src={active.photo}
+                      alt={active.name}
+                      className="h-[72px] w-[72px] rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="h-[72px] w-[72px] rounded-full bg-[#e6e2f5]" />
+                  )}
                 </GradientFrame>
                 <div className="text-left">
                   <p className="font-semibold" style={{ color: DARK }}>
-                    Scott Mallory
+                    {active.name}
                   </p>
                   <p className="text-sm" style={{ color: MUTED }}>
-                    Founder & Director of Design @ ISM Creative
+                    {active.role}
                   </p>
                 </div>
               </div>
 
+              {/* The row holds only the testimonials you're NOT reading —
+                  the active one is already shown large on the left, so
+                  repeating it here would just be the same face twice. Pick
+                  one and it swaps into the feature spot while the one you
+                  were reading drops back into its slot in this row.
+                  Desaturated so the row stays quiet next to the colour
+                  portrait it sits beside. */}
               <div className="flex -space-x-3">
-                {[0, 1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="h-10 w-10 rounded-full bg-[#e6e2f5]"
-                    style={{ border: "2px solid #fffdf7" }}
-                  />
-                ))}
+                {testimonials
+                  .map((t, i) => ({ t, i }))
+                  .filter(({ i }) => i !== activeIndex)
+                  .map(({ t, i }) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => setActiveIndex(i)}
+                      aria-label={`Read the testimonial from ${t.name}`}
+                      className="relative h-10 w-10 shrink-0 rounded-full opacity-70 transition duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:opacity-100 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8f74ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf7]"
+                      style={{ border: "2px solid #fffdf7" }}
+                    >
+                      {t.photo ? (
+                        <img
+                          src={t.photo}
+                          alt=""
+                          className="h-full w-full rounded-full object-cover"
+                          style={{ filter: "grayscale(1)" }}
+                        />
+                      ) : (
+                        <div className="h-full w-full rounded-full bg-[#e6e2f5]" />
+                      )}
+                    </button>
+                  ))}
               </div>
             </div>
 
-            <p
-              className="mt-8 text-[28px] font-medium leading-snug"
-              style={{ color: DARK }}
+            <blockquote
+              aria-live="polite"
+              className="mt-8 cursor-grab text-[28px] font-medium leading-snug transition-opacity duration-300 active:cursor-grabbing"
+              style={{ color: DARK, touchAction: "pan-y" }}
+              onPointerDown={onQuotePointerDown}
+              onPointerUp={onQuotePointerUp}
             >
-              Marva wrangles and decodes abstract ideas, rapidly streamlines
-              them through design thinking, and then makes the solutions
-              relevant to a client's businesses in an analytical and
-              practical way, far beyond just waiting for instructions. She
-              is sharp at articulating and communicating connections between
-              design and business for clients based on research, and
-              adapting to clients' preferences.
+              {active.quote}
+            </blockquote>
+
+            <p className="mt-4 text-sm font-medium" style={{ color: MUTED }}>
+              Swipe or tap a photo to read another
             </p>
 
           <div className="mt-16 grid grid-cols-3 gap-4 text-center">
