@@ -272,7 +272,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="gradient-border-anim rounded-full px-8 py-3 text-sm font-semibold text-[#0b0a14] transition disabled:cursor-not-allowed disabled:opacity-60"
+                className="gradient-border-anim btn-shine relative rounded-full px-8 py-3 text-sm font-semibold text-[#0b0a14] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(10,6,26,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#24174A] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
               >
                 {status === "sending" ? "Sending…" : "Send"}
               </button>

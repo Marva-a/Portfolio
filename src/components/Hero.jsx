@@ -146,7 +146,7 @@ export default function Hero() {
         href="#hero"
         animate={{ width: badgeWidth }}
         transition={{ type: "tween", duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-        className="tag-shadow gradient-border-anim fixed left-6 top-8 z-50 block overflow-hidden md:left-24 md:top-10"
+        className="tag-shadow gradient-border-anim btn-shine btn-shine-brand fixed left-6 top-8 z-50 block overflow-hidden md:left-24 md:top-10"
         style={{ padding: "1px", borderRadius: 9999 }}
       >
         <div className="flex h-12 items-center justify-center overflow-hidden whitespace-nowrap rounded-full bg-[#fffdf7] px-5 text-[15px] font-medium text-[#1c1833]">

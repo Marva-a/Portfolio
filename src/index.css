@@ -27,6 +27,72 @@ body {
   font-family: Georgia, "Times New Roman", serif;
 }
 
+/* Tailwind v4's preflight sets buttons to cursor:default (v3 used pointer),
+   which made every button on the site — Send, the poster words, the chapter
+   list — read as non-interactive. Restore the pointer, but leave disabled
+   buttons alone so they still signal "not right now". */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+/* A glare that sweeps across on hover. Sized and angled to cross the whole
+   pill, and it resets instantly on mouse-out (no transition on the base
+   state) so a quick in-out doesn't leave the highlight stranded mid-button.
+
+   Deliberately does NOT set `position` — the element only needs to be a
+   positioned ancestor, and hardcoding `relative` here would override the
+   `fixed` on the MA badge (this file is unlayered, so it outranks Tailwind's
+   layered utilities). Add `relative` at the call site when the element isn't
+   already positioned. */
+.btn-shine {
+  --shine-color: rgba(255, 255, 255, 0.65);
+  --shine-image: linear-gradient(
+    115deg,
+    transparent 35%,
+    var(--shine-color) 50%,
+    transparent 65%
+  );
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--shine-image);
+  transform: translateX(-120%);
+}
+
+/* For pills sitting on the cream surface (#fffdf7) — the MA badge, the nav
+   tabs — where a white sweep would be invisible. Runs the same hues as
+   --gradient-brand, in the same order, so the glint reads as the site's
+   own gradient passing through rather than a new colour. */
+.btn-shine-brand {
+  --shine-image: linear-gradient(
+    115deg,
+    transparent 28%,
+    rgba(105, 222, 190, 0.5) 40%,
+    rgba(124, 210, 242, 0.5) 48%,
+    rgba(143, 116, 255, 0.5) 56%,
+    rgba(255, 128, 110, 0.5) 64%,
+    transparent 76%
+  );
+}
+
+.btn-shine:hover:not(:disabled)::after,
+.btn-shine:focus-visible:not(:disabled)::after {
+  transform: translateX(120%);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-shine::after {
+    display: none;
+  }
+}
+
 /* Fluid type: scales continuously between the 375px and 1400px viewport
    widths instead of jumping at breakpoints. */
 .fluid-headline {

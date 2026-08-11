@@ -22,7 +22,7 @@ export default function Nav() {
             <a
               key={link.label}
               href={link.href}
-              className="whitespace-nowrap rounded-full px-2 py-2 text-[12px] font-medium text-[#1c1833] transition hover:bg-black/5 sm:px-4 sm:text-sm md:px-5 md:py-2.5 md:text-[15px]"
+              className="btn-shine btn-shine-brand relative whitespace-nowrap rounded-full px-2 py-2 text-[12px] font-medium text-[#1c1833] transition hover:bg-black/5 sm:px-4 sm:text-sm md:px-5 md:py-2.5 md:text-[15px]"
             >
               {link.label}
             </a>

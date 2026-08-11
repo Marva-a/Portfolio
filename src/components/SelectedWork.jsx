@@ -59,30 +59,42 @@ const FEATURED_MESH_BLOBS = [
   { dx: 0.26, dy: 0.24, scale: 0.7, opacity: 0.3 },
 ];
 
+// Shared card treatment. The cards sit on the same colour as the section, so
+// without a stroke their edges are invisible at rest — this defines the shape
+// at a low enough contrast to stay quiet, then brightens on hover alongside
+// the lift and background shift.
+const CARD_HOVER =
+  "group border border-white/10 transition duration-500 ease-out hover:-translate-y-1 hover:border-white/25 hover:bg-[#2C1D5C] hover:shadow-[0_18px_44px_rgba(8,4,22,0.5)]";
+
 // Mirrors the hero's rotating mesh — same slow clockwise orbit — just sized
 // down to fit inside a project card, with each card getting its own single
 // accent color and its own blob arrangement instead of one shared look.
 function CardMesh({ size = 260, color, blobs }) {
   return (
-    <div className="mesh-orbit pointer-events-none absolute inset-0">
-      {blobs.map((blob, i) => {
-        const blobSize = size * blob.scale;
-        return (
-          <div
-            key={i}
-            className="mesh-blob-card"
-            style={{
-              top: "50%",
-              left: "50%",
-              width: blobSize,
-              height: blobSize,
-              opacity: blob.opacity,
-              background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-              transform: `translate(calc(-50% + ${blob.dx * size}px), calc(-50% + ${blob.dy * size}px))`,
-            }}
-          />
-        );
-      })}
+    // The hover scale lives on its own wrapper: .mesh-orbit already animates
+    // transform (the slow rotate), so a scale set on that same element would
+    // just be overridden by the running animation.
+    <div className="pointer-events-none absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110">
+      <div className="mesh-orbit absolute inset-0">
+        {blobs.map((blob, i) => {
+          const blobSize = size * blob.scale;
+          return (
+            <div
+              key={i}
+              className="mesh-blob-card"
+              style={{
+                top: "50%",
+                left: "50%",
+                width: blobSize,
+                height: blobSize,
+                opacity: blob.opacity,
+                background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+                transform: `translate(calc(-50% + ${blob.dx * size}px), calc(-50% + ${blob.dy * size}px))`,
+              }}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -155,7 +167,7 @@ export default function SelectedWork() {
 
         {/* Featured project */}
         <div
-          className="cursor-none relative mt-10 h-[500px] overflow-hidden rounded-3xl bg-[#24174A] p-6 md:p-10"
+          className={`cursor-none relative mt-10 h-[500px] overflow-hidden rounded-3xl bg-[#24174A] p-6 md:p-10 ${CARD_HOVER}`}
           {...cardHoverProps}
         >
           <CardMesh
@@ -202,7 +214,7 @@ export default function SelectedWork() {
           {projects.map((project) => (
             <div key={project.id}>
               <div
-                className="cursor-none relative h-[437px] overflow-hidden rounded-3xl bg-[#24174A]"
+                className={`cursor-none relative h-[437px] overflow-hidden rounded-3xl bg-[#24174A] ${CARD_HOVER}`}
                 {...cardHoverProps}
               >
                 <CardMesh
