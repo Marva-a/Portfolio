@@ -70,14 +70,16 @@ export default function Contact() {
 
   return (
     <section
-      className="relative overflow-clip bg-[#24174A] px-6 pb-[120px] pt-[260px] text-white md:px-24"
+      className="relative overflow-clip bg-[#24174A] px-6 pb-28 pt-24 text-white md:min-h-[var(--contact-min-h)] md:px-24 md:pb-[120px] md:pt-[260px]"
       style={{
         // Contact is the last section, so the page can only scroll until its
         // bottom meets the viewport bottom. For a nav click to put CONTACT at
         // the MA badge's 40px line, the section must be tall enough that the
         // browser can scroll (pt - 40) past a full viewport. Any shorter and
         // the scroll runs out early and CONTACT lands low.
-        minHeight: "calc(100vh + 220px)", // 220px = pt(260) - badge offset(40)
+        // md and up only; on mobile the extra height is pure dead space and
+        // the section is short enough that the nav still scrolls to it fine.
+        "--contact-min-h": "calc(100vh + 220px)",
       }}
     >
       {/* Wrapper is the section's natural content height, so the mesh below
@@ -88,10 +90,9 @@ export default function Contact() {
           just resized to fit this section's proportions. Negative insets pull
           it back over the section's padding. The blobs overflow and get
           clipped at the page's end, which is fine. */}
-      <div
-        className="mesh-orbit pointer-events-none absolute inset-x-0 z-0"
-        style={{ top: -260, bottom: -120 }}
-      >
+      {/* Negative insets mirror the section's padding so the mesh covers it —
+          they have to track the responsive padding, not the desktop value. */}
+      <div className="mesh-orbit pointer-events-none absolute inset-x-0 -top-24 -bottom-28 z-0 md:-top-[260px] md:-bottom-[120px]">
         <div
           className="mesh-blob mesh-coral"
           style={{
@@ -133,17 +134,17 @@ export default function Contact() {
           Contact
         </p>
 
-        <div className="mt-3 grid gap-12 md:grid-cols-2">
+        <div className="mt-3 grid gap-10 md:gap-12 md:grid-cols-2">
           <div>
             <h2
-              className="font-georgia text-[64px] font-bold"
+              className="font-georgia fluid-section-title font-bold"
               style={{ color: TITLE_LIGHT }}
             >
               Let's{" "}
               <span className="text-gradient-brand italic">connect.</span>
             </h2>
 
-            <div className="mt-6 space-y-4 text-[20px] leading-relaxed" style={{ color: MUTED_LIGHT, maxWidth: 420 }}>
+            <div className="mt-6 space-y-4 text-[17px] leading-relaxed md:text-[20px]" style={{ color: MUTED_LIGHT, maxWidth: 420 }}>
               <p>
                 Looking to tackle your complex product and 0-to-1 design
                 challenges?
@@ -155,10 +156,10 @@ export default function Contact() {
               </p>
             </div>
 
-            <div className="mt-16 space-y-4">
+            <div className="mt-12 space-y-4 md:mt-16">
               <a
                 href="mailto:marva.abouei@gmail.com"
-                className="flex items-center gap-3 text-[18px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white"
+                className="flex min-h-[44px] items-center gap-3 break-all text-[16px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white md:break-normal md:text-[18px]"
                 style={{ color: TITLE_LIGHT }}
               >
                 <MailIcon className="h-5 w-5 shrink-0" />
@@ -168,7 +169,7 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/marva-abouei/"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-3 text-[18px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white"
+                className="flex min-h-[44px] items-center gap-3 break-all text-[16px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white md:break-normal md:text-[18px]"
                 style={{ color: TITLE_LIGHT }}
               >
                 <LinkedInIcon className="h-5 w-5 shrink-0" />
@@ -178,12 +179,12 @@ export default function Contact() {
           </div>
 
           <form
-            className="space-y-8 text-left"
+            className="space-y-8 text-left md:[--form-mt:121px]"
             // Optical alignment: puts the first field label's cap line on the
             // same line as the "Looking to tackle…" paragraph opposite it.
             // Measured from glyph ink tops, not box edges, since the two have
             // very different half-leading above their glyphs.
-            style={{ marginTop: 121 }}
+            style={{ marginTop: "var(--form-mt, 0px)" }}
             onSubmit={handleSubmit}
           >
             {/* Web3Forms control fields — not user-facing */}
@@ -252,7 +253,7 @@ export default function Contact() {
               />
             </div>
 
-            <div className="flex items-center justify-end gap-5">
+            <div className="flex flex-col-reverse items-stretch gap-4 sm:flex-row sm:items-center sm:justify-end sm:gap-5">
               {/* aria-live so screen readers announce the outcome, which is
                   otherwise only conveyed visually */}
               <p
@@ -272,7 +273,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="gradient-border-anim btn-shine relative rounded-full px-8 py-3 text-sm font-semibold text-[#0b0a14] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(10,6,26,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#24174A] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                className="gradient-border-anim btn-shine relative min-h-[48px] rounded-full px-8 py-3 text-sm font-semibold text-[#0b0a14] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(10,6,26,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#24174A] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
               >
                 {status === "sending" ? "Sending…" : "Send"}
               </button>

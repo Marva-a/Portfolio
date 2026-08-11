@@ -17,6 +17,7 @@ html,body{margin:0;padding:0}
 body{background:#f4efe4;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#1c1833}
 a:hover{opacity:.7}
+html,body{overflow-x:hidden}
 #scaler{transform-origin:top center}
 #stack{width:816px;display:flex;flex-direction:column;gap:28px;margin:0 auto;padding:28px 0 40px}
 .page{width:816px;height:1056px;overflow:hidden;box-shadow:0 18px 48px -24px rgba(28,24,51,.34),0 2px 6px rgba(28,24,51,.06);border-radius:2px}
@@ -254,13 +255,30 @@ Download PDF</a>
 (function(){
   var scaler=document.getElementById('scaler'),stack=document.getElementById('stack');
   function fit(){
-    var pad=window.innerWidth<900?16:0;
-    var s=Math.min(1,(window.innerWidth-pad*2)/816);
-    scaler.style.transform=s<1?'scale('+s+')':'none';
-    scaler.style.height=s<1?(stack.offsetHeight*s)+'px':'';
+    // Measure the layout viewport, not window.innerWidth. Once this page
+    // overflows, the browser widens innerWidth to fit the content, so scaling
+    // against it yields a scale that never gets small enough to remove the
+    // overflow it is reacting to.
+    var vw=document.documentElement.clientWidth||window.innerWidth;
+    var pad=vw<900?16:0;
+    var s=Math.min(1,(vw-pad*2)/816);
+    if(s<1){
+      // Anchor top-left and centre by translation. With the default
+      // `top center` origin the scale pivots on the 375px-wide scaler while
+      // the sheet inside it is 816px, which pushed the resume off to the
+      // right instead of centring it.
+      scaler.style.transformOrigin='top left';
+      scaler.style.transform='translateX('+((vw-816*s)/2)+'px) scale('+s+')';
+      scaler.style.height=(stack.offsetHeight*s)+'px';
+    }else{
+      scaler.style.transformOrigin='';
+      scaler.style.transform='none';
+      scaler.style.height='';
+    }
   }
   fit();
   window.addEventListener('resize',fit);
+  window.addEventListener('orientationchange',fit);
   window.addEventListener('load',fit);
 })();
 </script>

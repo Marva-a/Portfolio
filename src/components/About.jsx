@@ -124,6 +124,12 @@ const CARD_HEIGHT = 500;
 // be centred on the card's true outer width rather than guessing at it.
 const CARD_PADDING = 16;
 
+// Available content width is 100vw minus the section's px-6 padding (48px)
+// minus the 64px the wrapper adds for the fanned cards behind the front one.
+// Capped at the desktop 380px, so nothing changes from md up.
+const CARD_W = `min(${CARD_WIDTH}px, calc(100vw - 112px))`;
+const CARD_H = `calc(${CARD_W} * ${CARD_HEIGHT} / ${CARD_WIDTH})`;
+
 // Position within the stack (0 = front, draggable) → resting offset. Cards
 // further back fan out in different directions with only a slight tilt —
 // just enough to reveal their white border, not the photo underneath.
@@ -191,7 +197,7 @@ function PhotoStack() {
   return (
     <div
       className="relative"
-      style={{ width: CARD_WIDTH + 64, height: CARD_HEIGHT + 64 }}
+      style={{ width: `calc(${CARD_W} + 64px)`, height: `calc(${CARD_H} + 64px)` }}
     >
       {order.map((photoIndex, stackPos) => {
         const photo = stackPhotos[photoIndex];
@@ -245,7 +251,7 @@ function PhotoStack() {
           >
             <div
               className="relative overflow-hidden rounded-2xl"
-              style={{ width: CARD_WIDTH, height: CARD_HEIGHT }}
+              style={{ width: CARD_W, height: CARD_H }}
             >
               <img
                 src={photo.src}
@@ -293,7 +299,7 @@ export default function About() {
   };
 
   return (
-    <section className="relative overflow-clip bg-[#fffdf7] px-6 pb-[200px] pt-[200px] md:px-24">
+    <section className="relative overflow-clip bg-[#fffdf7] px-6 pb-24 pt-24 md:px-24 md:pb-[200px] md:pt-[200px]">
       <div className="mx-auto" style={{ maxWidth: 1232 }}>
         <p
           id="about"
@@ -303,13 +309,13 @@ export default function About() {
           About
         </p>
         <h2
-          className="font-georgia mt-3 text-[64px] font-bold"
+          className="font-georgia fluid-section-title mt-3 font-bold"
           style={{ color: DARK }}
         >
           Hey, I'm Marva!
         </h2>
         <p
-          className="mt-3 text-[20px] leading-relaxed"
+          className="mt-3 text-[17px] leading-relaxed md:text-[20px]"
           style={{ color: MUTED, maxWidth: 1232 }}
         >
           My approach to design is anchored by an unorthodox trajectory. I
@@ -323,7 +329,7 @@ export default function About() {
           .
         </p>
 
-        <div className="mt-14 grid gap-20 md:grid-cols-[460px_1fr]">
+        <div className="mt-10 grid gap-10 md:mt-14 md:gap-20 md:grid-cols-[460px_1fr]">
           <div className="flex flex-col items-start">
             <PhotoStack />
             {/* Centred on the front card, not on the stack wrapper — the
@@ -331,14 +337,14 @@ export default function About() {
                 cards behind it, so centring on it would sit visibly off. */}
             <p
               className="mt-4 text-center text-sm font-medium"
-              style={{ color: MUTED, width: CARD_WIDTH + CARD_PADDING * 2 }}
+              style={{ color: MUTED, width: `calc(${CARD_W} + ${CARD_PADDING * 2}px)` }}
             >
               Swipe or tap to see more
             </p>
           </div>
 
           <div
-            className="space-y-6 text-justify text-[20px] leading-relaxed"
+            className="space-y-6 text-left text-[17px] leading-relaxed md:text-justify md:text-[20px]"
             style={{ color: MUTED }}
           >
             <p>
@@ -372,7 +378,7 @@ export default function About() {
         </div>
 
         {/* Kind words */}
-        <div className="relative mt-[100px]">
+        <div className="relative mt-20 md:mt-[100px]">
           {/* soft mesh blobs, first in the stack (default z-index) so the
               "relative z-10" content wrapper below reliably paints above
               it — same pattern as the hero/expertise backgrounds — drifting
@@ -395,12 +401,12 @@ export default function About() {
 
           <div className="relative z-10">
             <h3
-              className="font-georgia text-[40px] font-bold"
+              className="font-georgia fluid-subsection-title font-bold"
               style={{ color: DARK }}
             >
               Kind words.
             </h3>
-            <p className="mt-3 text-[20px]" style={{ color: MUTED }}>
+            <p className="mt-3 text-[17px] md:text-[20px]" style={{ color: MUTED }}>
               Feedback from the cross-functional leaders and stakeholders
               I've collaborated with along the way.
             </p>
@@ -438,6 +444,25 @@ export default function About() {
                 </div>
               </div>
 
+            </div>
+
+            <blockquote
+              aria-live="polite"
+              className="fluid-quote mt-8 cursor-grab font-medium leading-snug transition-opacity duration-300 active:cursor-grabbing"
+              style={{ color: DARK, touchAction: "pan-y" }}
+              onPointerDown={onQuotePointerDown}
+              onPointerUp={onQuotePointerUp}
+            >
+              {active.quote}
+            </blockquote>
+
+            {/* Hint and avatars sit together: the sentence explains what
+                the row of faces does, so they read as one control rather
+                than a caption stranded from the thing it describes. */}
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+              <p className="text-sm font-medium" style={{ color: MUTED }}>
+                Swipe or tap a photo to read another
+              </p>
               {/* The row holds only the testimonials you're NOT reading —
                   the active one is already shown large on the left, so
                   repeating it here would just be the same face twice. Pick
@@ -455,7 +480,7 @@ export default function About() {
                       type="button"
                       onClick={() => setActiveIndex(i)}
                       aria-label={`Read the testimonial from ${t.name}`}
-                      className="relative h-10 w-10 shrink-0 rounded-full opacity-70 transition duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:opacity-100 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8f74ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf7]"
+                      className="relative h-11 w-11 shrink-0 rounded-full opacity-70 md:h-10 md:w-10 transition duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:opacity-100 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8f74ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf7]"
                       style={{ border: "2px solid #fffdf7" }}
                     >
                       {t.photo ? (
@@ -473,25 +498,11 @@ export default function About() {
               </div>
             </div>
 
-            <blockquote
-              aria-live="polite"
-              className="mt-8 cursor-grab text-[28px] font-medium leading-snug transition-opacity duration-300 active:cursor-grabbing"
-              style={{ color: DARK, touchAction: "pan-y" }}
-              onPointerDown={onQuotePointerDown}
-              onPointerUp={onQuotePointerUp}
-            >
-              {active.quote}
-            </blockquote>
-
-            <p className="mt-4 text-sm font-medium" style={{ color: MUTED }}>
-              Swipe or tap a photo to read another
-            </p>
-
-          <div className="mt-16 grid grid-cols-3 gap-4 text-center">
+          <div className="mt-12 grid grid-cols-1 gap-8 text-center sm:grid-cols-3 sm:gap-4 md:mt-16">
             {stats.map((stat) => (
               <div key={stat.label}>
                 <p
-                  className="font-georgia text-[40px] font-bold"
+                  className="font-georgia fluid-subsection-title font-bold"
                   style={{ color: DARK }}
                 >
                   <CountUp to={stat.value} suffix={stat.suffix} />

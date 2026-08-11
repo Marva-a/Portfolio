@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from "react";
+import useMediaQuery, { MOBILE_QUERY } from "../hooks/useMediaQuery";
 
 // Reused everywhere on light backgrounds, matching the hero/selected-work
 // design system: dark navy for headings, muted purple-gray for body copy.
@@ -151,7 +152,71 @@ const DOT_SIZE = 20;
 const DOT_CENTER = DOT_SIZE / 2;
 const LINE_WIDTH = 3;
 
+// The chapter detail. On desktop it sits in the timeline's second column;
+// on mobile it is rendered inline underneath whichever chapter is open, so
+// the list behaves as an accordion instead of pushing the reader between two
+// far-apart columns.
+function ChapterCard({ chapter, className = "" }) {
+  return (
+    <div className={`tag-shadow rounded-3xl bg-[#fffdf7] p-6 md:p-8 ${className}`}>
+        <p
+          className="text-[14px] font-medium uppercase tracking-[0.2em]"
+          style={{ color: MUTED }}
+        >
+          {chapter.eyebrow}
+        </p>
+        <h4
+          className="font-georgia fluid-subsection-title mt-3 font-bold"
+          style={{ color: DARK }}
+        >
+          {chapter.heading}
+        </h4>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          {chapter.tags.map((tag, i) => (
+            <span
+              key={tag}
+              className="tag-shadow rounded-full px-4 py-1.5 text-sm font-medium"
+              style={{
+                backgroundColor: PILL_COLORS[i % PILL_COLORS.length],
+                color: DARK,
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div
+          className="mt-6 border-t"
+          style={{ borderColor: "rgba(28,24,51,0.1)" }}
+        />
+
+        <ul className="mt-6 space-y-3 text-left">
+          {chapter.bullets.map((bullet) => (
+            <li
+              key={bullet.strong}
+              className="flex items-start gap-3 text-[18px]"
+              style={{ color: MUTED }}
+            >
+              <span aria-hidden="true">{bullet.icon}</span>
+              <span>
+                <span className="font-semibold" style={{ color: DARK }}>
+                  {bullet.strong}
+                </span>
+                {bullet.text && <> . {bullet.text}</>}
+              </span>
+            </li>
+          ))}
+        </ul>
+    </div>
+  );
+}
+
 export default function Expertise() {
+  // Mobile turns the timeline into an accordion — the detail card opens
+  // inline under the chapter you tapped, rather than in a second column.
+  const isMobile = useMediaQuery(MOBILE_QUERY);
   const [active, setActive] = useState(0);
   const chapter = chapters[active];
   // "Designing the AI" — the poster's headline idea — is the one selected on
@@ -173,7 +238,7 @@ export default function Expertise() {
   }, [active]);
 
   return (
-    <section className="relative overflow-clip px-6 pb-[200px] pt-[200px] md:px-24">
+    <section className="relative overflow-clip px-6 pb-24 pt-24 md:px-24 md:pb-[200px] md:pt-[200px]">
       {/* Same mesh-blob look as the hero, but with a much quieter motion —
           a few px of side-to-side sway rather than the hero's rotation —
           since this section shouldn't compete for attention. */}
@@ -201,12 +266,12 @@ export default function Expertise() {
           Expertise
         </p>
         <h2
-          className="font-georgia mt-3 text-[64px] font-bold"
+          className="font-georgia fluid-section-title mt-3 font-bold"
           style={{ color: DARK }}
         >
           A poster of what I do.
         </h2>
-        <p className="mt-3 text-[20px]" style={{ color: MUTED }}>
+        <p className="mt-3 text-[17px] md:text-[20px]" style={{ color: MUTED }}>
           Shaped by 6+ years of experience across creative agencies, design
           consultancies, startups, established organizations, and in-house
           product teams.
@@ -218,7 +283,7 @@ export default function Expertise() {
             phrase (including "Designing the AI") is muted by default and
             only picks up the gradient-italic treatment once selected,
             which also swaps the pill + description below. */}
-        <div className="mt-14">
+        <div className="mt-10 md:mt-14">
           {skillRows.map((rowIds, ri) => (
             <div
               key={ri}
@@ -232,10 +297,16 @@ export default function Expertise() {
                     key={id}
                     type="button"
                     onClick={() => setActiveSkillId(id)}
-                    className={`font-georgia ${skill.weight} transition-colors ${
+                    aria-pressed={isActive}
+                    className={`font-georgia py-0.5 text-left ${skill.weight} transition-colors ${
                       isActive ? "text-gradient-brand italic" : "skill-word"
                     }`}
-                    style={{ fontSize: skill.size }}
+                    // Poster sizes are a desktop composition — the 18px tier
+                    // is below comfortable reading and tapping on a phone, so
+                    // the range compresses to 20–26px there.
+                    style={{
+                      fontSize: `clamp(${Math.max(Math.round(skill.size * 0.78), 16)}px, ${skill.size / 5}vw, ${skill.size}px)`,
+                    }}
                   >
                     {skill.label}
                   </button>
@@ -256,16 +327,16 @@ export default function Expertise() {
         >
           {activeSkill.pill}
         </span>
-        <p className="mt-4 text-[20px]" style={{ color: MUTED }}>
+        <p className="mt-4 text-[17px] md:text-[20px]" style={{ color: MUTED }}>
           {activeSkill.description}
         </p>
 
         {/* Career journey */}
-        <div className="mt-[100px]">
-          <h3 className="font-georgia text-[40px] font-bold" style={{ color: DARK }}>
+        <div className="mt-20 md:mt-[100px]">
+          <h3 className="font-georgia fluid-subsection-title font-bold" style={{ color: DARK }}>
             My career journey in four chapters.
           </h3>
-          <p className="mt-3 text-[20px]" style={{ color: MUTED }}>
+          <p className="mt-3 text-[17px] md:text-[20px]" style={{ color: MUTED }}>
             Click a chapter to explore my journey and the strengths it gave
             me, a multidisciplinary arc bridging fine arts, strategy, and
             complex systems.
@@ -297,6 +368,7 @@ export default function Expertise() {
                   <button
                     type="button"
                     onClick={() => setActive(i)}
+                    aria-expanded={isMobile ? active === i : undefined}
                     className="flex w-full flex-col gap-1 py-4 text-left transition"
                   >
                     <span
@@ -328,7 +400,7 @@ export default function Expertise() {
                         )}
                       </span>
                       <span
-                        className={`font-georgia text-[32px] font-bold transition-colors ${
+                        className={`font-georgia text-[24px] font-bold transition-colors md:text-[32px] ${
                           active === i ? "text-gradient-brand italic" : "skill-word"
                         }`}
                       >
@@ -336,62 +408,15 @@ export default function Expertise() {
                       </span>
                     </span>
                   </button>
+
+                  {isMobile && active === i && (
+                    <ChapterCard chapter={c} className="mb-4 ml-9" />
+                  )}
                 </li>
               ))}
             </ul>
 
-            <div className="tag-shadow rounded-3xl bg-[#fffdf7] p-8">
-              <p
-                className="text-[14px] font-medium uppercase tracking-[0.2em]"
-                style={{ color: MUTED }}
-              >
-                {chapter.eyebrow}
-              </p>
-              <h4
-                className="font-georgia mt-3 text-[40px] font-bold"
-                style={{ color: DARK }}
-              >
-                {chapter.heading}
-              </h4>
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {chapter.tags.map((tag, i) => (
-                  <span
-                    key={tag}
-                    className="tag-shadow rounded-full px-4 py-1.5 text-sm font-medium"
-                    style={{
-                      backgroundColor: PILL_COLORS[i % PILL_COLORS.length],
-                      color: DARK,
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div
-                className="mt-6 border-t"
-                style={{ borderColor: "rgba(28,24,51,0.1)" }}
-              />
-
-              <ul className="mt-6 space-y-3 text-left">
-                {chapter.bullets.map((bullet) => (
-                  <li
-                    key={bullet.strong}
-                    className="flex items-start gap-3 text-[18px]"
-                    style={{ color: MUTED }}
-                  >
-                    <span aria-hidden="true">{bullet.icon}</span>
-                    <span>
-                      <span className="font-semibold" style={{ color: DARK }}>
-                        {bullet.strong}
-                      </span>
-                      {bullet.text && <> . {bullet.text}</>}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ChapterCard chapter={chapter} className="hidden md:block" />
           </div>
         </div>
       </div>

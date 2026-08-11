@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import GradientFrame from "./GradientFrame";
 import BrandBadge from "./BrandBadge";
 import Nav from "./Nav";
+import useMediaQuery, { MOBILE_QUERY } from "../hooks/useMediaQuery";
 import heroPhoto from "../assets/hero-photo.jpg";
 
 const pills = [
@@ -33,6 +34,10 @@ const BADGE_COLLAPSED_INNER = 48; // matches h-12, keeps "MA" a circle
 const PHOTO_TOP_GAP = -40; // pulls the photo up to overlap the headline's last line slightly, at every screen size
 
 export default function Hero() {
+  // Mobile drops the reserved photo column entirely: the photo moves into
+  // normal flow as a full-width portrait, so the copy gets the whole width
+  // instead of the ~119px ribbon left over beside a thumbnail.
+  const isMobile = useMediaQuery(MOBILE_QUERY);
   const sectionRef = useRef(null);
   const [inHero, setInHero] = useState(true);
   const measureRef = useRef(null);
@@ -77,7 +82,10 @@ export default function Hero() {
     return () => window.removeEventListener("resize", updatePhotoTop);
   }, []);
 
-  const badgeWidth = inHero
+  // Mobile keeps the badge collapsed to "MA" so the status pill can sit
+  // opposite it on the same row, as in the reference.
+  const badgeExpanded = inHero && !isMobile;
+  const badgeWidth = badgeExpanded
     ? nameWidth + BADGE_INNER_PADDING_X + BADGE_STROKE
     : BADGE_COLLAPSED_INNER + BADGE_STROKE;
 
@@ -85,7 +93,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative overflow-clip bg-[#fff7e8] px-6 pb-[200px] pt-[200px] md:px-24"
+      className="relative overflow-clip bg-[#fff7e8] px-6 pb-24 pt-[150px] md:px-24 md:pb-[200px] md:pt-[200px]"
     >
       {/* animated gradient mesh background — the whole group slowly orbits
           clockwise so the blobs swap corners over time. They're anchored
@@ -150,33 +158,38 @@ export default function Hero() {
         style={{ padding: "1px", borderRadius: 9999 }}
       >
         <div className="flex h-12 items-center justify-center overflow-hidden whitespace-nowrap rounded-full bg-[#fffdf7] px-5 text-[15px] font-medium text-[#1c1833]">
-          <BrandBadge expanded={inHero} />
+          <BrandBadge expanded={badgeExpanded} />
         </div>
       </motion.a>
 
-      {/* Open to new roles — sits in the hero, scrolls away with it */}
-      <div className="tag-shadow absolute right-6 top-8 z-10 flex items-center gap-2 rounded-full bg-[#fffdf7] px-5 py-2.5 md:right-24 md:top-10">
+      {/* Open to new roles — pinned opposite the badge on desktop. On mobile
+          the two collide at 320px, so it drops into normal flow above the
+          headline instead of fighting the badge for the top corners. */}
+      <div className="tag-shadow absolute right-6 top-8 z-10 inline-flex items-center gap-2 rounded-full bg-[#fffdf7] px-3.5 py-2 md:px-5 md:py-2.5 md:right-6 md:top-8 lg:right-24 lg:top-10">
         {/* Dot stays static — the shimmer on the label now carries the
             "live status" signal, and two idle animations on one small pill
             compete with each other. */}
         <span className="h-2 w-2 rounded-full bg-emerald-400" />
-        <span className="text-shimmer text-sm font-medium">
+        <span className="text-shimmer text-[13px] font-medium md:text-sm">
           Open to new roles
         </span>
       </div>
 
       {/* headline */}
       <div
-        className="relative z-10 mx-auto -mt-[60px]"
+        className="relative z-10 mx-auto md:-mt-[60px]"
         style={{ width: 965, maxWidth: "100%" }}
       >
-        <p className="text-center text-[14px] font-medium uppercase tracking-[0.2em] text-[#4d476a]">
-          Lead Product Designer . Designing digital products since 2020
+        <p className="text-center text-[12px] font-medium uppercase tracking-[0.15em] text-[#4d476a] md:text-[14px] md:tracking-[0.2em]">
+          Lead Product Designer
+          <span className="hidden md:inline"> . </span>
+          <br className="md:hidden" />
+          Designing digital products since 2020
         </p>
 
         <h1
           ref={headlineRef}
-          className="font-georgia fluid-headline mt-8 font-bold leading-[1.08] text-[#1c1833]"
+          className="font-georgia fluid-headline mt-6 text-center font-bold leading-[1.08] text-[#1c1833] md:mt-8 md:text-left"
         >
           Turning{" "}
           <span className="text-gradient-brand font-georgia italic">
@@ -193,13 +206,27 @@ export default function Hero() {
             same actual size at every screen width instead of stretching or
             shrinking with the box. */}
         <div
-          className="absolute right-[4%]"
-          style={{
-            width: PHOTO_WIDTH,
-            aspectRatio: "244 / 348",
-            top: photoTop ?? undefined,
-            visibility: photoTop === null ? "hidden" : "visible",
-          }}
+          className={
+            isMobile
+              ? "relative mx-auto mt-10"
+              : "absolute right-[4%]"
+          }
+          style={
+            isMobile
+              ? {
+                  // Same 244:348 proportion and oval frame as desktop — just
+                  // centred and sized to sit with the headline rather than
+                  // dominate the screen.
+                  width: "min(200px, 58%)",
+                  aspectRatio: "244 / 348",
+                }
+              : {
+                  width: PHOTO_WIDTH,
+                  aspectRatio: "244 / 348",
+                  top: photoTop ?? undefined,
+                  visibility: photoTop === null ? "hidden" : "visible",
+                }
+          }
         >
           <GradientFrame
             className="h-full w-full"
@@ -217,8 +244,11 @@ export default function Hero() {
         </div>
 
         <p
-          className="fluid-body leading-relaxed text-[#4d476a]"
-          style={{ maxWidth: TEXT_RESERVE, marginTop: "var(--fluid-mt-para)" }}
+          className="fluid-body text-center leading-relaxed text-[#4d476a] md:text-left"
+          style={{
+            maxWidth: isMobile ? "100%" : TEXT_RESERVE,
+            marginTop: "var(--fluid-mt-para)",
+          }}
         >
           I shape early ideas into usable products through strategy,
           research, interaction design, and systems thinking. Currently
@@ -226,13 +256,13 @@ export default function Hero() {
         </p>
 
         <div
-          className="mt-8 flex flex-wrap gap-3"
-          style={{ maxWidth: TEXT_RESERVE }}
+          className="mt-8 flex flex-wrap justify-center gap-2 md:justify-start md:gap-3"
+          style={{ maxWidth: isMobile ? "100%" : TEXT_RESERVE }}
         >
           {pills.map((pill) => (
             <span
               key={pill.label}
-              className="tag-shadow rounded-full px-5 py-2 text-sm font-medium text-[#1c1833]"
+              className="tag-shadow rounded-full px-4 py-1.5 text-[11px] font-medium text-[#1c1833] md:px-5 md:py-2 md:text-sm"
               style={{ backgroundColor: pill.bg }}
             >
               {pill.label}

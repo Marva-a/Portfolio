@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
+import useMediaQuery, { TOUCH_QUERY } from "../hooks/useMediaQuery";
 
 const stats = [
   { value: "42%", direction: "up", label: "Faster compliance review" },
@@ -58,6 +59,33 @@ const FEATURED_MESH_BLOBS = [
   { dx: -0.28, dy: -0.22, scale: 1, opacity: 0.5 },
   { dx: 0.26, dy: 0.24, scale: 0.7, opacity: 0.3 },
 ];
+
+const DESCRIPTION =
+  "Explore the case studies, strategic thinking behind each key decision and the business outcome.";
+
+// Project 01 is the desktop hero card, laid out separately there. Pulling it
+// into data lets the mobile carousel render all five identically.
+const featured = {
+  id: "01",
+  title: "01. Project Name",
+  tags: [
+    { label: "0-to-1", bg: "#E8FFF6" },
+    { label: "Systems Thinking", bg: "#E6F6FF" },
+  ],
+  meshColor: FEATURED_MESH_COLOR,
+  meshBlobs: FEATURED_MESH_BLOBS,
+  headline: { value: "$2.4M", label: "Estimated annual time savings" },
+};
+
+const allProjects = [
+  featured,
+  ...projects.map((p) => ({
+    ...p,
+    tags: [{ label: p.tag, bg: p.tagBg }],
+  })),
+];
+
+const SLIDE_GAP = 16; // px; must match the gap-4 on the track
 
 // Shared card treatment. The cards sit on the same colour as the section, so
 // without a stroke their edges are invisible at rest — this defines the shape
@@ -125,7 +153,153 @@ function StatRow({ compact }) {
   );
 }
 
+
+// Mobile presentation of the project list: one horizontally swipeable track
+// with scroll-snap, instead of five full-width cards stacked into a very long
+// column. Each slide is self-contained — tags and metrics sit inside the card,
+// title/description/CTA underneath — so a project reads as one unit.
+function ProjectCarousel() {
+  const trackRef = useRef(null);
+  const [slide, setSlide] = useState(0);
+
+  // Derive the index from scroll position rather than an observer: scroll
+  // events are the one signal guaranteed to fire during a real swipe.
+  const handleScroll = () => {
+    const el = trackRef.current;
+    const first = el?.firstElementChild;
+    if (!el || !first) return;
+    const step = first.getBoundingClientRect().width + SLIDE_GAP;
+    const i = Math.round(el.scrollLeft / step);
+    setSlide(Math.min(allProjects.length - 1, Math.max(0, i)));
+  };
+
+  const goTo = (i) => {
+    const el = trackRef.current;
+    const first = el?.firstElementChild;
+    if (!el || !first) return;
+    const step = first.getBoundingClientRect().width + SLIDE_GAP;
+    el.scrollTo({ left: i * step, behavior: "smooth" });
+  };
+
+  return (
+    <div className="md:hidden">
+      <div className="mt-8 flex items-end justify-between gap-4">
+        <p className="text-[13px] font-medium" style={{ color: "#FFF7E8" }}>
+          Swipe through selected work
+        </p>
+        <p
+          aria-live="polite"
+          className="shrink-0 text-[13px] font-semibold tabular-nums"
+          style={{ color: "#FFFDF7" }}
+        >
+          {String(slide + 1).padStart(2, "0")} / {String(allProjects.length).padStart(2, "0")}
+        </p>
+      </div>
+
+      {/* Negative margin + matching padding lets the track run edge to edge
+          while the first card still lines up with the section's text. */}
+      <div
+        ref={trackRef}
+        onScroll={handleScroll}
+        className="no-scrollbar -mx-6 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-2"
+      >
+        {allProjects.map((project, i) => (
+          <article
+            key={project.id}
+            className="w-[78vw] shrink-0 snap-center"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${allProjects.length}: ${project.title}`}
+          >
+            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 bg-[#24174A]">
+              <CardMesh size={620} color={project.meshColor} blobs={project.meshBlobs} />
+
+              <div className="absolute left-4 right-4 top-4 z-10 flex flex-wrap gap-2">
+                {project.tags.map((t) => (
+                  <span
+                    key={t.label}
+                    className="tag-shadow rounded-full px-3 py-1 text-[11px] font-medium text-[#1c1833]"
+                    style={{ backgroundColor: t.bg }}
+                  >
+                    {t.label}
+                  </span>
+                ))}
+              </div>
+
+              {/* Metrics live inside the card so each slide carries its own
+                  proof, rather than trailing below the fold. */}
+              <div className="absolute inset-x-4 bottom-4 z-10 flex flex-wrap items-end gap-x-6 gap-y-2">
+                {project.headline && (
+                  <div>
+                    <p className="text-2xl font-semibold text-white">{project.headline.value}</p>
+                    <p className="mt-0.5 max-w-[9rem] text-[11px]" style={{ color: "#FFF7E8" }}>
+                      {project.headline.label}
+                    </p>
+                  </div>
+                )}
+                {stats.map((stat) => (
+                  <div key={stat.label}>
+                    <p className="flex items-center gap-1 text-lg font-semibold text-white">
+                      {stat.value}
+                      <span className={stat.direction === "up" ? "text-emerald-300" : "text-orange-300"}>
+                        {stat.direction === "up" ? "\u2191" : "\u2193"}
+                      </span>
+                    </p>
+                    <p className="mt-0.5 max-w-[8.5rem] text-[11px]" style={{ color: "#FFF7E8" }}>
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <h3 className="font-georgia mt-5 text-[24px] font-bold" style={{ color: "#FFFDF7" }}>
+              {project.title}
+            </h3>
+            <p className="mt-2 text-[15px] leading-relaxed" style={{ color: "#FFF7E8" }}>
+              {DESCRIPTION}
+            </p>
+            <span
+              className="mt-3 inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold"
+              style={{ color: "#FFFDF7" }}
+            >
+              View case study
+              <span aria-hidden="true">{"\u2192"}</span>
+            </span>
+          </article>
+        ))}
+      </div>
+
+      {/* Tappable position dots — a second way to move between projects for
+          anyone who does not discover the swipe. */}
+      <div className="mt-2 flex justify-center gap-2">
+        {allProjects.map((project, i) => (
+          <button
+            key={project.id}
+            type="button"
+            onClick={() => goTo(i)}
+            aria-label={`Go to project ${i + 1}`}
+            aria-current={i === slide}
+            className="flex h-11 w-6 items-center justify-center"
+          >
+            <span
+              className="block h-1.5 rounded-full transition-all duration-300"
+              style={{
+                width: i === slide ? 20 : 6,
+                backgroundColor: i === slide ? "#FFFDF7" : "rgba(255,247,232,0.35)",
+              }}
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function SelectedWork() {
+  // The cursor-following pill is the only thing announcing these cards as
+  // clickable, and it can never appear on a touch screen. There, each card
+  // carries a permanent "View case study" link instead.
+  const isTouch = useMediaQuery(TOUCH_QUERY);
   const [hovering, setHovering] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -135,17 +309,20 @@ export default function SelectedWork() {
   // Position tracking is scoped to individual cards (only active while the
   // pointer is actually over one), rather than the whole section, so it
   // stays cheap and never fires while just scrolling past the section.
-  const cardHoverProps = {
-    onMouseEnter: () => setHovering(true),
-    onMouseMove: (e) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    },
-    onMouseLeave: () => setHovering(false),
-  };
+  // Skipped entirely on touch, where none of it can fire usefully.
+  const cardHoverProps = isTouch
+    ? {}
+    : {
+        onMouseEnter: () => setHovering(true),
+        onMouseMove: (e) => {
+          mouseX.set(e.clientX);
+          mouseY.set(e.clientY);
+        },
+        onMouseLeave: () => setHovering(false),
+      };
 
   return (
-    <section className="bg-[#24174A] px-6 pb-[200px] pt-[200px] text-white md:px-24">
+    <section className="bg-[#24174A] px-6 pb-24 pt-24 text-white md:px-24 md:pb-[200px] md:pt-[200px]">
       <div className="mx-auto" style={{ maxWidth: 1232 }}>
         <p
           id="projects"
@@ -155,19 +332,23 @@ export default function SelectedWork() {
           Projects
         </p>
         <h2
-          className="font-georgia mt-3 text-[64px] font-bold"
+          className="font-georgia fluid-section-title mt-3 font-bold"
           style={{ color: "#FFFDF7" }}
         >
           Selected work.
         </h2>
-        <p className="mt-3 text-[20px]" style={{ color: "#FFF7E8" }}>
+        <p className="mt-3 text-[17px] md:text-[20px]" style={{ color: "#FFF7E8" }}>
           Explore the case studies and strategic thinking behind each key
           decision.
         </p>
 
+        <ProjectCarousel />
+
+        {/* Desktop composition: hero card, then a two-up grid. */}
+        <div className="hidden md:block">
         {/* Featured project */}
         <div
-          className={`cursor-none relative mt-10 h-[500px] overflow-hidden rounded-3xl bg-[#24174A] p-6 md:p-10 ${CARD_HOVER}`}
+          className={`relative mt-10 overflow-hidden rounded-3xl bg-[#24174A] p-6 md:aspect-auto md:h-[500px] md:cursor-none md:p-10 ${CARD_HOVER}`}
           {...cardHoverProps}
         >
           <CardMesh
@@ -200,10 +381,10 @@ export default function SelectedWork() {
         </div>
 
         <div className="mt-8 text-left">
-          <h3 className="font-georgia text-[32px] font-bold" style={{ color: "#FFFDF7" }}>
+          <h3 className="font-georgia text-[26px] font-bold md:text-[32px]" style={{ color: "#FFFDF7" }}>
             01. Project Name
           </h3>
-          <p className="mt-2 text-[20px]" style={{ color: "#FFF7E8" }}>
+          <p className="mt-2 text-[17px] md:text-[20px]" style={{ color: "#FFF7E8" }}>
             Explore the case studies, strategic thinking behind each key
             decision and the business outcome.
           </p>
@@ -214,7 +395,7 @@ export default function SelectedWork() {
           {projects.map((project) => (
             <div key={project.id}>
               <div
-                className={`cursor-none relative h-[437px] overflow-hidden rounded-3xl bg-[#24174A] ${CARD_HOVER}`}
+                className={`relative overflow-hidden rounded-3xl bg-[#24174A] md:h-[437px] md:cursor-none ${CARD_HOVER}`}
                 {...cardHoverProps}
               >
                 <CardMesh
@@ -232,18 +413,19 @@ export default function SelectedWork() {
               </div>
 
               <h3
-                className="font-georgia mt-6 text-left text-[32px] font-bold"
+                className="font-georgia mt-6 text-left text-[26px] font-bold md:text-[32px]"
                 style={{ color: "#FFFDF7" }}
               >
                 {project.title}
               </h3>
-              <p className="mt-2 text-left text-[20px]" style={{ color: "#FFF7E8" }}>
+              <p className="mt-2 text-left text-[17px] md:text-[20px]" style={{ color: "#FFF7E8" }}>
                 Explore the case studies, strategic thinking behind each key
                 decision and the business outcome.
               </p>
               <StatRow compact />
             </div>
           ))}
+        </div>
         </div>
       </div>
 

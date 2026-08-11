@@ -36,6 +36,25 @@ button:not(:disabled),
   cursor: pointer;
 }
 
+/* Section headings ("Selected work.", "Hey, I'm Marva!", …). These were a
+   flat 64px at every width, which on a 320px screen left roughly nine
+   characters per line. Scales 32→64px between 320px and 1024px, then holds
+   at the desktop size so nothing there changes. */
+.fluid-section-title {
+  font-size: clamp(32px, calc(32px + 32 * ((100vw - 320px) / 704)), 64px);
+}
+
+/* Sub-headings inside sections — "My career journey…", "Kind words." */
+.fluid-subsection-title {
+  font-size: clamp(26px, calc(26px + 14 * ((100vw - 320px) / 704)), 40px);
+}
+
+/* The testimonial pull-quote: large enough to feel like a quote on desktop,
+   but 28px is overbearing on a phone. */
+.fluid-quote {
+  font-size: clamp(20px, calc(20px + 8 * ((100vw - 320px) / 704)), 28px);
+}
+
 /* A glare that sweeps across on hover. Sized and angled to cross the whole
    pill, and it resets instantly on mouse-out (no transition on the base
    state) so a quick in-out doesn't leave the highlight stranded mid-button.
@@ -94,9 +113,12 @@ button:not(:disabled),
 }
 
 /* Fluid type: scales continuously between the 375px and 1400px viewport
-   widths instead of jumping at breakpoints. */
+   widths instead of jumping at breakpoints. The floor is set so the hero's
+   three forced lines each still fit the phone column — at 36px "into clear
+   product" overflowed and wrapped, turning 3 lines into 5. Unchanged at the
+   1400px+ desktop size. */
 .fluid-headline {
-  font-size: clamp(36px, calc(36px + 60 * ((100vw - 375px) / 1025)), 96px);
+  font-size: clamp(26px, calc(30px + 66 * ((100vw - 375px) / 1025)), 96px);
 }
 
 /* Ceiling is 22px rather than 24px: the hero's text column stops widening at
@@ -225,6 +247,17 @@ button:not(:disabled),
 
 .tag-shadow {
   box-shadow: 6px 6px 22px 0px rgba(28, 24, 51, 0.06);
+}
+
+/* Swipe tracks carry their own affordance (peeking next card, counter, dots),
+   so the scrollbar is redundant chrome on top of that. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .status-dot {
