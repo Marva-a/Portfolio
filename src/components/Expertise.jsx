@@ -894,8 +894,11 @@ export default function Expertise() {
                                 onKeyDown={(e) => e.stopPropagation()}
                                 disabled={active === chapters.length - 1}
                                 aria-controls={CHAPTER_TRACK_ID}
-                                className="tag-shadow shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-[12px] font-semibold disabled:opacity-40"
-                                style={{ backgroundColor: "#fffdf7", color: DARK }}
+                                // Same outlined treatment as Previous — the
+                                // pair reads as one control, rather than Next
+                                // looking like the card's primary action.
+                                className="shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-[12px] font-medium disabled:opacity-40"
+                                style={{ border: "1px solid rgba(28,24,51,0.12)", color: MUTED }}
                               >
                                 Next →
                               </button>
