@@ -135,7 +135,7 @@ export default function Contact() {
         </p>
 
         <div className="mt-3 grid gap-10 md:gap-12 md:grid-cols-2">
-          <div>
+          <div className="md:col-start-1 md:row-start-1">
             <h2
               className="font-georgia fluid-section-title font-bold"
               style={{ color: TITLE_LIGHT }}
@@ -155,31 +155,10 @@ export default function Contact() {
                 positions.
               </p>
             </div>
-
-            <div className="mt-12 space-y-4 md:mt-16">
-              <a
-                href="mailto:marva.abouei@gmail.com"
-                className="flex min-h-[44px] items-center gap-3 break-all text-[16px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white md:break-normal md:text-[18px]"
-                style={{ color: TITLE_LIGHT }}
-              >
-                <MailIcon className="h-5 w-5 shrink-0" />
-                marva.abouei@gmail.com
-              </a>
-              <a
-                href="https://www.linkedin.com/in/marva-abouei/"
-                target="_blank"
-                rel="noreferrer"
-                className="flex min-h-[44px] items-center gap-3 break-all text-[16px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white md:break-normal md:text-[18px]"
-                style={{ color: TITLE_LIGHT }}
-              >
-                <LinkedInIcon className="h-5 w-5 shrink-0" />
-                www.linkedin.com/in/marva-abouei/
-              </a>
-            </div>
           </div>
 
           <form
-            className="space-y-8 text-left md:[--form-mt:121px]"
+            className="space-y-8 text-left md:col-start-2 md:row-start-1 md:row-span-2 md:[--form-mt:121px]"
             // Optical alignment: puts the first field label's cap line on the
             // same line as the "Looking to tackle…" paragraph opposite it.
             // Measured from glyph ink tops, not box edges, since the two have
@@ -279,6 +258,31 @@ export default function Contact() {
               </button>
             </div>
           </form>
+
+          {/* Links are their own grid item, after the form in DOM order, so the
+              stacked mobile order is intro → form → contact links. On md they
+              go back under the intro text in column 1; the form spans both rows
+              so row 1 stays sized to the text, not to the much taller form. */}
+          <div className="space-y-4 md:col-start-1 md:row-start-2 md:mt-4">
+            <a
+              href="mailto:marva.abouei@gmail.com"
+              className="flex min-h-[44px] items-center gap-3 break-all text-[16px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white md:break-normal md:text-[18px]"
+              style={{ color: TITLE_LIGHT }}
+            >
+              <MailIcon className="h-5 w-5 shrink-0" />
+              marva.abouei@gmail.com
+            </a>
+            <a
+              href="https://www.linkedin.com/in/marva-abouei/"
+              target="_blank"
+              rel="noreferrer"
+              className="flex min-h-[44px] items-center gap-3 break-all text-[16px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white md:break-normal md:text-[18px]"
+              style={{ color: TITLE_LIGHT }}
+            >
+              <LinkedInIcon className="h-5 w-5 shrink-0" />
+              www.linkedin.com/in/marva-abouei/
+            </a>
+          </div>
         </div>
       </div>
       </div>
