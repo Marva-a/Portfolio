@@ -2,11 +2,6 @@ import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 import useMediaQuery, { TOUCH_QUERY } from "../hooks/useMediaQuery";
 
-const stats = [
-  { value: "42%", direction: "up", label: "Faster compliance review" },
-  { value: "65%", direction: "down", label: "Reduction in risk resolution time" },
-];
-
 const projects = [
   {
     id: "02",
@@ -74,7 +69,6 @@ const featured = {
   ],
   meshColor: FEATURED_MESH_COLOR,
   meshBlobs: FEATURED_MESH_BLOBS,
-  headline: { value: "$2.4M", label: "Estimated annual time savings" },
 };
 
 const allProjects = [
@@ -126,33 +120,6 @@ function CardMesh({ size = 260, color, blobs }) {
     </div>
   );
 }
-
-function StatRow({ compact }) {
-  return (
-    <div className={compact ? "mt-4 flex gap-6" : "flex gap-10"}>
-      {stats.map((stat) => (
-        <div key={stat.label}>
-          <p
-            className={`flex items-center gap-1 font-semibold text-white ${compact ? "text-lg" : "text-3xl"}`}
-          >
-            {stat.value}
-            <span
-              className={
-                stat.direction === "up" ? "text-emerald-300" : "text-orange-300"
-              }
-            >
-              {stat.direction === "up" ? "↑" : "↓"}
-            </span>
-          </p>
-          <p className="mt-1 max-w-[9.5rem] text-xs" style={{ color: "#FFF7E8" }}>
-            {stat.label}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 
 // Mobile presentation of the project list: one horizontally swipeable track
 // with scroll-snap, instead of five full-width cards stacked into a very long
@@ -319,15 +286,6 @@ export default function SelectedWork() {
             ))}
           </div>
 
-          <div className="relative z-10 flex flex-wrap gap-10 md:absolute md:bottom-10 md:left-10">
-            <StatRow />
-            <div>
-              <p className="text-3xl font-semibold text-white">$2.4M</p>
-              <p className="mt-1 max-w-[8rem] text-xs" style={{ color: "#FFF7E8" }}>
-                Estimated annual time savings
-              </p>
-            </div>
-          </div>
         </div>
 
         <div className="mt-8 text-left">
@@ -372,7 +330,6 @@ export default function SelectedWork() {
                 Explore the case studies, strategic thinking behind each key
                 decision and the business outcome.
               </p>
-              <StatRow compact />
             </div>
           ))}
         </div>

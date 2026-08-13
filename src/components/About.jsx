@@ -10,10 +10,10 @@ const DARK = "#1c1833";
 const MUTED = "#4d476a";
 
 const stackPhotos = [
-  { id: "a", src: marvaDog, caption: "My co-pilot 🐾" },
-  { id: "b", src: marvaSculpture, caption: "Sculpting" },
-  { id: "c", src: chasingDaylight, caption: "Chasing daylight" },
   { id: "d", src: marvaPainting, caption: "Painting" },
+  { id: "b", src: marvaSculpture, caption: "Sculpting" },
+  { id: "a", src: marvaDog, caption: "My co-pilot 🐾" },
+  { id: "c", src: chasingDaylight, caption: "Chasing daylight" },
 ];
 
 const stats = [
