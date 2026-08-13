@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import heroPhoto from "../assets/hero-photo.jpg";
+import chasingDaylight from "../assets/chasing-daylight.webp";
 import marvaDog from "../assets/marva-dog.jpg";
+import marvaPainting from "../assets/marva-painting.jpg";
+import marvaSculpture from "../assets/marva-sculpture.jpg";
 import scottPhoto from "../assets/Scott.jpeg";
 import GradientFrame from "./GradientFrame";
 
 const DARK = "#1c1833";
 const MUTED = "#4d476a";
 
-// The other three slots are still placeholders (reusing the headshot) until
-// real photos are supplied to swap in.
 const stackPhotos = [
   { id: "a", src: marvaDog, caption: "My co-pilot 🐾" },
-  { id: "b", src: heroPhoto, caption: "In the studio" },
-  { id: "c", src: heroPhoto, caption: "Chasing daylight" },
-  { id: "d", src: heroPhoto, caption: "Behind the scenes" },
+  { id: "b", src: marvaSculpture, caption: "Sculpting" },
+  { id: "c", src: chasingDaylight, caption: "Chasing daylight" },
+  { id: "d", src: marvaPainting, caption: "Painting" },
 ];
 
 const stats = [

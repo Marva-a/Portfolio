@@ -25,6 +25,21 @@ function MailIcon(props) {
   );
 }
 
+// The 🐾 emoji renders in a fixed dark brown, which all but disappears on
+// this section's purple. Drawn instead so it picks up the footer's own
+// color — and filled rather than stroked, since a 1.7 outline on shapes
+// this small closes up into blobs.
+function PawIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <ellipse cx="7" cy="8.5" rx="2.2" ry="2.9" />
+      <ellipse cx="12" cy="6.6" rx="2.3" ry="3.1" />
+      <ellipse cx="17" cy="8.5" rx="2.2" ry="2.9" />
+      <path d="M12 12.4c2.6 0 5.4 2.2 5.4 4.6 0 1.7-1.3 2.7-3 2.7-1 0-1.7-.4-2.4-.4s-1.4.4-2.4.4c-1.7 0-3-1-3-2.7 0-2.4 2.8-4.6 5.4-4.6Z" />
+    </svg>
+  );
+}
+
 function LinkedInIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
@@ -263,27 +278,61 @@ export default function Contact() {
               stacked mobile order is intro → form → contact links. On md they
               go back under the intro text in column 1; the form spans both rows
               so row 1 stays sized to the text, not to the much taller form. */}
-          <div className="space-y-4 md:col-start-1 md:row-start-2 md:mt-4">
+          {/* Mobile shows the two marks alone, so they sit side by side and
+              centered — stacked, a pair of lone icons reads as a broken
+              list, and left-aligned they float in the empty band instead of
+              joining the sign-off below. mt-16 pulls them down toward the
+              copyright so the icons and the two footer lines close the page
+              as one block. From md the addresses come back and it returns to
+              a left-aligned stacked list. */}
+          <div className="mt-16 flex justify-center gap-3 md:col-start-1 md:row-start-2 md:mt-4 md:block md:space-y-4">
             <a
               href="mailto:marva.abouei@gmail.com"
-              className="flex min-h-[44px] items-center gap-3 break-all text-[16px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white md:break-normal md:text-[18px]"
+              // The label is on the anchor because the visible text is gone at
+              // this width — without it the link would announce as "link".
+              aria-label="Email marva.abouei@gmail.com"
+              className="flex min-h-[44px] w-11 items-center justify-center gap-3 break-all text-[16px] transition md:w-auto md:justify-start md:break-normal md:text-[18px] md:underline md:decoration-white/40 md:underline-offset-4 md:hover:decoration-white"
               style={{ color: TITLE_LIGHT }}
             >
-              <MailIcon className="h-5 w-5 shrink-0" />
-              marva.abouei@gmail.com
+              <MailIcon className="h-6 w-6 shrink-0 md:h-5 md:w-5" />
+              <span className="hidden md:inline">marva.abouei@gmail.com</span>
             </a>
             <a
               href="https://www.linkedin.com/in/marva-abouei/"
               target="_blank"
               rel="noreferrer"
-              className="flex min-h-[44px] items-center gap-3 break-all text-[16px] underline decoration-white/40 underline-offset-4 transition hover:decoration-white md:break-normal md:text-[18px]"
+              aria-label="LinkedIn profile"
+              className="flex min-h-[44px] w-11 items-center justify-center gap-3 break-all text-[16px] transition md:w-auto md:justify-start md:break-normal md:text-[18px] md:underline md:decoration-white/40 md:underline-offset-4 md:hover:decoration-white"
               style={{ color: TITLE_LIGHT }}
             >
-              <LinkedInIcon className="h-5 w-5 shrink-0" />
-              www.linkedin.com/in/marva-abouei/
+              <LinkedInIcon className="h-6 w-6 shrink-0 md:h-5 md:w-5" />
+              <span className="hidden md:inline">
+                www.linkedin.com/in/marva-abouei/
+              </span>
             </a>
           </div>
         </div>
+
+        {/* Sits inside Contact rather than in a section of its own: the page
+            ends here, and a separate band would need its own background and
+            would break the mesh that runs to the bottom edge. */}
+        {/* Two stacked, centered lines on mobile; one line from md, with the
+            copyright pinned left and the credit right — justify-between
+            rather than a grid so the two halves keep their own natural
+            widths and the credit's paw stays glued to its text. */}
+        <footer
+          className="mt-6 flex flex-col items-center gap-1 text-center text-[14px] leading-relaxed md:mt-28 md:flex-row md:justify-between md:text-left"
+          style={{ color: MUTED_LIGHT }}
+        >
+          <span>© 2026 Marva Abouei</span>
+          {/* The paw is inline, not a flex child: on mobile this line wraps,
+              and as a flex row the icon would break away from the text and
+              park itself at the right edge of the block. */}
+          <span>
+            Designed and built by me · Quality-checked by Pepper
+            <PawIcon className="ml-1.5 inline-block h-3.5 w-3.5 align-[-2px]" />
+          </span>
+        </footer>
       </div>
       </div>
     </section>
