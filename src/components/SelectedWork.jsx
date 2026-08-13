@@ -173,14 +173,6 @@ function ProjectCarousel() {
     setSlide(Math.min(allProjects.length - 1, Math.max(0, i)));
   };
 
-  const goTo = (i) => {
-    const el = trackRef.current;
-    const first = el?.firstElementChild;
-    if (!el || !first) return;
-    const step = first.getBoundingClientRect().width + SLIDE_GAP;
-    el.scrollTo({ left: i * step, behavior: "smooth" });
-  };
-
   return (
     <div className="md:hidden">
       <div className="mt-8 flex items-end justify-between gap-4">
@@ -269,28 +261,6 @@ function ProjectCarousel() {
         ))}
       </div>
 
-      {/* Tappable position dots — a second way to move between projects for
-          anyone who does not discover the swipe. */}
-      <div className="mt-2 flex justify-center gap-2">
-        {allProjects.map((project, i) => (
-          <button
-            key={project.id}
-            type="button"
-            onClick={() => goTo(i)}
-            aria-label={`Go to project ${i + 1}`}
-            aria-current={i === slide}
-            className="flex h-11 w-6 items-center justify-center"
-          >
-            <span
-              className="block h-1.5 rounded-full transition-all duration-300"
-              style={{
-                width: i === slide ? 20 : 6,
-                backgroundColor: i === slide ? "#FFFDF7" : "rgba(255,247,232,0.35)",
-              }}
-            />
-          </button>
-        ))}
-      </div>
     </div>
   );
 }

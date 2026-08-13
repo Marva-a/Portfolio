@@ -173,6 +173,36 @@ button:not(:disabled),
   }
 }
 
+/* Same brand hues as .gradient-border-anim, but running top-to-bottom for
+   thin vertical accents (e.g. the expertise accordion's left rail) where a
+   left-to-right gradient would just read as a single flat color. */
+.gradient-border-anim-vertical {
+  background-image: linear-gradient(
+    180deg,
+    #69debe 0%,
+    #7cd2f2 33%,
+    #8f74ff 66%,
+    #ff806e 100%
+  );
+  background-size: 100% 200%;
+  animation: gradient-drift-vertical 7s ease-in-out infinite alternate;
+}
+
+@keyframes gradient-drift-vertical {
+  0% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 50% 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-border-anim-vertical {
+    animation: none;
+  }
+}
+
 .skill-word {
   color: rgba(77, 71, 106, 0.7);
   transition: color 0.3s ease;
@@ -400,6 +430,28 @@ button:not(:disabled),
 
 @media (prefers-reduced-motion: reduce) {
   .mesh-float {
+    animation: none;
+  }
+}
+
+/* Mobile expertise accordion — the detail card easing open under its row. */
+.reveal-panel {
+  animation: reveal-panel 0.25s ease-out;
+}
+
+@keyframes reveal-panel {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-panel {
     animation: none;
   }
 }

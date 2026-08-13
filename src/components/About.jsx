@@ -275,8 +275,14 @@ function PhotoStack() {
   );
 }
 
+// Collapsed height on mobile, where the bio stacks under the photo instead
+// of running alongside it — enough to show the first paragraph as a teaser
+// without the section eating the whole first screen of scroll.
+const BIO_COLLAPSED_HEIGHT = 220;
+
 export default function About() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [bioExpanded, setBioExpanded] = useState(false);
   const quoteStartX = useRef(null);
   const active = testimonials[activeIndex];
 
@@ -343,37 +349,62 @@ export default function About() {
             </p>
           </div>
 
-          <div
-            className="space-y-6 text-left text-[17px] leading-relaxed md:text-justify md:text-[20px]"
-            style={{ color: MUTED }}
-          >
-            <p>
-              Somewhere along the way, I realized{" "}
-              <strong style={{ color: DARK }}>design</strong> was the thread
-              tying it all together: an instinct for form, human behaviour,
-              and how an experience feels to move through.
-            </p>
-            <p>
-              What{" "}
-              <strong style={{ color: DARK }}>
-                I love most is the messy middle of a project
-              </strong>{" "}
-              — that early, foggy phase where the strategy is still unmapped.
-              Give me an ambiguous problem and a cross-functional team to
-              think out loud with, and I’m exactly where I want to be: asking
-              the foundational questions and turning conceptual fog into
-              something we can actually build. Lately, I’ve been applying
-              that thinking to AI and spatial products, where the rules are
-              still being written.
-            </p>
-            <p>
-              Off the screen, the creating doesn’t stop, it just gets more
-              hands-on as I play with form and colour through sculpture and
-              painting. When I’m not making something, I’m usually chasing
-              daylight with Pepper, my six-pound Pomeranian who firmly
-              manages me and runs the operation. It’s a grounding mix that
-              keeps me energized for the next digital problem.
-            </p>
+          <div className="relative">
+            <div
+              className={`space-y-6 text-left text-[17px] leading-relaxed transition-[max-height] duration-300 md:max-h-none! md:overflow-visible md:text-justify md:text-[20px] ${
+                bioExpanded ? "overflow-visible" : "overflow-hidden"
+              }`}
+              style={{
+                color: MUTED,
+                maxHeight: bioExpanded ? 2000 : BIO_COLLAPSED_HEIGHT,
+              }}
+            >
+              <p>
+                Somewhere along the way, I realized{" "}
+                <strong style={{ color: DARK }}>design</strong> was the thread
+                tying it all together: an instinct for form, human behaviour,
+                and how an experience feels to move through.
+              </p>
+              <p>
+                What{" "}
+                <strong style={{ color: DARK }}>
+                  I love most is the messy middle of a project
+                </strong>{" "}
+                — that early, foggy phase where the strategy is still unmapped.
+                Give me an ambiguous problem and a cross-functional team to
+                think out loud with, and I’m exactly where I want to be: asking
+                the foundational questions and turning conceptual fog into
+                something we can actually build. Lately, I’ve been applying
+                that thinking to AI and spatial products, where the rules are
+                still being written.
+              </p>
+              <p>
+                Off the screen, the creating doesn’t stop, it just gets more
+                hands-on as I play with form and colour through sculpture and
+                painting. When I’m not making something, I’m usually chasing
+                daylight with Pepper, my six-pound Pomeranian who firmly
+                manages me and runs the operation. It’s a grounding mix that
+                keeps me energized for the next digital problem.
+              </p>
+            </div>
+
+            {/* The fade + toggle are mobile-only — the desktop two-column
+                layout has room to run the bio in full without either. */}
+            {!bioExpanded && (
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 bottom-9 h-14 bg-gradient-to-t from-[#fffdf7] to-transparent md:hidden"
+              />
+            )}
+            <button
+              type="button"
+              onClick={() => setBioExpanded((v) => !v)}
+              aria-expanded={bioExpanded}
+              className="relative mt-3 text-[15px] font-semibold underline underline-offset-2 md:hidden"
+              style={{ color: DARK }}
+            >
+              {bioExpanded ? "Read less" : "Read more"}
+            </button>
           </div>
         </div>
 
