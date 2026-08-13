@@ -688,7 +688,15 @@ export default function Expertise() {
                   return (
                     <article
                       key={c.title}
-                      className="relative flex w-[86vw] shrink-0 snap-center"
+                      // snap-start, not snap-center — goToChapter and
+                      // handleChapterScroll both do left-edge math (i * step
+                      // from the container's start). snap-center disagreed
+                      // with that math at every card, and for the first/last
+                      // card there's no room to center it at all (nothing
+                      // before/after to balance against), so the browser
+                      // clamped the scroll short and left it straddling the
+                      // neighboring card instead of fully in view.
+                      className="relative flex w-[86vw] shrink-0 snap-start"
                       aria-roledescription="slide"
                       aria-label={`${i + 1} of ${chapters.length}: ${chapterName(c.title)}`}
                     >
