@@ -27,26 +27,31 @@ const MESH_QUADRANTS = [
   { top: 50, left: 55 },
 ];
 
-// Each open card gets its own two-blob arrangement — different corner,
-// size, and drift per card index rather than one repeated layout, so the
-// deck doesn't feel stamped from a single template. Deterministic (not
+// Each open card gets a two-blob arrangement. Deterministic (not
 // Math.random) so a card's blobs don't jump around on re-render. The second
 // blob is always half the size of the first, for a clear big/small pairing
 // rather than two same-scale shapes. `scale` lets bigger cards (the career
 // journey panel) use proportionally bigger blobs than the expertise cards.
-function cardMeshBlobs(index, scale = 1) {
-  const primarySize = (160 + ((index * 17) % 3) * 20) * scale;
-  const jitterTop = (index * 7) % 15;
-  const jitterLeft = (index * 11) % 15;
-  const q1 = MESH_QUADRANTS[index % MESH_QUADRANTS.length];
-  const q2 = MESH_QUADRANTS[(index + 2) % MESH_QUADRANTS.length];
+//
+// `layout` separates *where* the blobs sit from *which colors* they are.
+// Left alone it falls back to `index`, giving each card its own corner and
+// size — the varied look the expertise accordion still uses. Passing a fixed
+// value instead pins every card to one composition while the palette keeps
+// rotating, which is what the career journey carousel wants: swiping between
+// chapters should change the color, not shuffle the layout underfoot.
+function cardMeshBlobs(index, scale = 1, layout = index) {
+  const primarySize = (160 + ((layout * 17) % 3) * 20) * scale;
+  const jitterTop = (layout * 7) % 15;
+  const jitterLeft = (layout * 11) % 15;
+  const q1 = MESH_QUADRANTS[layout % MESH_QUADRANTS.length];
+  const q2 = MESH_QUADRANTS[(layout + 2) % MESH_QUADRANTS.length];
   return [
     {
       color: MESH_CARD_COLORS[index % MESH_CARD_COLORS.length],
       top: `${q1.top + jitterTop}%`,
       left: `${q1.left + jitterLeft}%`,
       size: primarySize,
-      anim: index % 2 === 0 ? "mesh-sway" : "mesh-float",
+      anim: layout % 2 === 0 ? "mesh-sway" : "mesh-float",
       delay: `-${index}s`,
     },
     {
@@ -54,11 +59,15 @@ function cardMeshBlobs(index, scale = 1) {
       top: `${q2.top + jitterLeft}%`,
       left: `${q2.left + jitterTop}%`,
       size: primarySize / 2,
-      anim: index % 2 === 0 ? "mesh-float" : "mesh-sway",
+      anim: layout % 2 === 0 ? "mesh-float" : "mesh-sway",
       delay: `-${index * 2}s`,
     },
   ];
 }
+
+// Chapter 03's arrangement — big blob low-left, small one high-left — which
+// is the composition the career cards standardize on.
+const CAREER_BLOB_LAYOUT = 2;
 
 // Each of these is an interactive "poster word" — muted by default, and
 // styled like "Designing the AI" (gradient, italic) once selected. Picking
@@ -778,7 +787,12 @@ export default function Expertise() {
                       >
                         <div className="relative flex flex-1 flex-col overflow-hidden rounded-3xl">
                           <div className="pointer-events-none absolute inset-0">
-                            {cardMeshBlobs(i, 1.3).map((blob, bi) => (
+                            {/* 3.9 = the previous 1.3, tripled. The blobs now
+                                run wider than the card itself and are clipped
+                                by the rounded wrapper, which is the point:
+                                they read as a soft colour wash behind the
+                                content rather than as discrete shapes. */}
+                            {cardMeshBlobs(i, 3.9, CAREER_BLOB_LAYOUT).map((blob, bi) => (
                               <div
                                 key={bi}
                                 className={`mesh-blob-card ${blob.anim} ${blob.color}`}
@@ -806,11 +820,15 @@ export default function Expertise() {
                               {chapterName(c.title)}
                             </h4>
                             <p
-                              // Deck under the chapter title. The mobile step
-                              // down matters now that the title itself is
-                              // 19px there rather than 24 — at a flat 18px
-                              // the deck sat level with its own heading.
-                              className="font-georgia mt-[9px] text-[16px] leading-snug md:text-[18px]"
+                              // Deck under the chapter title. Sans, matching
+                              // the role headings ("Sculptor") further down
+                              // the card — the serif made it read as a second
+                              // heading competing with the title above it.
+                              // Weight and colour stay lighter than those
+                              // headings so it still reads as supporting copy.
+                              // No md: variant needed: this whole card only
+                              // renders under `isMobile`.
+                              className="mt-[9px] text-[16px] leading-snug"
                               style={{ color: MUTED_STRONG }}
                             >
                               {c.heading}
@@ -836,7 +854,7 @@ export default function Expertise() {
                               style={{ borderColor: "rgba(28,24,51,0.1)" }}
                             />
 
-                            <ul className="mt-[32px] space-y-[28px]">
+                            <ul className="mt-[32px] space-y-4">
                               {c.bullets.map((bullet) => (
                                 <li key={bullet.strong} className="flex items-start gap-3">
                                   <BulletIcon
@@ -868,10 +886,7 @@ export default function Expertise() {
                                 card no matter how many bullets it has. */}
                             <div className="flex-1" />
 
-                            <div
-                              className="mt-6 flex items-center justify-between gap-3 border-t pt-5"
-                              style={{ borderColor: "rgba(28,24,51,0.1)" }}
-                            >
+                            <div className="mt-6 flex items-center justify-between gap-3 pt-5">
                               <button
                                 type="button"
                                 onClick={(e) => {
