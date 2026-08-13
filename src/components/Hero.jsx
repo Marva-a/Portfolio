@@ -4,6 +4,7 @@ import GradientFrame from "./GradientFrame";
 import BrandBadge from "./BrandBadge";
 import Nav from "./Nav";
 import useMediaQuery, { MOBILE_QUERY } from "../hooks/useMediaQuery";
+import useScrollDirection from "../hooks/useScrollDirection";
 import heroPhoto from "../assets/hero-photo.jpg";
 
 const pills = [
@@ -38,6 +39,7 @@ export default function Hero() {
   // normal flow as a full-width portrait, so the copy gets the whole width
   // instead of the ~119px ribbon left over beside a thumbnail.
   const isMobile = useMediaQuery(MOBILE_QUERY);
+  const scrollDirection = useScrollDirection(isMobile);
   const sectionRef = useRef(null);
   const [inHero, setInHero] = useState(true);
   const measureRef = useRef(null);
@@ -85,6 +87,9 @@ export default function Hero() {
   // Mobile keeps the badge collapsed to "MA" so the status pill can sit
   // opposite it on the same row, as in the reference.
   const badgeExpanded = inHero && !isMobile;
+  // Mobile only: the badge parks off-screen while scrolling down. Desktop
+  // keeps it pinned, where there's room for it and no reason to hide it.
+  const badgeHidden = isMobile && scrollDirection === "down";
   const badgeWidth = badgeExpanded
     ? nameWidth + BADGE_INNER_PADDING_X + BADGE_STROKE
     : BADGE_COLLAPSED_INNER + BADGE_STROKE;
@@ -150,17 +155,37 @@ export default function Hero() {
 
       {/* MA / Marva Abouei badge — fixed, always visible, and always links
           back to the top of the hero */}
-      <motion.a
-        href="#hero"
-        animate={{ width: badgeWidth }}
-        transition={{ type: "tween", duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-        className="tag-shadow gradient-border-anim btn-shine btn-shine-brand fixed left-6 top-8 z-50 block overflow-hidden md:left-24 md:top-10"
-        style={{ padding: "1px", borderRadius: 9999 }}
+      {/* The fixed positioning and the slide live on this wrapper, not on the
+          badge itself: the badge is a motion element that already owns its
+          own transform for the width animation, and driving a second
+          transform onto it would mean the two fighting for one property.
+          Keeping the slide here makes it a plain CSS transition.
+          -120px clears the badge's own height (48px) plus the top-8 inset
+          with room to spare, so nothing peeks over the edge. */}
+      <div
+        className="fixed left-6 top-8 z-50 md:left-24 md:top-10"
+        style={{
+          transform: badgeHidden ? "translateY(-120px)" : "translateY(0)",
+          transition: "transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)",
+        }}
       >
-        <div className="flex h-12 items-center justify-center overflow-hidden whitespace-nowrap rounded-full bg-[#fffdf7] px-5 text-[15px] font-medium text-[#1c1833]">
-          <BrandBadge expanded={badgeExpanded} />
-        </div>
-      </motion.a>
+        <motion.a
+          href="#hero"
+          animate={{ width: badgeWidth }}
+          transition={{ type: "tween", duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+          // `relative` is load-bearing: .btn-shine paints its sweep with an
+          // absolutely-positioned ::after and deliberately sets no position
+          // of its own, so without this the sweep resolves against the fixed
+          // wrapper instead of the badge — and drifts out of register with
+          // it the moment the badge animates its width.
+          className="tag-shadow gradient-border-anim btn-shine btn-shine-brand relative block overflow-hidden"
+          style={{ padding: "1px", borderRadius: 9999 }}
+        >
+          <div className="flex h-12 items-center justify-center overflow-hidden whitespace-nowrap rounded-full bg-[#fffdf7] px-5 text-[15px] font-medium text-[#1c1833]">
+            <BrandBadge expanded={badgeExpanded} />
+          </div>
+        </motion.a>
+      </div>
 
       {/* Open to new roles — pinned opposite the badge on desktop. On mobile
           the two collide at 320px, so it drops into normal flow above the

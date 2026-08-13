@@ -202,10 +202,16 @@ function ProjectCarousel() {
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${allProjects.length}: ${project.title}`}
           >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 bg-[#24174A]">
+            {/* Square rather than 4:5 — the 4:5 height existed to seat the
+                metrics block along the bottom edge. With only the pills left
+                in it, that extra height read as an empty well. */}
+            <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10 bg-[#24174A]">
               <CardMesh size={620} color={project.meshColor} blobs={project.meshBlobs} />
 
-              <div className="absolute left-4 right-4 top-4 z-10 flex flex-wrap gap-2">
+              {/* One inline row, flush right. justify-end keeps the group
+                  pinned to the right margin, and wrapping only kicks in if a
+                  card ever carries more pills than the width allows. */}
+              <div className="absolute left-4 right-4 top-4 z-10 flex flex-wrap justify-end gap-1.5">
                 {project.tags.map((t) => (
                   <span
                     key={t.label}
@@ -214,32 +220,6 @@ function ProjectCarousel() {
                   >
                     {t.label}
                   </span>
-                ))}
-              </div>
-
-              {/* Metrics live inside the card so each slide carries its own
-                  proof, rather than trailing below the fold. */}
-              <div className="absolute inset-x-4 bottom-4 z-10 flex flex-wrap items-end gap-x-6 gap-y-2">
-                {project.headline && (
-                  <div>
-                    <p className="text-2xl font-semibold text-white">{project.headline.value}</p>
-                    <p className="mt-0.5 max-w-[9rem] text-[11px]" style={{ color: "#FFF7E8" }}>
-                      {project.headline.label}
-                    </p>
-                  </div>
-                )}
-                {stats.map((stat) => (
-                  <div key={stat.label}>
-                    <p className="flex items-center gap-1 text-lg font-semibold text-white">
-                      {stat.value}
-                      <span className={stat.direction === "up" ? "text-emerald-300" : "text-orange-300"}>
-                        {stat.direction === "up" ? "\u2191" : "\u2193"}
-                      </span>
-                    </p>
-                    <p className="mt-0.5 max-w-[8.5rem] text-[11px]" style={{ color: "#FFF7E8" }}>
-                      {stat.label}
-                    </p>
-                  </div>
                 ))}
               </div>
             </div>

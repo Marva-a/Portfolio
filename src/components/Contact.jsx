@@ -19,8 +19,8 @@ const fields = [
 function MailIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3.5 6.5L12 13L20.5 6.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M3.5 6.5L12 13L20.5 6.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -28,10 +28,10 @@ function MailIcon(props) {
 function LinkedInIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <rect x="2.5" y="2.5" width="19" height="19" rx="4" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="2.5" y="2.5" width="19" height="19" rx="4" stroke="currentColor" strokeWidth="1.7" />
       <circle cx="7.7" cy="8" r="1.15" fill="currentColor" />
-      <path d="M7.7 11V17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M11.5 17V13.3C11.5 11.9 12.3 11 13.6 11C14.9 11 15.6 11.9 15.6 13.3V17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7.7 11V17" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M11.5 17V13.3C11.5 11.9 12.3 11 13.6 11C14.9 11 15.6 11.9 15.6 13.3V17" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
