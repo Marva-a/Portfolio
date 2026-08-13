@@ -205,8 +205,6 @@ const DOT_CENTER = DOT_SIZE / 2;
 const LINE_WIDTH = 3;
 
 const CHAPTER_TRACK_ID = "career-chapter-track";
-// Must match the track's gap-4, so scroll position maps cleanly to a slide.
-const CHAPTER_GAP = 16;
 
 // Chapter titles carry their own "01. " prefix for the desktop timeline;
 // mobile's card headings drop it since the eyebrow already reads "Chapter 0X".
@@ -336,23 +334,45 @@ export default function Expertise() {
   const [active, setActive] = useState(0);
   const chapter = chapters[active];
   const chapterTrackRef = useRef(null);
+  // One entry per card, filled in via each <article>'s ref callback. Using
+  // the cards' own real rendered positions (instead of computing an assumed
+  // "step" from one card's width + a gap constant) is what actually fixes
+  // the misalignment — the padding/gap math was an approximation that drifted
+  // at the edges, where the browser has no room to fully honor it.
+  const chapterCardRefs = useRef([]);
 
   // Derived from scroll position rather than an observer — scroll is the
-  // one event guaranteed to fire during a real swipe.
+  // one event guaranteed to fire during a real swipe. Picks whichever card
+  // is closest to the track's left edge, using each card's own measured
+  // position rather than a computed step.
   const handleChapterScroll = () => {
     const el = chapterTrackRef.current;
-    const first = el?.firstElementChild;
-    if (!el || !first) return;
-    const step = first.getBoundingClientRect().width + CHAPTER_GAP;
-    const i = Math.round(el.scrollLeft / step);
-    setActive(Math.min(chapters.length - 1, Math.max(0, i)));
+    if (!el) return;
+    const trackLeft = el.getBoundingClientRect().left;
+    let closest = 0;
+    let closestDistance = Infinity;
+    chapterCardRefs.current.forEach((card, i) => {
+      if (!card) return;
+      const distance = Math.abs(card.getBoundingClientRect().left - trackLeft);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closest = i;
+      }
+    });
+    setActive(closest);
   };
 
   const goToChapter = (i) => {
-    const el = chapterTrackRef.current;
-    const first = el?.firstElementChild;
-    if (!el || !first) return;
-    const step = first.getBoundingClientRect().width + CHAPTER_GAP;
+    const card = chapterCardRefs.current[i];
+    if (!card) return;
+    // scrollIntoView asks the browser to align this exact element, computed
+    // from real layout — no assumptions about card width, gap, or padding
+    // to get subtly wrong at the first/last card.
+    card.scrollIntoView({
+      behavior: "smooth",
+      inline: "start",
+      block: "nearest",
+    });
     // Setting `active` here too (in addition to the scroll) raced against
     // handleChapterScroll — the smooth-scroll animation fires its own
     // onScroll events with intermediate positions, which round to the old
@@ -360,7 +380,6 @@ export default function Expertise() {
     // the scroll settle and handleChapterScroll derive the final `active`
     // is the same single-source-of-truth pattern the projects carousel
     // uses, and it doesn't have this bug.
-    el.scrollTo({ left: i * step, behavior: "smooth" });
   };
 
   // Belt-and-suspenders: some browsers throttle/coalesce 'scroll' events
@@ -688,14 +707,11 @@ export default function Expertise() {
                   return (
                     <article
                       key={c.title}
-                      // snap-start, not snap-center — goToChapter and
-                      // handleChapterScroll both do left-edge math (i * step
-                      // from the container's start). snap-center disagreed
-                      // with that math at every card, and for the first/last
-                      // card there's no room to center it at all (nothing
-                      // before/after to balance against), so the browser
-                      // clamped the scroll short and left it straddling the
-                      // neighboring card instead of fully in view.
+                      ref={(el) => (chapterCardRefs.current[i] = el)}
+                      // snap-start, not snap-center — scrollIntoView aligns
+                      // this card's start edge to the track's start, and
+                      // snap-center would fight that (plus, for the
+                      // first/last card there's no room to center it at all).
                       className="relative flex w-[86vw] shrink-0 snap-start"
                       aria-roledescription="slide"
                       aria-label={`${i + 1} of ${chapters.length}: ${chapterName(c.title)}`}
