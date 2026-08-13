@@ -217,7 +217,7 @@ export default function Hero() {
                   // Same 244:348 proportion and oval frame as desktop — just
                   // centred and sized to sit with the headline rather than
                   // dominate the screen.
-                  width: "min(200px, 58%)",
+                  width: "min(150px, 44%)",
                   aspectRatio: "244 / 348",
                 }
               : {
