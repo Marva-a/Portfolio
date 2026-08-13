@@ -244,7 +244,7 @@ function ProjectCarousel() {
               </div>
             </div>
 
-            <h3 className="font-georgia mt-5 text-[24px] font-bold" style={{ color: "#FFFDF7" }}>
+            <h3 className="font-georgia fluid-card-title mt-5 font-bold" style={{ color: "#FFFDF7" }}>
               {project.title}
             </h3>
             <p className="mt-2 text-[15px] leading-relaxed" style={{ color: "#FFF7E8" }}>
@@ -351,7 +351,7 @@ export default function SelectedWork() {
         </div>
 
         <div className="mt-8 text-left">
-          <h3 className="font-georgia text-[26px] font-bold md:text-[32px]" style={{ color: "#FFFDF7" }}>
+          <h3 className="font-georgia fluid-card-title font-bold" style={{ color: "#FFFDF7" }}>
             01. Project Name
           </h3>
           <p className="mt-2 text-[17px] md:text-[20px]" style={{ color: "#FFF7E8" }}>
@@ -383,7 +383,7 @@ export default function SelectedWork() {
               </div>
 
               <h3
-                className="font-georgia mt-6 text-left text-[26px] font-bold md:text-[32px]"
+                className="font-georgia fluid-card-title mt-6 text-left font-bold"
                 style={{ color: "#FFFDF7" }}
               >
                 {project.title}

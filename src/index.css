@@ -36,23 +36,54 @@ button:not(:disabled),
   cursor: pointer;
 }
 
+/* Every fluid size below is wrapped in round(…, 2px) so it lands on an even
+   whole number at any viewport width, instead of the 19.1 / 21.6 / 27.1px
+   that raw vw interpolation produces. The type scale reads as 30/28/22/20
+   rather than a set of decimals, and each token still steps continuously —
+   just in 2px jumps. Every floor and ceiling is already even, so the ends of
+   each range are untouched. */
+
 /* Section headings ("Selected work.", "Hey, I'm Marva!", …). These were a
    flat 64px at every width, which on a 320px screen left roughly nine
-   characters per line. Scales 32→64px between 320px and 1024px, then holds
-   at the desktop size so nothing there changes. */
+   characters per line. Scales 24→64px between 320px and 1024px, then holds
+   at the desktop size so nothing there changes.
+
+   The floor is 24px, not the 32px it started at, because .fluid-headline
+   bottoms out near 26–30px on a phone: at 32px these section titles were
+   *larger* than the hero headline, which has to stay the biggest type on
+   the page. The two curves crossed at roughly 613px, so every width below
+   that was inverted. The steeper 40px rise keeps the 1024px+ end at the
+   same 64px it always was, so desktop is untouched. */
 .fluid-section-title {
-  font-size: clamp(32px, calc(32px + 32 * ((100vw - 320px) / 704)), 64px);
+  font-size: round(clamp(24px, calc(24px + 40 * ((100vw - 320px) / 704)), 64px), 2px);
 }
 
-/* Sub-headings inside sections — "My career journey…", "Kind words." */
+/* Sub-headings inside sections — "My career journey…", "Kind words." Floor
+   dropped alongside the section titles above so the hierarchy holds on a
+   phone: at 26px this sat level with (and at 320px above) the section title
+   it's meant to sit under. 1024px+ still lands at 40px. */
 .fluid-subsection-title {
-  font-size: clamp(26px, calc(26px + 14 * ((100vw - 320px) / 704)), 40px);
+  font-size: round(clamp(20px, calc(20px + 20 * ((100vw - 320px) / 704)), 40px), 2px);
+}
+
+/* Titles of individual items *inside* a section — project cards, career
+   chapter cards, the expertise accordion rows. One token for all of them:
+   they were previously a scatter of hardcoded 19/24/26px mobile values with
+   ad-hoc md:32px jumps, which on a phone put card titles (24px) *above* the
+   subsection headings they sit under (21.6px) — "Artist" reading as loud as
+   "My career journey in four chapters."
+
+   Rides the same 320→1024px track as the two tokens above and stays a step
+   below .fluid-subsection-title at every width. 1024px+ lands at 32px, the
+   size the md: variants already used, so desktop is unchanged. */
+.fluid-card-title {
+  font-size: round(clamp(18px, calc(18px + 14 * ((100vw - 320px) / 704)), 32px), 2px);
 }
 
 /* The testimonial pull-quote: large enough to feel like a quote on desktop,
    but 28px is overbearing on a phone. */
 .fluid-quote {
-  font-size: clamp(20px, calc(20px + 8 * ((100vw - 320px) / 704)), 28px);
+  font-size: round(clamp(20px, calc(20px + 8 * ((100vw - 320px) / 704)), 28px), 2px);
 }
 
 /* A glare that sweeps across on hover. Sized and angled to cross the whole
@@ -118,14 +149,14 @@ button:not(:disabled),
    product" overflowed and wrapped, turning 3 lines into 5. Unchanged at the
    1400px+ desktop size. */
 .fluid-headline {
-  font-size: clamp(26px, calc(30px + 66 * ((100vw - 375px) / 1025)), 96px);
+  font-size: round(clamp(26px, calc(30px + 66 * ((100vw - 375px) / 1025)), 96px), 2px);
 }
 
 /* Ceiling is 22px rather than 24px: the hero's text column stops widening at
    965px, so a larger size pushed the intro paragraph onto a 4th line on wide
    screens. 22px is the largest size that keeps it to 3 lines. */
 .fluid-body {
-  font-size: clamp(14px, calc(14px + 8 * ((100vw - 375px) / 1025)), 22px);
+  font-size: round(clamp(14px, calc(14px + 8 * ((100vw - 375px) / 1025)), 22px), 2px);
 }
 
 .text-gradient-brand {

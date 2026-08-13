@@ -279,8 +279,11 @@ function ChapterCard({ chapter }) {
         >
           {chapter.eyebrow}
         </p>
+        {/* Card title, so .fluid-card-title — this was on
+            .fluid-subsection-title, which made it exactly as large as the
+            "My career journey in four chapters." heading it sits under. */}
         <h4
-          className="font-georgia fluid-subsection-title mt-3 font-bold"
+          className="font-georgia fluid-card-title mt-3 font-bold"
           style={{ color: DARK }}
         >
           {chapter.heading}
@@ -595,7 +598,7 @@ export default function Expertise() {
                             {number}
                           </span>
                           <span
-                            className="font-georgia text-[19px] font-bold"
+                            className="font-georgia fluid-card-title font-bold"
                             style={{ color: DARK }}
                           >
                             {skill.label}
@@ -654,7 +657,7 @@ export default function Expertise() {
                     {number}
                   </span>
                   <span
-                    className="font-georgia text-[19px] font-bold"
+                    className="font-georgia fluid-card-title font-bold"
                     style={{ color: DARK }}
                   >
                     {skill.label}
@@ -797,13 +800,17 @@ export default function Expertise() {
                               {c.eyebrow} · {c.year}
                             </p>
                             <h4
-                              className="font-georgia mt-[30px] text-[24px] font-bold leading-tight"
+                              className="font-georgia fluid-card-title mt-[30px] font-bold leading-tight"
                               style={{ color: DARK }}
                             >
                               {chapterName(c.title)}
                             </h4>
                             <p
-                              className="font-georgia mt-[9px] text-[18px] leading-snug"
+                              // Deck under the chapter title. The mobile step
+                              // down matters now that the title itself is
+                              // 19px there rather than 24 — at a flat 18px
+                              // the deck sat level with its own heading.
+                              className="font-georgia mt-[9px] text-[16px] leading-snug md:text-[18px]"
                               style={{ color: MUTED_STRONG }}
                             >
                               {c.heading}
@@ -838,14 +845,14 @@ export default function Expertise() {
                                   />
                                   <span className="min-w-0" style={{ color: MUTED }}>
                                     <span
-                                      className="block text-[18px] font-semibold"
+                                      className="block text-[16px] font-semibold md:text-[18px]"
                                       style={{ color: DARK }}
                                     >
                                       {bullet.strong}
                                     </span>
                                     {bullet.text && (
                                       <span
-                                        className="mt-[8px] block text-[16px]"
+                                        className="mt-[8px] block text-[14px] md:text-[16px]"
                                         style={{ color: MUTED_STRONG }}
                                       >
                                         {bullet.text}
@@ -970,7 +977,7 @@ export default function Expertise() {
                         )}
                       </span>
                       <span
-                        className={`font-georgia text-[24px] font-bold transition-colors md:text-[32px] ${
+                        className={`font-georgia fluid-card-title font-bold transition-colors ${
                           active === i ? "text-gradient-brand italic" : "skill-word"
                         }`}
                       >
