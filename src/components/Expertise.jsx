@@ -469,7 +469,7 @@ export default function Expertise() {
       <div className="relative z-10 mx-auto" style={{ maxWidth: 1232 }}>
         <p
           id="expertise"
-          className="scroll-mt-8 text-[14px] font-medium uppercase tracking-[0.2em] md:scroll-mt-10"
+          className="scroll-mt-8 text-[12px] font-medium uppercase tracking-[0.15em] md:scroll-mt-10 md:text-[14px] md:tracking-[0.2em]"
           style={{ color: MUTED }}
         >
           Expertise

@@ -208,8 +208,13 @@ export default function Hero() {
         <p className="text-center text-[12px] font-medium uppercase tracking-[0.15em] text-[#4d476a] md:text-[14px] md:tracking-[0.2em]">
           Lead Product Designer
           <span className="hidden md:inline"> . </span>
-          <br className="md:hidden" />
-          Designing digital products since 2020
+          {/* A block span rather than a <br>: the two stacked lines need
+              breathing room on mobile, and a line break can't carry margin.
+              Reverts to inline at md, where the two halves sit on one line
+              separated by the dot and the margin no longer applies. */}
+          <span className="mt-2 block md:mt-0 md:inline">
+            Designing digital products since 2020
+          </span>
         </p>
 
         <h1
