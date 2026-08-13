@@ -341,38 +341,54 @@ export default function Expertise() {
   // at the edges, where the browser has no room to fully honor it.
   const chapterCardRefs = useRef([]);
 
+  // Scroll offset that centres card `i` in the track's own viewport. Every
+  // card centres — including the first and last, which is possible because
+  // the track's px-6 padding is exactly the half-gutter a centred card
+  // needs ((clientWidth - cardWidth) / 2 === 24), so the required offsets
+  // for card 1 and card 4 land precisely on 0 and maxScroll.
+  //
+  // Measured from getBoundingClientRect rather than offsetLeft: offsetLeft
+  // is relative to the nearest *positioned* ancestor, which here is the
+  // <section>, not the track — using it would offset every card by the
+  // section's own page position.
+  const chapterScrollTarget = (el, card) => {
+    const delta = card.getBoundingClientRect().left - el.getBoundingClientRect().left;
+    const centred = el.scrollLeft + delta - (el.clientWidth - card.offsetWidth) / 2;
+    // Clamped so the ends can't request an unreachable offset and leave the
+    // browser parked mid-gap.
+    return Math.max(0, Math.min(centred, el.scrollWidth - el.clientWidth));
+  };
+
   // Derived from scroll position rather than an observer — scroll is the
-  // one event guaranteed to fire during a real swipe. Picks whichever card
-  // is closest to the track's left edge, using each card's own measured
-  // position rather than a computed step.
+  // one event guaranteed to fire during a real swipe. Picks the card whose
+  // centre is nearest the track's centre, matching how the cards snap.
   const handleChapterScroll = () => {
     const el = chapterTrackRef.current;
     if (!el) return;
-    const trackLeft = el.getBoundingClientRect().left;
-    let closest = 0;
-    let closestDistance = Infinity;
+    const trackRect = el.getBoundingClientRect();
+    const trackCentre = trackRect.left + trackRect.width / 2;
+    let bestIndex = 0;
+    let bestDistance = Infinity;
     chapterCardRefs.current.forEach((card, i) => {
       if (!card) return;
-      const distance = Math.abs(card.getBoundingClientRect().left - trackLeft);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closest = i;
+      const r = card.getBoundingClientRect();
+      const distance = Math.abs(r.left + r.width / 2 - trackCentre);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestIndex = i;
       }
     });
-    setActive(closest);
+    setActive(bestIndex);
   };
 
   const goToChapter = (i) => {
+    const el = chapterTrackRef.current;
     const card = chapterCardRefs.current[i];
-    if (!card) return;
-    // scrollIntoView asks the browser to align this exact element, computed
-    // from real layout — no assumptions about card width, gap, or padding
-    // to get subtly wrong at the first/last card.
-    card.scrollIntoView({
-      behavior: "smooth",
-      inline: "start",
-      block: "nearest",
-    });
+    if (!el || !card) return;
+    // scrollTo on the track itself — never card.scrollIntoView(), which
+    // walks every scrollable ancestor including the page and would scroll
+    // the page vertically to fit a tall card, cropping its top or bottom.
+    el.scrollTo({ left: chapterScrollTarget(el, card), behavior: "smooth" });
     // Setting `active` here too (in addition to the scroll) raced against
     // handleChapterScroll — the smooth-scroll animation fires its own
     // onScroll events with intermediate positions, which round to the old
@@ -398,9 +414,10 @@ export default function Expertise() {
   const [activeSkillId, setActiveSkillId] = useState("designing-the-ai");
   const activeSkill = skills.find((s) => s.id === activeSkillId);
   // Mobile-only accordion state, independent of the desktop poster's
-  // activeSkillId — the accordion opens the first item by default rather
-  // than mirroring the desktop's "Designing the AI" starting selection.
-  const [openSkillIndex, setOpenSkillIndex] = useState(0);
+  // activeSkillId. -1 means every row is collapsed, which is the starting
+  // state: the list reads as a scannable index of all six skills, and the
+  // visitor opens whichever ones they care about.
+  const [openSkillIndex, setOpenSkillIndex] = useState(-1);
 
   const timelineRef = useRef(null);
   const dotRefs = useRef([]);
@@ -700,6 +717,11 @@ export default function Expertise() {
                 ref={chapterTrackRef}
                 id={CHAPTER_TRACK_ID}
                 onScroll={handleChapterScroll}
+                // px-6 is doing double duty: it's the section's own margin,
+                // AND it's exactly the half-gutter a centred card needs, so
+                // the first and last cards can sit dead-centre instead of
+                // being clamped short. Symmetric scroll-padding would cancel
+                // out under centre snapping, so none is set.
                 className="no-scrollbar -mx-6 mt-3 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-8 pt-3"
               >
                 {chapters.map((c, i) => {
@@ -707,12 +729,21 @@ export default function Expertise() {
                   return (
                     <article
                       key={c.title}
-                      ref={(el) => (chapterCardRefs.current[i] = el)}
-                      // snap-start, not snap-center — scrollIntoView aligns
-                      // this card's start edge to the track's start, and
-                      // snap-center would fight that (plus, for the
-                      // first/last card there's no room to center it at all).
-                      className="relative flex w-[86vw] shrink-0 snap-start"
+                      // Block body, not a concise arrow: React 19 treats a
+                      // returned value from a ref callback as a cleanup
+                      // function, and an assignment expression returns the
+                      // element.
+                      ref={(el) => {
+                        chapterCardRefs.current[i] = el;
+                      }}
+                      // w-full, not a vw width: as a non-shrinking flex item
+                      // this resolves to the track's *content-box* width
+                      // (viewport minus the px-6 gutters), so the card is
+                      // derived from the container and can never exceed it.
+                      // snap-center on every card — one consistent rule, so
+                      // the browser's snap position and the JS scroll target
+                      // agree and can't leave the viewport parked in a gap.
+                      className="relative flex w-full shrink-0 snap-center"
                       aria-roledescription="slide"
                       aria-label={`${i + 1} of ${chapters.length}: ${chapterName(c.title)}`}
                     >
