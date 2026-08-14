@@ -9,11 +9,32 @@ const TITLE_LIGHT = "#FFFDF7";
 const WEB3FORMS_ACCESS_KEY = "8a2aa822-a9be-4f0c-9512-64d2964e6419";
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
+// Only what's actually needed to reply. "Role" is gone: it was ambiguous
+// (mine or the sender's?) and the message covers it. Organization is asked
+// for but not gated — a required field is a reason to close the tab.
+// `autoComplete` lets the browser fill all three in one tap on mobile.
 const fields = [
-  { label: "Name*", name: "name", type: "text", required: true },
-  { label: "Organization*", name: "organization", type: "text", required: true },
-  { label: "Email*", name: "email", type: "email", required: true },
-  { label: "Role*", name: "role", type: "text", required: true },
+  {
+    label: "Name*",
+    name: "name",
+    type: "text",
+    required: true,
+    autoComplete: "name",
+  },
+  {
+    label: "Email*",
+    name: "email",
+    type: "email",
+    required: true,
+    autoComplete: "email",
+  },
+  {
+    label: "Organization (optional)",
+    name: "organization",
+    type: "text",
+    required: false,
+    autoComplete: "organization",
+  },
 ];
 
 function MailIcon(props) {
@@ -169,6 +190,9 @@ export default function Contact() {
                 I'm open to new opportunities, full-time roles, and advisory
                 positions.
               </p>
+              {/* Sets the expectation before the form rather than after
+                  sending, where it can't affect the decision to write. */}
+              <p>I usually respond within two business days.</p>
             </div>
           </div>
 
@@ -218,6 +242,7 @@ export default function Contact() {
                     type={field.type}
                     name={field.name}
                     required={field.required}
+                    autoComplete={field.autoComplete}
                     className="mt-3 w-full border-0 border-b bg-transparent pb-2 text-[16px] outline-none transition"
                     style={{ borderColor: "rgba(255,253,247,0.3)", color: TITLE_LIGHT }}
                     onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(255,253,247,0.8)")}
@@ -320,7 +345,12 @@ export default function Contact() {
             copyright pinned left and the credit right — justify-between
             rather than a grid so the two halves keep their own natural
             widths and the credit's paw stays glued to its text. */}
+        {/* role="contentinfo" because a <footer> nested inside a <section>
+            is not a landmark by default — it would announce as the section's
+            footer rather than the page's. The element stays here (a separate
+            band would break the mesh); only the exposed role changes. */}
         <footer
+          role="contentinfo"
           className="mt-6 flex flex-col items-center gap-1 text-center text-[14px] leading-relaxed md:mt-28 md:flex-row md:justify-between md:text-left"
           style={{ color: MUTED_LIGHT }}
         >
