@@ -131,13 +131,21 @@ const CARD_W = `min(${CARD_WIDTH}px, calc(100vw - 112px))`;
 const CARD_H = `calc(${CARD_W} * ${CARD_HEIGHT} / ${CARD_WIDTH})`;
 
 // Position within the stack (0 = front, draggable) → resting offset. Cards
-// further back fan out in different directions with only a slight tilt —
-// just enough to reveal their white border, not the photo underneath.
+// further back fan out with only a slight tilt — just enough to reveal
+// their white border, not the photo underneath.
+//
+// Every offset is positive so the fan opens right and down only. A tilted
+// card's *bounding box* is wider than the card, so a card at x:-14 with a
+// 5° tilt reached 23px left of the section's margin — the front card lined
+// up with the text above it, but the stack behind it visibly overhung the
+// column that every other section starts at. The tilts and the vertical
+// spread still do the work of separating the cards; only their horizontal
+// direction changed.
 const STACK_OFFSETS = [
   { x: 0, y: 0, rotate: 0, scale: 1 },
   { x: 16, y: -12, rotate: 4, scale: 0.97 },
-  { x: -14, y: 16, rotate: -5, scale: 0.94 },
-  { x: 6, y: -22, rotate: -8, scale: 0.91 },
+  { x: 10, y: 16, rotate: -5, scale: 0.94 },
+  { x: 14, y: -22, rotate: -8, scale: 0.91 },
 ];
 
 const SETTLE_TRANSITION = "700ms cubic-bezier(0.22, 1, 0.36, 1)";
