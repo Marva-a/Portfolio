@@ -755,7 +755,17 @@ export default function Expertise() {
                       // snap-center on every card — one consistent rule, so
                       // the browser's snap position and the JS scroll target
                       // agree and can't leave the viewport parked in a gap.
-                      className="relative flex w-full shrink-0 snap-center"
+                      //
+                      // Capped from md: a phone's full-width card is 342px,
+                      // but the same rule handed it 642 on a tablet, which
+                      // stretched a fixed amount of content across a much
+                      // wider box. 520 matches the projects carousel, and
+                      // the leftover width lets the next card peek in as a
+                      // swipe affordance. The end cards then rest against
+                      // the gutters instead of centring — chapterScrollTarget
+                      // already clamps to that, and card 1 lands flush with
+                      // the section's text.
+                      className="relative flex w-full max-w-full shrink-0 snap-center md:max-w-[520px]"
                       aria-roledescription="slide"
                       aria-label={`${i + 1} of ${chapters.length}: ${chapterName(c.title)}`}
                     >
