@@ -116,6 +116,21 @@ button:not(:disabled),
   font-size: round(clamp(18px, calc(18px + 14 * ((100vw - 320px) / 704)), 32px), 2px);
 }
 
+/* The expertise accordion's rows, which are two-up between 768 and 1280.
+   .fluid-card-title is sized for a full-width row, so in a half-width one
+   five of the eight labels wrapped to a second line. This tracks the column
+   instead. The binding case is 768px, where a row is 268px and the number,
+   gaps and + control take 68 of it: the longest label ("Product strategy &
+   0→1") sets 193px into the 200px left, and 17px would have overrun it by
+   five. From there it climbs to 24px by 1280, where the columns are wide
+   enough for it. Applied to the open card's header too, so a row doesn't
+   change size as it expands. */
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  .expertise-row-label {
+    font-size: clamp(16px, calc(16px + 8 * ((100vw - 768px) / 512)), 24px);
+  }
+}
+
 /* The testimonial pull-quote: large enough to feel like a quote on desktop,
    but 28px is overbearing on a phone. */
 .fluid-quote {
