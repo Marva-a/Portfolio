@@ -302,7 +302,7 @@ function ChapterCard({ chapter }) {
           {chapter.tags.map((tag, i) => (
             <span
               key={tag}
-              className="tag-shadow rounded-full px-4 py-1.5 text-sm font-medium"
+              className="tag-shadow pill-pad rounded-full text-sm font-medium"
               style={{
                 backgroundColor: PILL_COLORS[i % PILL_COLORS.length],
                 color: DARK,
@@ -541,7 +541,7 @@ export default function Expertise() {
         />
 
         <span
-          className="tag-shadow mt-8 hidden rounded-full px-4 py-1.5 text-sm font-medium xl:inline-block"
+          className="tag-shadow pill-pad mt-8 hidden rounded-full text-sm font-medium xl:inline-block"
           style={{ backgroundColor: "#F0E9FF", color: DARK }}
         >
           {activeSkill.pill}
@@ -642,7 +642,7 @@ export default function Expertise() {
                         className="reveal-panel relative px-6 pb-6"
                       >
                         <span
-                          className="tag-shadow inline-block rounded-full px-4 py-1.5 text-sm font-medium"
+                          className="tag-shadow pill-pad inline-block rounded-full text-sm font-medium"
                           style={{ backgroundColor: "#F0E9FF", color: DARK }}
                         >
                           {skill.pill}
@@ -865,7 +865,7 @@ export default function Expertise() {
                               {c.tags.map((tag, ti) => (
                                 <span
                                   key={tag}
-                                  className="rounded-full px-2.5 py-1 text-[12px] font-medium"
+                                  className="pill-pad rounded-full text-[12px] font-medium"
                                   style={{
                                     backgroundColor: PILL_COLORS[ti % PILL_COLORS.length],
                                     color: DARK,

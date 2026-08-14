@@ -296,13 +296,17 @@ export default function Hero() {
         </p>
 
         <div
-          className="mt-8 flex flex-wrap justify-center gap-2 md:justify-start xl:gap-3"
+          // 6px gap through the tablet band: at 768 the row is 352px and the four
+          // pills need 351 at the standard 8px padding, which rounds into a
+          // second line. The padding is fixed by the pill rule, so the gap is
+          // what gives.
+          className="mt-8 flex flex-wrap justify-center gap-2 md:justify-start md:gap-1.5 xl:gap-3"
           style={{ maxWidth: isMobile ? "100%" : TEXT_RESERVE }}
         >
           {pills.map((pill) => (
             <span
               key={pill.label}
-              className="tag-shadow rounded-full px-3.5 py-1.5 text-[11px] font-medium text-[#1c1833] md:text-[12px] xl:px-5 xl:py-2 xl:text-sm"
+              className="tag-shadow pill-pad rounded-full text-[11px] font-medium text-[#1c1833] md:text-[12px] xl:text-sm"
               style={{ backgroundColor: pill.bg }}
             >
               {pill.label}

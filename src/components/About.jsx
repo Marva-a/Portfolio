@@ -289,7 +289,7 @@ function PhotoStack() {
             </div>
             {isFront && (
               <span
-                className="tag-shadow absolute bottom-0 left-1/2 inline-flex -translate-x-1/2 translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full px-6 py-3 text-sm font-semibold uppercase tracking-wide"
+                className="tag-shadow pill-pad absolute bottom-0 left-1/2 inline-flex -translate-x-1/2 translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full text-sm font-semibold uppercase tracking-wide"
                 style={{ backgroundColor: "#F0E9FF", color: DARK }}
               >
                 {photo.caption}

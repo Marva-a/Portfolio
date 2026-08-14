@@ -182,7 +182,7 @@ function ProjectCarousel() {
                 {project.tags.map((t) => (
                   <span
                     key={t.label}
-                    className="tag-shadow rounded-full px-3 py-1 text-[11px] font-medium text-[#1c1833]"
+                    className="tag-shadow pill-pad rounded-full text-[11px] font-medium text-[#1c1833]"
                     style={{ backgroundColor: t.bg }}
                   >
                     {t.label}
@@ -278,7 +278,7 @@ export default function SelectedWork() {
             {["0-to-1", "Systems Thinking"].map((tag, i) => (
               <span
                 key={tag}
-                className="tag-shadow rounded-full px-4 py-1.5 text-xs font-medium text-[#1c1833]"
+                className="tag-shadow pill-pad rounded-full text-xs font-medium text-[#1c1833]"
                 style={{ backgroundColor: i === 0 ? "#E8FFF6" : "#E6F6FF" }}
               >
                 {tag}

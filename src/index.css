@@ -67,6 +67,21 @@ body {
   border-radius: 6px;
 }
 
+/* Every pastel pill on the page — hero tags, project tags, chapter tags,
+   the expertise pills, the photo caption. They had drifted to seven
+   different padding pairs (px-2.5/py-1 through px-6/py-3); this is the one
+   rule they all take. Unlayered, so it beats Tailwind's utilities if one is
+   ever left on an element by mistake. */
+.pill-pad {
+  padding: 4px 8px;
+}
+
+@media (min-width: 768px) {
+  .pill-pad {
+    padding: 8px 16px;
+  }
+}
+
 /* Tailwind v4's preflight sets buttons to cursor:default (v3 used pointer),
    which made every button on the site — Send, the poster words, the chapter
    list — read as non-interactive. Restore the pointer, but leave disabled
