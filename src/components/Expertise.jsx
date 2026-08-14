@@ -557,7 +557,7 @@ export default function Expertise() {
             `skills` data as the desktop poster; only the presentation
             differs (one open row at a time instead of a poster + swapped
             detail card). */}
-        <div className="mt-10 xl:hidden">
+        <div className="mt-10 md:grid md:grid-cols-2 md:gap-x-10 xl:hidden">
           {skills.map((skill, i) => {
             const isOpen = i === openSkillIndex;
             const headerId = `expertise-header-${skill.id}`;
@@ -570,7 +570,7 @@ export default function Expertise() {
               // ringed by a 1px gradient stroke (the same padding-box trick
               // as the nav pill and hero avatar) instead of a left accent bar.
               return (
-                <div key={skill.id} className="relative my-3 first:mt-0">
+                <div key={skill.id} className="relative my-3 first:mt-0 md:col-span-2">
                   <GradientFrame radius="28px" padding="1px" transparent>
                     <div
                       className="tag-shadow relative overflow-hidden rounded-[28px]"
