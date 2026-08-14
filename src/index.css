@@ -10,6 +10,10 @@
     #ff806e 75%
   );
   --fluid-mt-para: clamp(40px, calc(40px + 16 * ((100vw - 375px) / 1025)), 56px);
+  /* Front card of the About photo stack. The stack's wrapper adds 64px for
+     the fanned cards behind it, so the subtracted gutter is the section's
+     own padding plus that. */
+  --about-card-w: min(380px, calc(100vw - 112px));
 }
 
 * {
@@ -125,6 +129,16 @@ button:not(:disabled),
    five. From there it climbs to 24px by 1280, where the columns are wide
    enough for it. Applied to the open card's header too, so a row doesn't
    change size as it expands. */
+/* The stack is centred in a full-width column between 768 and 1280 rather
+   than sitting beside the bio, so it can take a larger card than the 380px
+   the desktop's 460px column allows. 480 + the wrapper's 64 is 544, inside
+   the 576px content width of the narrowest tablet. */
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  :root {
+    --about-card-w: min(480px, calc(100vw - 200px));
+  }
+}
+
 @media (min-width: 768px) and (max-width: 1279.98px) {
   .expertise-row-label {
     font-size: clamp(16px, calc(16px + 8 * ((100vw - 768px) / 512)), 24px);

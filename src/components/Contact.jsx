@@ -188,7 +188,11 @@ export default function Contact() {
               <span className="text-gradient-brand italic">connect.</span>
             </h2>
 
-            <div className="mt-6 space-y-4 text-[17px] leading-relaxed md:text-[20px]" style={{ color: MUTED_LIGHT, maxWidth: 420 }}>
+            {/* The 420px measure is a desktop rule, where this column sits
+                beside the form. Below xl the two stack, so the copy runs the
+                same width as the fields under it rather than stopping short
+                of them. */}
+            <div className="mt-6 max-w-full space-y-4 text-[17px] leading-relaxed md:text-[20px] xl:max-w-[420px]" style={{ color: MUTED_LIGHT }}>
               <p>
                 Looking to tackle your complex product and 0-to-1 design
                 challenges?

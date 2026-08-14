@@ -124,10 +124,12 @@ const CARD_HEIGHT = 500;
 // be centred on the card's true outer width rather than guessing at it.
 const CARD_PADDING = 16;
 
-// Available content width is 100vw minus the section's px-6 padding (48px)
-// minus the 64px the wrapper adds for the fanned cards behind the front one.
-// Capped at the desktop 380px, so nothing changes from md up.
-const CARD_W = `min(${CARD_WIDTH}px, calc(100vw - 112px))`;
+// Driven by a CSS variable rather than computed here, so the tablet band can
+// give the stack a bigger card (see --about-card-w in index.css) without this
+// component needing to know the viewport. Phones still resolve to 100vw minus
+// the section's px-6 padding and the 64px the wrapper adds for the fanned
+// cards; desktop still resolves to CARD_WIDTH.
+const CARD_W = "var(--about-card-w)";
 const CARD_H = `calc(${CARD_W} * ${CARD_HEIGHT} / ${CARD_WIDTH})`;
 
 // Position within the stack (0 = front, draggable) → resting offset. Cards
@@ -204,7 +206,13 @@ function PhotoStack() {
 
   return (
     <div
-      className="relative"
+      // The wrapper reserves 64px beyond the card for the fan, all of it to
+      // the right of the front card — so centring the wrapper leaves the card
+      // itself 16px left of centre. The 32px margin puts that surplus back on
+      // both sides, which centres the card rather than the reserved box.
+      // Only where the column is centred: phones and desktop align left, and
+      // on a phone the wrapper already fills the column exactly.
+      className="relative md:ml-8 xl:ml-0"
       style={{ width: `calc(${CARD_W} + 64px)`, height: `calc(${CARD_H} + 64px)` }}
     >
       {order.map((photoIndex, stackPos) => {
@@ -294,36 +302,6 @@ function PhotoStack() {
   );
 }
 
-// Round chevron control for the testimonial set. 44px so it clears the
-// minimum touch target, with the same purple focus ring the avatar row uses.
-function ArrowButton({ direction, onClick, label }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:bg-black/5 active:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8f74ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf7]"
-      style={{ border: "1px solid rgba(28,24,51,0.16)", color: DARK }}
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
-        className="h-[18px] w-[18px]"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        style={{
-          transform: direction === "next" ? "rotate(180deg)" : undefined,
-        }}
-      >
-        <path d="M15 5l-7 7 7 7" />
-      </svg>
-    </button>
-  );
-}
-
 // Collapsed height on mobile, where the bio stacks under the photo instead
 // of running alongside it — enough to show the first paragraph as a teaser
 // without the section eating the whole first screen of scroll.
@@ -385,7 +363,7 @@ export default function About() {
         </p>
 
         <div className="mt-10 grid gap-10 md:mt-14 md:gap-20 xl:grid-cols-[460px_1fr]">
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start md:items-center xl:items-start">
             <PhotoStack />
             {/* Centred on the front card, not on the stack wrapper — the
                 wrapper is wider than the card to leave room for the fanned
@@ -541,25 +519,9 @@ export default function About() {
                 the row of faces does, so they read as one control rather
                 than a caption stranded from the thing it describes. */}
             <div className="mt-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
-              {/* Buttons, not just the swipe: swiping is unavailable on a
-                  desktop pointer and impossible from the keyboard, so the
-                  avatar row was the only way through the set — and that
-                  requires knowing each face by name. */}
-              <div className="flex items-center gap-3">
-                <ArrowButton
-                  direction="prev"
-                  onClick={() => step(-1)}
-                  label="Previous testimonial"
-                />
-                <ArrowButton
-                  direction="next"
-                  onClick={() => step(1)}
-                  label="Next testimonial"
-                />
-                <p className="text-sm font-medium" style={{ color: MUTED }}>
-                  {activeIndex + 1} of {testimonials.length}
-                </p>
-              </div>
+              <p className="text-sm font-medium" style={{ color: MUTED }}>
+                Swipe or tap a photo to read another
+              </p>
               {/* The row holds only the testimonials you're NOT reading —
                   the active one is already shown large on the left, so
                   repeating it here would just be the same face twice. Pick
