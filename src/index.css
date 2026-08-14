@@ -195,6 +195,29 @@ button:not(:disabled),
   font-size: round(clamp(14px, calc(14px + 8 * ((100vw - 375px) / 1025)), 22px), 2px);
 }
 
+/* Tablet band. Both curves above interpolate on raw viewport width, which
+   assumes the text column grows with it — but between 768 and 1280 the hero
+   still reserves a fixed slice for the portrait, so the column stops keeping
+   up and the type outgrows it: at 834px the headline hit 60px while the four
+   pills needed 430px of a 401px column, wrapping one onto its own line.
+   These lower the scale across the band and ramp back to meet the base
+   curves at 1280 (88px / 21px), so there's no step at the boundary. */
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  .fluid-headline {
+    font-size: round(
+      clamp(46px, calc(46px + 42 * ((100vw - 768px) / 512)), 88px),
+      2px
+    );
+  }
+
+  .fluid-body {
+    font-size: round(
+      clamp(16px, calc(16px + 6 * ((100vw - 768px) / 512)), 22px),
+      2px
+    );
+  }
+}
+
 .text-gradient-brand {
   background-image: var(--gradient-brand);
   background-size: 200% 100%;
