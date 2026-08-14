@@ -225,6 +225,13 @@ function PhotoStack() {
             onPointerCancel={isFront ? handlePointerUp : undefined}
             role={isFront ? "button" : undefined}
             tabIndex={isFront ? 0 : undefined}
+            // Without an explicit name the card's name is computed from its
+            // contents — the photo's alt and the caption pill, both the same
+            // word — and announces as "Painting Painting, button". This says
+            // what the card is and what activating it does.
+            aria-label={
+              isFront ? `${photo.caption} — show the next photo` : undefined
+            }
             onKeyDown={
               isFront
                 ? (e) => {
@@ -255,7 +262,11 @@ function PhotoStack() {
             >
               <img
                 src={photo.src}
-                alt={photo.caption}
+                // Decorative: the caption pill below names the photo in
+                // visible text, and the card's aria-label repeats it — a
+                // third copy in the alt would announce the word three times.
+                alt=""
+                loading="lazy"
                 className="h-full w-full object-cover"
                 draggable={false}
               />
@@ -272,6 +283,36 @@ function PhotoStack() {
         );
       })}
     </div>
+  );
+}
+
+// Round chevron control for the testimonial set. 44px so it clears the
+// minimum touch target, with the same purple focus ring the avatar row uses.
+function ArrowButton({ direction, onClick, label }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:bg-black/5 active:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8f74ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf7]"
+      style={{ border: "1px solid rgba(28,24,51,0.16)", color: DARK }}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        className="h-[18px] w-[18px]"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{
+          transform: direction === "next" ? "rotate(180deg)" : undefined,
+        }}
+      >
+        <path d="M15 5l-7 7 7 7" />
+      </svg>
+    </button>
   );
 }
 
@@ -459,6 +500,7 @@ export default function About() {
                     <img
                       src={active.photo}
                       alt={active.name}
+                      loading="lazy"
                       className="h-[72px] w-[72px] rounded-full object-cover"
                     />
                   ) : (
@@ -491,9 +533,25 @@ export default function About() {
                 the row of faces does, so they read as one control rather
                 than a caption stranded from the thing it describes. */}
             <div className="mt-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
-              <p className="text-sm font-medium" style={{ color: MUTED }}>
-                Swipe or tap a photo to read another
-              </p>
+              {/* Buttons, not just the swipe: swiping is unavailable on a
+                  desktop pointer and impossible from the keyboard, so the
+                  avatar row was the only way through the set — and that
+                  requires knowing each face by name. */}
+              <div className="flex items-center gap-3">
+                <ArrowButton
+                  direction="prev"
+                  onClick={() => step(-1)}
+                  label="Previous testimonial"
+                />
+                <ArrowButton
+                  direction="next"
+                  onClick={() => step(1)}
+                  label="Next testimonial"
+                />
+                <p className="text-sm font-medium" style={{ color: MUTED }}>
+                  {activeIndex + 1} of {testimonials.length}
+                </p>
+              </div>
               {/* The row holds only the testimonials you're NOT reading —
                   the active one is already shown large on the left, so
                   repeating it here would just be the same face twice. Pick
@@ -518,6 +576,7 @@ export default function About() {
                         <img
                           src={t.photo}
                           alt=""
+                          loading="lazy"
                           className="h-full w-full rounded-full object-cover"
                           style={{ filter: "grayscale(1)" }}
                         />

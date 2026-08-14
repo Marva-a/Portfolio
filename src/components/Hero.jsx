@@ -2,7 +2,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import GradientFrame from "./GradientFrame";
 import BrandBadge from "./BrandBadge";
-import Nav from "./Nav";
 import useMediaQuery, { MOBILE_QUERY } from "../hooks/useMediaQuery";
 import useScrollDirection from "../hooks/useScrollDirection";
 import heroPhoto from "../assets/hero-photo.jpg";
@@ -302,8 +301,6 @@ export default function Hero() {
           ))}
         </div>
       </div>
-
-      <Nav />
     </section>
   );
 }

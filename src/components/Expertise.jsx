@@ -517,7 +517,7 @@ export default function Expertise() {
                     type="button"
                     onClick={() => setActiveSkillId(id)}
                     aria-pressed={isActive}
-                    className={`font-georgia py-0.5 text-left ${skill.weight} transition-colors ${
+                    className={`font-georgia focus-ring-brand py-0.5 text-left ${skill.weight} transition-colors ${
                       isActive ? "text-gradient-brand italic" : "skill-word"
                     }`}
                     // Poster sizes are a desktop composition — the 18px tier
