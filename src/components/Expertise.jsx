@@ -557,8 +557,18 @@ export default function Expertise() {
             `skills` data as the desktop poster; only the presentation
             differs (one open row at a time instead of a poster + swapped
             detail card). */}
+        {/* Two independent stacks, not a row grid: in a grid the row is as
+            tall as its tallest cell, so an expanded card left the closed row
+            beside it sitting above a cell-sized hole. Each column flows on
+            its own, so expanding an item only pushes that column's later
+            rows down and nothing opens a gap. Reading order runs down each
+            column — 01–04, then 05–08 — which the numbers make explicit.
+            Phones stack the two wrappers back into one list. */}
         <div className="mt-10 md:grid md:grid-cols-2 md:items-start md:gap-x-10 xl:hidden">
-          {skills.map((skill, i) => {
+          {[skills.slice(0, 4), skills.slice(4)].map((column, c) => (
+            <div key={c}>
+          {column.map((skill, ci) => {
+            const i = c * 4 + ci;
             const isOpen = i === openSkillIndex;
             const headerId = `expertise-header-${skill.id}`;
             const panelId = `expertise-panel-${skill.id}`;
@@ -570,7 +580,7 @@ export default function Expertise() {
               // ringed by a 1px gradient stroke (the same padding-box trick
               // as the nav pill and hero avatar) instead of a left accent bar.
               return (
-                <div key={skill.id} className="relative my-3 first:mt-0">
+                <div key={skill.id} className={`relative my-3 md:first:mt-0 ${i === 0 ? "mt-0!" : ""}`}>
                   <GradientFrame radius="28px" padding="1px" transparent>
                     <div
                       className="tag-shadow relative overflow-hidden rounded-[28px]"
@@ -685,6 +695,8 @@ export default function Expertise() {
               </button>
             );
           })}
+            </div>
+          ))}
         </div>
 
         {/* Career journey */}
