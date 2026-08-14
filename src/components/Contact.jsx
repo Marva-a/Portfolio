@@ -9,10 +9,11 @@ const TITLE_LIGHT = "#FFFDF7";
 const WEB3FORMS_ACCESS_KEY = "8a2aa822-a9be-4f0c-9512-64d2964e6419";
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
-// Only what's actually needed to reply. "Role" is gone: it was ambiguous
-// (mine or the sender's?) and the message covers it. Organization is asked
-// for but not gated — a required field is a reason to close the tab.
-// `autoComplete` lets the browser fill all three in one tap on mobile.
+// Name and email are the only gates — the rest are asked for but not
+// required, since a mandatory field is a reason to close the tab. Role is
+// labelled "Your role" rather than the bare "Role" it used to be: on a
+// designer's contact form that read as ambiguously as "which role are you
+// hiring for?". `autoComplete` lets the browser fill all four in one tap.
 const fields = [
   {
     label: "Name*",
@@ -34,6 +35,13 @@ const fields = [
     type: "text",
     required: false,
     autoComplete: "organization",
+  },
+  {
+    label: "Your role (optional)",
+    name: "role",
+    type: "text",
+    required: false,
+    autoComplete: "organization-title",
   },
 ];
 
