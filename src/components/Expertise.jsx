@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import useMediaQuery, { MOBILE_QUERY } from "../hooks/useMediaQuery";
+import useMediaQuery, { DESKTOP_QUERY } from "../hooks/useMediaQuery";
 import GradientFrame from "./GradientFrame";
 
 // Reused everywhere on light backgrounds, matching the hero/selected-work
@@ -342,7 +342,7 @@ function ChapterCard({ chapter }) {
 export default function Expertise() {
   // Mobile swaps the two-column timeline for a horizontal dot timeline plus
   // a swipeable card track, both driven by the same `active` index.
-  const isMobile = useMediaQuery(MOBILE_QUERY);
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const [active, setActive] = useState(0);
   const chapter = chapters[active];
   const chapterTrackRef = useRef(null);
@@ -435,7 +435,7 @@ export default function Expertise() {
   const dotRefs = useRef([]);
   const [progressHeight, setProgressHeight] = useState(0);
 
-  // isMobile is a dependency because the desktop timeline is unmounted below
+  // isDesktop is a dependency because the desktop timeline is unmounted below
   // 768px — the dots have to be remeasured once it comes back.
   useLayoutEffect(() => {
     const container = timelineRef.current;
@@ -444,10 +444,10 @@ export default function Expertise() {
     const containerTop = container.getBoundingClientRect().top;
     const dotRect = dot.getBoundingClientRect();
     setProgressHeight(dotRect.top + dotRect.height / 2 - containerTop);
-  }, [active, isMobile]);
+  }, [active, isDesktop]);
 
   return (
-    <section className="relative overflow-clip px-6 pb-24 pt-24 md:px-24 md:pb-[200px] md:pt-[200px]">
+    <section className="relative overflow-clip px-6 pb-24 pt-24 md:px-10 xl:px-24 md:pb-[200px] md:pt-[200px]">
       {/* Same mesh-blob look as the hero, but with a much quieter motion —
           a few px of side-to-side sway rather than the hero's rotation —
           since this section shouldn't compete for attention. */}
@@ -478,18 +478,18 @@ export default function Expertise() {
             JS — the hidden one is removed from the accessibility tree, so
             assistive tech only ever reads the version that's on screen. */}
         <h2
-          className="font-georgia fluid-section-title mt-3 hidden font-bold md:block"
+          className="font-georgia fluid-section-title mt-3 hidden font-bold xl:block"
           style={{ color: DARK }}
         >
           A poster of what I do.
         </h2>
         <h2
-          className="font-georgia fluid-section-title mt-3 font-bold md:hidden"
+          className="font-georgia fluid-section-title mt-3 font-bold xl:hidden"
           style={{ color: DARK }}
         >
           What I do.
         </h2>
-        <p className="mt-3 text-[17px] md:text-[20px]" style={{ color: MUTED }}>
+        <p className="mt-3 max-w-[72ch] text-[17px] md:text-[20px] xl:max-w-none" style={{ color: MUTED }}>
           Shaped by 6+ years of experience across creative agencies, design
           consultancies, startups, established organizations, and in-house
           product teams.
@@ -502,7 +502,7 @@ export default function Expertise() {
             only picks up the gradient-italic treatment once selected,
             which also swaps the pill + description below. Desktop/tablet
             only — below 768px this is replaced by the numbered accordion. */}
-        <div className="mt-10 hidden md:mt-14 md:block">
+        <div className="mt-10 hidden md:mt-14 xl:block">
           {skillRows.map((rowIds, ri) => (
             <div
               key={ri}
@@ -536,18 +536,18 @@ export default function Expertise() {
         </div>
 
         <div
-          className="mt-8 hidden border-t md:block"
+          className="mt-8 hidden border-t xl:block"
           style={{ borderColor: "rgba(28,24,51,0.1)" }}
         />
 
         <span
-          className="tag-shadow mt-8 hidden rounded-full px-4 py-1.5 text-sm font-medium md:inline-block"
+          className="tag-shadow mt-8 hidden rounded-full px-4 py-1.5 text-sm font-medium xl:inline-block"
           style={{ backgroundColor: "#F0E9FF", color: DARK }}
         >
           {activeSkill.pill}
         </span>
         <p
-          className="mt-4 hidden text-[17px] md:block md:text-[20px]"
+          className="mt-4 hidden text-[17px] md:text-[20px] xl:block"
           style={{ color: MUTED }}
         >
           {activeSkill.description}
@@ -557,7 +557,7 @@ export default function Expertise() {
             `skills` data as the desktop poster; only the presentation
             differs (one open row at a time instead of a poster + swapped
             detail card). */}
-        <div className="mt-10 md:hidden">
+        <div className="mt-10 xl:hidden">
           {skills.map((skill, i) => {
             const isOpen = i === openSkillIndex;
             const headerId = `expertise-header-${skill.id}`;
@@ -692,18 +692,18 @@ export default function Expertise() {
           <h3 className="font-georgia fluid-subsection-title font-bold" style={{ color: DARK }}>
             My career journey in four chapters.
           </h3>
-          <p className="mt-3 hidden text-[20px] md:block" style={{ color: MUTED }}>
+          <p className="mt-3 hidden text-[20px] xl:block" style={{ color: MUTED }}>
             Click a chapter to explore my journey and the strengths it gave
             me, a multidisciplinary arc bridging fine arts, strategy, and
             complex systems.
           </p>
-          <p className="mt-3 text-[17px] md:hidden" style={{ color: MUTED }}>
+          <p className="mt-3 max-w-[72ch] text-[17px] xl:hidden" style={{ color: MUTED }}>
             Explore my journey and the strengths each chapter gave me, a
             multidisciplinary arc bridging fine arts, strategy, and complex
             systems.
           </p>
 
-          {isMobile ? (
+          {!isDesktop ? (
             <div className="mt-10">
               <div className="flex items-center justify-between">
                 <p className="text-[13px] font-medium" style={{ color: MUTED }}>
@@ -827,7 +827,7 @@ export default function Expertise() {
                               // Weight and colour stay lighter than those
                               // headings so it still reads as supporting copy.
                               // No md: variant needed: this whole card only
-                              // renders under `isMobile`.
+                              // renders under the non-desktop branch.
                               className="mt-[9px] text-[16px] leading-snug"
                               style={{ color: MUTED_STRONG }}
                             >

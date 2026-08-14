@@ -141,7 +141,7 @@ function ProjectCarousel() {
   };
 
   return (
-    <div className="md:hidden">
+    <div className="xl:hidden">
       <div className="mt-8 flex items-end justify-between gap-4">
         <p className="text-[13px] font-medium" style={{ color: "#FFF7E8" }}>
           Swipe through selected work
@@ -160,12 +160,12 @@ function ProjectCarousel() {
       <div
         ref={trackRef}
         onScroll={handleScroll}
-        className="no-scrollbar -mx-6 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-2"
+        className="no-scrollbar -mx-6 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-2 md:-mx-10 md:px-10"
       >
         {allProjects.map((project, i) => (
           <article
             key={project.id}
-            className="w-[78vw] shrink-0 snap-center"
+            className="w-[78vw] max-w-[520px] shrink-0 snap-center"
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${allProjects.length}: ${project.title}`}
           >
@@ -239,7 +239,7 @@ export default function SelectedWork() {
       };
 
   return (
-    <section className="bg-[#24174A] px-6 pb-24 pt-24 text-white md:px-24 md:pb-[200px] md:pt-[200px]">
+    <section className="bg-[#24174A] px-6 pb-24 pt-24 text-white md:px-10 xl:px-24 md:pb-[200px] md:pt-[200px]">
       <div className="mx-auto" style={{ maxWidth: 1232 }}>
         <p
           id="projects"
@@ -254,7 +254,7 @@ export default function SelectedWork() {
         >
           Selected work.
         </h2>
-        <p className="mt-3 text-[17px] md:text-[20px]" style={{ color: "#FFF7E8" }}>
+        <p className="mt-3 max-w-[72ch] text-[17px] md:text-[20px] xl:max-w-none" style={{ color: "#FFF7E8" }}>
           Explore the case studies and strategic thinking behind each key
           decision.
         </p>
@@ -262,7 +262,7 @@ export default function SelectedWork() {
         <ProjectCarousel />
 
         {/* Desktop composition: hero card, then a two-up grid. */}
-        <div className="hidden md:block">
+        <div className="hidden xl:block">
         {/* Featured project */}
         <div
           className={`relative mt-10 overflow-hidden rounded-3xl bg-[#24174A] p-6 md:aspect-auto md:h-[500px] md:cursor-none md:p-10 ${CARD_HOVER}`}

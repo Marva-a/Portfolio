@@ -106,7 +106,7 @@ export default function Contact() {
 
   return (
     <section
-      className="relative overflow-clip bg-[#24174A] px-6 pb-28 pt-24 text-white md:min-h-[var(--contact-min-h)] md:px-24 md:pb-[120px] md:pt-[260px]"
+      className="relative overflow-clip bg-[#24174A] px-6 pb-28 pt-24 text-white md:min-h-[var(--contact-min-h)] md:px-10 xl:px-24 md:pb-[120px] md:pt-[260px]"
       style={{
         // Contact is the last section, so the page can only scroll until its
         // bottom meets the viewport bottom. For a nav click to put CONTACT at
@@ -170,8 +170,8 @@ export default function Contact() {
           Contact
         </p>
 
-        <div className="mt-3 grid gap-10 md:gap-12 md:grid-cols-2">
-          <div className="md:col-start-1 md:row-start-1">
+        <div className="mt-3 grid gap-10 md:gap-12 xl:grid-cols-2">
+          <div className="xl:col-start-1 xl:row-start-1">
             <h2
               className="font-georgia fluid-section-title font-bold"
               style={{ color: TITLE_LIGHT }}
@@ -197,7 +197,7 @@ export default function Contact() {
           </div>
 
           <form
-            className="space-y-8 text-left md:col-start-2 md:row-start-1 md:row-span-2 md:[--form-mt:121px]"
+            className="space-y-8 text-left xl:col-start-2 xl:row-start-1 xl:row-span-2 xl:[--form-mt:121px]"
             // Optical alignment: puts the first field label's cap line on the
             // same line as the "Looking to tackle…" paragraph opposite it.
             // Measured from glyph ink tops, not box edges, since the two have
@@ -227,7 +227,7 @@ export default function Contact() {
               aria-hidden="true"
             />
 
-            <div className="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-x-10 gap-y-8 xl:grid-cols-2">
               {fields.map((field) => (
                 <div key={field.name}>
                   <label
@@ -310,7 +310,7 @@ export default function Contact() {
               copyright so the icons and the two footer lines close the page
               as one block. From md the addresses come back and it returns to
               a left-aligned stacked list. */}
-          <div className="mt-16 flex justify-center gap-3 md:col-start-1 md:row-start-2 md:mt-4 md:block md:space-y-4">
+          <div className="mt-16 flex justify-center gap-3 md:mt-4 md:block md:space-y-4 xl:col-start-1 xl:row-start-2">
             <a
               href="mailto:marva.abouei@gmail.com"
               // The label is on the anchor because the visible text is gone at

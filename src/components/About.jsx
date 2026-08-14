@@ -346,7 +346,7 @@ export default function About() {
   };
 
   return (
-    <section className="relative overflow-clip bg-[#fffdf7] px-6 pb-24 pt-24 md:px-24 md:pb-[200px] md:pt-[200px]">
+    <section className="relative overflow-clip bg-[#fffdf7] px-6 pb-24 pt-24 md:px-10 xl:px-24 md:pb-[200px] md:pt-[200px]">
       <div className="mx-auto" style={{ maxWidth: 1232 }}>
         <p
           id="about"
@@ -362,8 +362,8 @@ export default function About() {
           Hey, I'm Marva!
         </h2>
         <p
-          className="mt-3 text-[17px] leading-relaxed md:text-[20px]"
-          style={{ color: MUTED, maxWidth: 1232 }}
+          className="mt-3 max-w-[72ch] text-[17px] leading-relaxed md:text-[20px] xl:max-w-none"
+          style={{ color: MUTED }}
         >
           My approach to design is anchored by an unorthodox trajectory. I
           started with my hands — a{" "}
@@ -376,7 +376,7 @@ export default function About() {
           .
         </p>
 
-        <div className="mt-10 grid gap-10 md:mt-14 md:gap-20 md:grid-cols-[460px_1fr]">
+        <div className="mt-10 grid gap-10 md:mt-14 md:gap-20 xl:grid-cols-[460px_1fr]">
           <div className="flex flex-col items-start">
             <PhotoStack />
             {/* Centred on the front card, not on the stack wrapper — the
@@ -392,7 +392,7 @@ export default function About() {
 
           <div className="relative">
             <div
-              className={`space-y-6 text-left text-[17px] leading-relaxed transition-[max-height] duration-300 md:max-h-none! md:overflow-visible md:text-justify md:text-[20px] ${
+              className={`max-w-[70ch] space-y-6 text-left text-[17px] leading-relaxed transition-[max-height] duration-300 xl:max-w-none xl:max-h-none! xl:overflow-visible xl:text-justify md:text-[20px] ${
                 bioExpanded ? "overflow-visible" : "overflow-hidden"
               }`}
               style={{
@@ -434,14 +434,14 @@ export default function About() {
             {!bioExpanded && (
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 bottom-9 h-14 bg-gradient-to-t from-[#fffdf7] to-transparent md:hidden"
+                className="pointer-events-none absolute inset-x-0 bottom-9 h-14 bg-gradient-to-t from-[#fffdf7] to-transparent xl:hidden"
               />
             )}
             <button
               type="button"
               onClick={() => setBioExpanded((v) => !v)}
               aria-expanded={bioExpanded}
-              className="relative mt-3 text-[15px] font-semibold underline underline-offset-2 md:hidden"
+              className="relative mt-3 text-[15px] font-semibold underline underline-offset-2 xl:hidden"
               style={{ color: DARK }}
             >
               {bioExpanded ? "Read less" : "Read more"}
@@ -478,7 +478,7 @@ export default function About() {
             >
               Kind words.
             </h3>
-            <p className="mt-3 text-[17px] md:text-[20px]" style={{ color: MUTED }}>
+            <p className="mt-3 max-w-[72ch] text-[17px] md:text-[20px] xl:max-w-none" style={{ color: MUTED }}>
               Feedback from the cross-functional leaders and stakeholders
               I've collaborated with along the way.
             </p>

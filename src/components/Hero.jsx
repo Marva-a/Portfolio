@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import GradientFrame from "./GradientFrame";
 import BrandBadge from "./BrandBadge";
-import useMediaQuery, { MOBILE_QUERY } from "../hooks/useMediaQuery";
+import useMediaQuery, { DESKTOP_QUERY, MOBILE_QUERY } from "../hooks/useMediaQuery";
 import useScrollDirection from "../hooks/useScrollDirection";
 import heroPhoto from "../assets/hero-photo.jpg";
 
@@ -13,7 +13,10 @@ const pills = [
   { label: "SaaS", bg: "#FFE1D6" },
 ];
 
-const PHOTO_WIDTH = "clamp(110px, 16vw, 244px)";
+// 22vw rather than 16: at 16 the portrait rendered 133px wide on an 834px
+// tablet, which read as a thumbnail rather than a subject. Still capped at
+// 244px, so the desktop composition is unchanged from 1109px up.
+const PHOTO_WIDTH = "clamp(110px, 22vw, 244px)";
 const PHOTO_GAP = "32px";
 // The photo is inset `right-[4%]` from the box, so its left edge sits at
 // `100% - 4% - PHOTO_WIDTH`. Reserving text width against that (rather than
@@ -38,7 +41,11 @@ export default function Hero() {
   // normal flow as a full-width portrait, so the copy gets the whole width
   // instead of the ~119px ribbon left over beside a thumbnail.
   const isMobile = useMediaQuery(MOBILE_QUERY);
-  const scrollDirection = useScrollDirection(isMobile);
+  // Tablets keep the desktop hero composition but follow the phone's rules
+  // for the badge: below 1280 the content column runs the full width, so a
+  // pinned badge sits on top of it instead of in an empty margin.
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  const scrollDirection = useScrollDirection(!isDesktop);
   const sectionRef = useRef(null);
   const [inHero, setInHero] = useState(true);
   const measureRef = useRef(null);
@@ -85,10 +92,10 @@ export default function Hero() {
 
   // Mobile keeps the badge collapsed to "MA" so the status pill can sit
   // opposite it on the same row, as in the reference.
-  const badgeExpanded = inHero && !isMobile;
+  const badgeExpanded = inHero && isDesktop;
   // Mobile only: the badge parks off-screen while scrolling down. Desktop
   // keeps it pinned, where there's room for it and no reason to hide it.
-  const badgeHidden = isMobile && scrollDirection === "down";
+  const badgeHidden = !isDesktop && scrollDirection === "down";
   const badgeWidth = badgeExpanded
     ? nameWidth + BADGE_INNER_PADDING_X + BADGE_STROKE
     : BADGE_COLLAPSED_INNER + BADGE_STROKE;
@@ -97,7 +104,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative overflow-clip bg-[#fff7e8] px-6 pb-24 pt-[150px] md:px-24 md:pb-[200px] md:pt-[200px]"
+      className="relative overflow-clip bg-[#fff7e8] px-6 pb-24 pt-[150px] md:px-10 xl:px-24 md:pb-[200px] md:pt-[200px]"
     >
       {/* animated gradient mesh background — the whole group slowly orbits
           clockwise so the blobs swap corners over time. They're anchored
@@ -164,7 +171,7 @@ export default function Hero() {
       <div
         // top-6 on mobile so the badge sits 24px from the top edge, matching
         // the 24px the tab bar keeps at the bottom and the px-6 gutters.
-        className="fixed left-6 top-6 z-50 md:left-24 md:top-10"
+        className="fixed left-6 top-6 z-50 xl:left-24 xl:top-10"
         style={{
           transform: badgeHidden ? "translateY(-120px)" : "translateY(0)",
           transition: "transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)",
@@ -191,7 +198,7 @@ export default function Hero() {
       {/* Open to new roles — pinned opposite the badge on desktop. On mobile
           the two collide at 320px, so it drops into normal flow above the
           headline instead of fighting the badge for the top corners. */}
-      <div className="tag-shadow absolute right-6 top-6 z-10 inline-flex items-center gap-2 rounded-full bg-[#fffdf7] px-3.5 py-2 md:right-6 md:top-8 md:px-5 md:py-2.5 lg:right-24 lg:top-10">
+      <div className="tag-shadow absolute right-6 top-6 z-10 inline-flex items-center gap-2 rounded-full bg-[#fffdf7] px-3.5 py-2 md:right-6 md:top-8 md:px-5 md:py-2.5 xl:right-24 xl:top-10">
         {/* Dot stays static — the shimmer on the label now carries the
             "live status" signal, and two idle animations on one small pill
             compete with each other. */}
