@@ -2,13 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Two crops of the same mark, not one file scaled: the tab sizes are
-         cropped tight so the "m" fills the frame, while the home-screen
-         sizes keep the blob whole with room around it. Href paths are
-         root-relative and Vite rewrites them against `base` at build. -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <!-- Two marks, picked by the browser's colour scheme: "ink" is the dark
+         blob, which is the one a LIGHT tab bar needs, and "mesh" is the pale
+         blob on cream for a DARK one. The links below default to ink; the
+         script further down swaps them when the scheme is dark. Href paths
+         are root-relative and Vite rewrites them against `base` at build.
+
+         Both a media attribute and a script: Firefox honours `media` on an
+         icon link, Chromium and Safari largely don't, and the script covers
+         every engine plus a scheme change while the tab is already open. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon-ink.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-ink-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-ink-16.png" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      media="(prefers-color-scheme: dark)"
+      href="/favicon-mesh.svg"
+    />
+    <!-- Opaque and square: iOS paints a home-screen icon's transparent
+         pixels black and applies its own rounded mask, so this one is the
+         mesh mark flattened onto cream (see scripts/apple-touch.html). -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -56,6 +70,32 @@
       content="Turning ambiguity into clear product direction. 0-to-1, AI and spatial products — strategy, research and systems thinking."
     />
     <meta name="twitter:image" content="https://marva.design/og-image.png" />
+
+    <!-- Swaps every icon link between the ink and mesh marks. Rewrites only
+         the filename inside the resolved URL, so it stays correct whatever
+         `base` the site is built with. Runs in <head> before first paint,
+         and again whenever the OS scheme changes with the tab open. -->
+    <script>
+      (function () {
+        var dark = window.matchMedia("(prefers-color-scheme: dark)");
+        function apply() {
+          var mark = dark.matches ? "mesh" : "ink";
+          document
+            .querySelectorAll('link[rel="icon"]:not([media])')
+            .forEach(function (link) {
+              var next = link.href.replace(
+                /favicon-(ink|mesh)/,
+                "favicon-" + mark,
+              );
+              // Reassigning an unchanged href still makes some browsers
+              // refetch the icon, which flickers the tab.
+              if (next !== link.href) link.href = next;
+            });
+        }
+        apply();
+        dark.addEventListener("change", apply);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
