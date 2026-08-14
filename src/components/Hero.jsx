@@ -169,9 +169,11 @@ export default function Hero() {
           -120px clears the badge's own height (48px) plus the top-8 inset
           with room to spare, so nothing peeks over the edge. */}
       <div
-        // top-6 on mobile so the badge sits 24px from the top edge, matching
-        // the 24px the tab bar keeps at the bottom and the px-6 gutters.
-        className="fixed left-6 top-6 z-50 xl:left-24 xl:top-10"
+        // Phones inset it 24px, matching the tab bar's bottom gap and the
+        // px-6 gutters. From md it takes the desktop 96/40 position, so the
+        // badge lines up with the section padding at every size above a
+        // phone rather than hugging the edge.
+        className="fixed left-6 top-6 z-50 md:left-24 md:top-10"
         style={{
           transform: badgeHidden ? "translateY(-120px)" : "translateY(0)",
           transition: "transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)",
@@ -198,7 +200,7 @@ export default function Hero() {
       {/* Open to new roles — pinned opposite the badge on desktop. On mobile
           the two collide at 320px, so it drops into normal flow above the
           headline instead of fighting the badge for the top corners. */}
-      <div className="tag-shadow absolute right-6 top-6 z-10 inline-flex items-center gap-2 rounded-full bg-[#fffdf7] px-3.5 py-2 md:right-6 md:top-8 md:px-5 md:py-2.5 xl:right-24 xl:top-10">
+      <div className="tag-shadow absolute right-6 top-6 z-10 inline-flex items-center gap-2 rounded-full bg-[#fffdf7] px-3.5 py-2 md:right-24 md:top-10 md:px-5 md:py-2.5">
         {/* Dot stays static — the shimmer on the label now carries the
             "live status" signal, and two idle animations on one small pill
             compete with each other. */}
