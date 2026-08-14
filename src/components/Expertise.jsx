@@ -729,12 +729,17 @@ export default function Expertise() {
                 ref={chapterTrackRef}
                 id={CHAPTER_TRACK_ID}
                 onScroll={handleChapterScroll}
-                // px-6 is doing double duty: it's the section's own margin,
-                // AND it's exactly the half-gutter a centred card needs, so
-                // the first and last cards can sit dead-centre instead of
-                // being clamped short. Symmetric scroll-padding would cancel
-                // out under centre snapping, so none is set.
-                className="no-scrollbar -mx-6 mt-3 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-8 pt-3"
+                // The padding always matches the section's own margin, so
+                // the track spans the full viewport and the first card still
+                // lines up with the section's text. On a phone that padding
+                // is also exactly the half-gutter a centred card needs, so
+                // every card sits dead-centre; from md the cards are capped
+                // narrower than the track and the end ones rest against the
+                // gutters instead. Either way the overflow is clipped at the
+                // screen edge rather than partway into the margin. Symmetric
+                // scroll-padding would cancel out under centre snapping, so
+                // none is set.
+                className="no-scrollbar -mx-6 mt-3 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-8 pt-3 md:-mx-24 md:px-24"
               >
                 {chapters.map((c, i) => {
                   const isActive = i === active;
