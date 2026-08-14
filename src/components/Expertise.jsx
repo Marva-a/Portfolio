@@ -447,7 +447,7 @@ export default function Expertise() {
   }, [active, isDesktop]);
 
   return (
-    <section className="relative overflow-clip px-6 pb-24 pt-24 md:px-10 xl:px-24 md:pb-[200px] md:pt-[200px]">
+    <section className="relative overflow-clip px-6 pb-24 pt-24 md:px-24 md:pb-[200px] md:pt-[200px]">
       {/* Same mesh-blob look as the hero, but with a much quieter motion —
           a few px of side-to-side sway rather than the hero's rotation —
           since this section shouldn't compete for attention. */}

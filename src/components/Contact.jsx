@@ -106,7 +106,7 @@ export default function Contact() {
 
   return (
     <section
-      className="relative overflow-clip bg-[#24174A] px-6 pb-28 pt-24 text-white md:min-h-[var(--contact-min-h)] md:px-10 xl:px-24 md:pb-[120px] md:pt-[260px]"
+      className="relative overflow-clip bg-[#24174A] px-6 pb-28 pt-24 text-white md:min-h-[var(--contact-min-h)] md:px-24 md:pb-[120px] md:pt-[260px]"
       style={{
         // Contact is the last section, so the page can only scroll until its
         // bottom meets the viewport bottom. For a nav click to put CONTACT at

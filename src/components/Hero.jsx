@@ -104,7 +104,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative overflow-clip bg-[#fff7e8] px-6 pb-24 pt-[150px] md:px-10 xl:px-24 md:pb-[200px] md:pt-[200px]"
+      className="relative overflow-clip bg-[#fff7e8] px-6 pb-24 pt-[150px] md:px-24 md:pb-[200px] md:pt-[200px]"
     >
       {/* animated gradient mesh background — the whole group slowly orbits
           clockwise so the blobs swap corners over time. They're anchored

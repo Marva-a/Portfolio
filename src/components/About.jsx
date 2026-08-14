@@ -346,7 +346,7 @@ export default function About() {
   };
 
   return (
-    <section className="relative overflow-clip bg-[#fffdf7] px-6 pb-24 pt-24 md:px-10 xl:px-24 md:pb-[200px] md:pt-[200px]">
+    <section className="relative overflow-clip bg-[#fffdf7] px-6 pb-24 pt-24 md:px-24 md:pb-[200px] md:pt-[200px]">
       <div className="mx-auto" style={{ maxWidth: 1232 }}>
         <p
           id="about"

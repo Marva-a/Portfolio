@@ -160,7 +160,7 @@ function ProjectCarousel() {
       <div
         ref={trackRef}
         onScroll={handleScroll}
-        className="no-scrollbar -mx-6 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-2 md:-mx-10 md:px-10"
+        className="no-scrollbar -mx-6 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-2 md:-mx-24 md:px-24"
       >
         {allProjects.map((project, i) => (
           <article
@@ -239,7 +239,7 @@ export default function SelectedWork() {
       };
 
   return (
-    <section className="bg-[#24174A] px-6 pb-24 pt-24 text-white md:px-10 xl:px-24 md:pb-[200px] md:pt-[200px]">
+    <section className="bg-[#24174A] px-6 pb-24 pt-24 text-white md:px-24 md:pb-[200px] md:pt-[200px]">
       <div className="mx-auto" style={{ maxWidth: 1232 }}>
         <p
           id="projects"
