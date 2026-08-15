@@ -3,9 +3,6 @@ import GradientFrame from "./GradientFrame";
 import useMediaQuery, { MOBILE_QUERY } from "../hooks/useMediaQuery";
 import useScrollDirection from "../hooks/useScrollDirection";
 
-const DARK = "#1c1833";
-const MUTED = "#4d476a";
-
 // Shared geometry so every icon lines up on the same optical size and
 // stroke weight as the ones in Contact.
 function Icon({ children }) {
@@ -182,7 +179,7 @@ export default function Nav() {
                   // flex-1 + basis-0 so all five tabs are exactly equal
                   // width regardless of label length, the way a native tab
                   // bar divides its space.
-                  className={`btn-shine btn-shine-brand relative flex min-h-[52px] flex-1 basis-0 flex-col items-center justify-center gap-1 rounded-full px-0.5 transition hover:bg-black/5 active:bg-black/10 ${
+                  className={`btn-shine btn-shine-brand focus-ring-pill relative flex min-h-[52px] flex-1 basis-0 flex-col items-center justify-center gap-1 rounded-full px-0.5 transition hover:bg-black/5 active:bg-black/10 ${
                     isActive
                       ? "bg-black/10 text-[#1c1833]"
                       : "text-[#4d476a]"
@@ -206,7 +203,7 @@ export default function Nav() {
               <a
                 key={link.id}
                 href={link.href}
-                className="btn-shine btn-shine-brand relative flex items-center whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-medium text-[#1c1833] transition hover:bg-black/5 active:bg-black/10"
+                className="btn-shine btn-shine-brand focus-ring-pill relative flex items-center whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-medium text-[#1c1833] transition hover:bg-black/5 active:bg-black/10"
               >
                 {link.label}
               </a>

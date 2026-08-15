@@ -5,9 +5,12 @@ import marvaPainting from "../assets/marva-painting.jpg";
 import marvaSculpture from "../assets/marva-sculpture.jpg";
 import scottPhoto from "../assets/Scott.jpeg";
 import GradientFrame from "./GradientFrame";
+import Pill from "./ui/Pill";
+import SectionHeading from "./ui/SectionHeading";
+import { color, pillPalette } from "../styles/tokens";
 
-const DARK = "#1c1833";
-const MUTED = "#4d476a";
+const DARK = color.textPrimary;
+const MUTED = color.textMuted;
 
 const stackPhotos = [
   { id: "d", src: marvaPainting, caption: "Painting" },
@@ -258,7 +261,7 @@ function PhotoStack() {
                   }
                 : undefined
             }
-            className="tag-shadow absolute left-0 top-0 select-none rounded-[28px] bg-[#fffdf7]"
+            className="tag-shadow absolute left-0 top-0 select-none rounded-[28px] bg-[var(--color-surface)]"
             style={{
               padding: CARD_PADDING,
               zIndex: stackPhotos.length - stackPos,
@@ -288,12 +291,13 @@ function PhotoStack() {
               />
             </div>
             {isFront && (
-              <span
-                className="tag-shadow pill-pad absolute bottom-0 left-1/2 inline-flex -translate-x-1/2 translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full text-sm font-semibold uppercase tracking-wide"
-                style={{ backgroundColor: "#F0E9FF", color: DARK }}
+              <Pill
+                bg={pillPalette[2]}
+                color={DARK}
+                className="absolute bottom-0 left-1/2 inline-flex -translate-x-1/2 translate-y-1/2 items-center gap-1.5 whitespace-nowrap text-sm font-semibold uppercase tracking-wide"
               >
                 {photo.caption}
-              </span>
+              </Pill>
             )}
           </div>
         );
@@ -332,35 +336,28 @@ export default function About() {
   };
 
   return (
-    <section className="relative overflow-clip bg-[#fffdf7] px-6 pb-24 pt-24 md:px-24 md:pb-[200px] md:pt-[200px]">
-      <div className="mx-auto" style={{ maxWidth: 1232 }}>
-        <p
+    <section className="relative overflow-clip bg-[var(--color-surface)] px-6 pb-24 pt-24 md:px-24 md:pb-[200px] md:pt-[200px]">
+      <div className="content-container">
+        <SectionHeading
           id="about"
-          className="scroll-mt-8 text-[12px] font-medium uppercase tracking-[0.15em] md:scroll-mt-10 md:text-[14px] md:tracking-[0.2em]"
-          style={{ color: MUTED }}
-        >
-          About
-        </p>
-        <h2
-          className="font-georgia fluid-section-title mt-3 font-bold"
-          style={{ color: DARK }}
+          eyebrow="About"
+          descriptionClassName="leading-relaxed"
+          description={
+            <>
+              My approach to design is anchored by an unorthodox trajectory. I
+              started with my hands — a{" "}
+              <strong style={{ color: DARK }}>BA in Sculpture</strong>, shaping
+              clay and space long before I touched a screen. Then came{" "}
+              <strong style={{ color: DARK }}>Game Design</strong>, followed by a{" "}
+              <strong style={{ color: DARK }}>
+                Master’s in Human-Computer Interaction
+              </strong>
+              .
+            </>
+          }
         >
           Hey, I'm Marva!
-        </h2>
-        <p
-          className="mt-3 max-w-[72ch] text-[17px] leading-relaxed md:text-[20px] xl:max-w-none"
-          style={{ color: MUTED }}
-        >
-          My approach to design is anchored by an unorthodox trajectory. I
-          started with my hands — a{" "}
-          <strong style={{ color: DARK }}>BA in Sculpture</strong>, shaping
-          clay and space long before I touched a screen. Then came{" "}
-          <strong style={{ color: DARK }}>Game Design</strong>, followed by a{" "}
-          <strong style={{ color: DARK }}>
-            Master’s in Human-Computer Interaction
-          </strong>
-          .
-        </p>
+        </SectionHeading>
 
         <div className="mt-10 grid gap-10 md:mt-14 md:gap-20 xl:grid-cols-[460px_1fr]">
           <div className="flex flex-col items-start md:items-center xl:items-start">
@@ -420,7 +417,7 @@ export default function About() {
             {!bioExpanded && (
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 bottom-9 h-14 bg-gradient-to-t from-[#fffdf7] to-transparent xl:hidden"
+                className="pointer-events-none absolute inset-x-0 bottom-9 h-14 bg-gradient-to-t from-[var(--color-surface)] to-transparent xl:hidden"
               />
             )}
             <button
@@ -442,7 +439,7 @@ export default function About() {
               it — same pattern as the hero/expertise backgrounds — drifting
               a few px up/down at staggered delays so the motion reads as
               loose and unsynced rather than a single bouncing group */}
-          <div className="pointer-events-none absolute inset-x-0 top-0" style={{ height: 760 }}>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0" style={{ height: 760 }}>
             <div
               className="mesh-blob mesh-float mesh-yellow"
               style={{ top: -40, left: "-4%", width: 560, height: 560 }}
@@ -539,8 +536,8 @@ export default function About() {
                       type="button"
                       onClick={() => setActiveIndex(i)}
                       aria-label={`Read the testimonial from ${t.name}`}
-                      className="relative h-11 w-11 shrink-0 rounded-full opacity-70 md:h-10 md:w-10 transition duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:opacity-100 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8f74ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf7]"
-                      style={{ border: "2px solid #fffdf7" }}
+                      className="relative h-11 w-11 shrink-0 rounded-full opacity-70 md:h-10 md:w-10 transition duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:opacity-100 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface)]"
+                      style={{ border: `2px solid ${color.surface}` }}
                     >
                       {t.photo ? (
                         <img

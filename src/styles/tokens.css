@@ -1,0 +1,172 @@
+/* ==========================================================================
+   Design tokens
+   ==========================================================================
+   Every value here is copied from what the site already renders — nothing
+   invented, nothing restyled. Naming is semantic (--color-text-primary, not
+   --color-navy) so a token's *role* survives even if the underlying colour
+   is ever tuned. See DESIGN_SYSTEM.md for how these are meant to be used
+   and extended.
+
+   Two tiers, both derived from the same source values:
+   - CSS custom properties (below) — consumed by index.css's shared utility
+     classes (.tag-shadow, .pill-pad, .gradient-border-anim, .mesh-*, …) and
+     by any new component's plain CSS.
+   - src/styles/tokens.js — the same colours as JS constants, for the many
+     places components set color via inline `style={{ color: ... }}` rather
+     than a class (the existing convention in this codebase, e.g. Hero's and
+     About's local DARK/MUTED constants).
+
+   Breakpoints are deliberately NOT redefined here. The site is built around
+   exactly two: Tailwind's stock `md` (768px) and `xl` (1280px), which every
+   responsive class *and* the useMediaQuery hooks (MOBILE_QUERY / DESKTOP_
+   QUERY in src/hooks/useMediaQuery.js) already key off. Reintroducing them
+   as theme variables would risk Tailwind regenerating those utilities under
+   a different value. ========================================================================== */
+
+:root {
+  /* ---- Brand gradient (the signature diagonal used on borders, text,
+     the timeline, and the cursor-follow pill) ------------------------- */
+  --color-brand-teal: #69debe;
+  --color-brand-sky: #7cd2f2;
+  --color-brand-violet: #8f74ff;
+  --color-brand-coral: #ff806e;
+
+  /* ---- Surfaces -------------------------------------------------------- */
+  --color-page-bg: #fff7e8; /* the cream the light sections sit on */
+  --color-surface: #fffdf7; /* cards, pills, the nav bar, the badge */
+  --color-surface-ink: #24174a; /* Selected Work / Contact's dark bands */
+  --color-surface-ink-hover: #2c1d5c; /* project card hover state */
+
+  /* ---- Text -------------------------------------------------------------
+     "-primary"/"-muted" pairs exist for both surfaces: the light cream/card
+     surfaces, and the dark ink surfaces (Selected Work, Contact, footer). */
+  --color-text-primary: #1c1833; /* headings, high-emphasis copy — light surfaces */
+  --color-text-muted: #4d476a; /* body copy, eyebrows, captions — light surfaces */
+  --color-text-muted-strong: #38324f; /* muted text sitting over mesh-blob wash (About) */
+  --color-text-on-ink: #fffdf7; /* headings, high-emphasis copy — ink surfaces */
+  --color-text-on-ink-muted: #fff7e8; /* body copy — ink surfaces */
+  --color-text-on-brand: #0b0a14; /* text painted directly on the brand gradient */
+
+  /* ---- Borders (all alpha steps of --color-text-primary) --------------- */
+  --color-border-subtle: rgba(28, 24, 51, 0.1); /* hairline dividers */
+  --color-border: rgba(28, 24, 51, 0.12); /* outlined buttons (Previous/Next) */
+  --color-border-strong: rgba(28, 24, 51, 0.2); /* dot rings, accordion +/- rings */
+
+  /* ---- Status ------------------------------------------------------------ */
+  --color-status-success: #34d399; /* Tailwind emerald-400 — the "open to work" dot */
+  --color-status-error: #ffb4a8; /* contact form error message, on ink */
+
+  /* ---- Focus -------------------------------------------------------------- */
+  --color-focus-ring: #8f74ff;
+
+  /* ---- Pastel pill / tag palette (used on light surfaces) --------------- */
+  --color-pill-mint: #e8fff6;
+  --color-pill-sky: #e6f6ff;
+  --color-pill-violet: #f0e9ff;
+  --color-pill-coral: #ffe1d6;
+
+  /* ---- Decorative mesh-blob colours (distinct from the brand gradient —
+     softer / more saturated, used only in the blurred background blobs) -- */
+  --color-mesh-purple: #8f74ff;
+  --color-mesh-teal: #70f2cf;
+  --color-mesh-yellow: #ffd166;
+  --color-mesh-coral: #ff7f6e;
+
+  /* ---- Typography ---------------------------------------------------------
+     Sizes are intentionally not repeated here: the fluid type scale already
+     lives as classes in index.css (.fluid-headline, .fluid-section-title,
+     .fluid-subsection-title, .fluid-card-title, .fluid-body, .fluid-quote)
+     because each one clamps between a phone and desktop value — a single
+     CSS custom property can't carry that. Use those classes, not raw sizes. */
+  --font-serif: Georgia, "Times New Roman", serif; /* headlines — .font-georgia */
+  --font-sans: "DM Sans", system-ui, "Segoe UI", Roboto, sans-serif; /* body — set on <body> */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ---- Spacing (section rhythm) ------------------------------------------
+     Most spacing on the site is ordinary Tailwind spacing-scale utilities
+     (gap-2, mt-8, …) and doesn't need a token — it's already systematic.
+     These two are the one pattern that repeats identically across section
+     wrappers (see .section-pad below). */
+  --space-section-y-mobile: 96px; /* px-6 pb-24 pt-24 */
+  --space-section-y-desktop: 200px; /* md:pb-[200px] md:pt-[200px] */
+  --space-section-x-mobile: 24px; /* px-6 */
+  --space-section-x-desktop: 96px; /* md:px-24 */
+
+  /* ---- Border widths ------------------------------------------------------ */
+  --border-width-stroke: 1px; /* gradient-border stroke (badge, nav pill, cards) */
+  --border-width-ring: 2px; /* avatar/badge rings */
+  --border-width-ring-thick: 3px; /* career timeline dot ring + progress line */
+
+  /* ---- Radii --------------------------------------------------------------
+     --radius-card and --radius-pill match Tailwind's stock rounded-3xl /
+     rounded-full exactly — named here so the showcase and any new component
+     can reference "the card radius" without knowing that's what rounded-3xl
+     resolves to. */
+  --radius-pill: 9999px;
+  --radius-card: 1.5rem; /* 24px — project cards, chapter cards (rounded-3xl) */
+  --radius-card-lg: 28px; /* accordion card, photo-stack frame */
+  --radius-focus: 6px; /* focus-ring-brand's outline radius, for text elements */
+
+  /* ---- Shadows / glows ----------------------------------------------------- */
+  --shadow-tag: 6px 6px 22px 0px rgba(28, 24, 51, 0.06); /* .tag-shadow */
+  --shadow-skip-link: 0 6px 24px rgba(28, 24, 51, 0.18);
+  --shadow-card-hover: 0 18px 44px rgba(8, 4, 22, 0.5); /* project card hover (ink surface) */
+  --shadow-cta-hover: 0 10px 28px rgba(10, 6, 26, 0.5); /* Send button hover */
+
+  /* ---- Containers ----------------------------------------------------------- */
+  --container-content: 1232px; /* Selected Work / Expertise / About / Contact's content column */
+  --container-hero: 965px; /* Hero's headline column */
+
+  /* ---- Layering ---------------------------------------------------------------
+     Already just Tailwind's default scale (z-0 / z-10 / z-50); documented
+     here rather than reimplemented. 0 = mesh backgrounds, 10 = section
+     content sitting above them, 50 = fixed chrome (nav, badge, cursor pill). */
+
+  /* ---- Motion ------------------------------------------------------------------
+     Catalogued from the values already in use across the site's CSS
+     animations and Framer Motion transitions. Existing components keep
+     their own finely-tuned inline timings rather than being migrated wholesale
+     (see DESIGN_SYSTEM.md) — these are the reference scale for new work. */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 150ms;
+  --motion-base: 250ms;
+  --motion-moderate: 300ms;
+  --motion-slow: 420ms;
+  --motion-settle: 700ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Reference only: components apply their own reduced-motion overrides
+       per-animation (see index.css) so a still-frame is always meaningful
+       rather than a generic "everything freezes" rule. */
+  }
+}
+
+/* Shared, non-decorative utility classes built directly on the tokens above.
+   Each one replaces an identical literal that was copy-pasted across 3+
+   call sites — see DESIGN_SYSTEM.md for the before/after. */
+
+.content-container {
+  max-width: var(--container-content);
+  margin-inline: auto;
+}
+
+/* Selected Work, Expertise and About all wrap their content in the exact
+   same responsive padding. Contact and Hero keep their own — Contact needs
+   extra bottom room for its min-height footer trick, Hero's top padding
+   accounts for the fixed badge — so neither is folded into this class. */
+.section-pad {
+  padding-inline: var(--space-section-x-mobile);
+  padding-block: var(--space-section-y-mobile);
+}
+
+@media (min-width: 768px) {
+  .section-pad {
+    padding-inline: var(--space-section-x-desktop);
+    padding-block: var(--space-section-y-desktop);
+  }
+}

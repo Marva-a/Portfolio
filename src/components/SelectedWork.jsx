@@ -1,13 +1,17 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
+import Pill from "./ui/Pill";
+import SectionHeading from "./ui/SectionHeading";
+import SlideCounter from "./ui/SlideCounter";
 import useMediaQuery, { TOUCH_QUERY } from "../hooks/useMediaQuery";
+import { color, pillPalette } from "../styles/tokens";
 
 const projects = [
   {
     id: "02",
     title: "02. Project Name",
     tag: "SaaS",
-    tagBg: "#FFE1D6",
+    tagBg: pillPalette[3],
     meshColor: "#70F2CF",
     meshBlobs: [
       { dx: -0.3, dy: -0.28, scale: 0.95, opacity: 0.55 },
@@ -18,7 +22,7 @@ const projects = [
     id: "03",
     title: "03. Project Name",
     tag: "B2B2C",
-    tagBg: "#F0E9FF",
+    tagBg: pillPalette[2],
     meshColor: "#8F74FF",
     meshBlobs: [
       { dx: 0.3, dy: -0.25, scale: 0.9, opacity: 0.5 },
@@ -29,7 +33,7 @@ const projects = [
     id: "04",
     title: "04. Project Name",
     tag: "0-to-1",
-    tagBg: "#E8FFF6",
+    tagBg: pillPalette[0],
     meshColor: "#7DDCFF",
     meshBlobs: [
       { dx: -0.25, dy: 0.3, scale: 0.9, opacity: 0.5 },
@@ -40,7 +44,7 @@ const projects = [
     id: "05",
     title: "05. Project Name",
     tag: "B2B2C",
-    tagBg: "#F0E9FF",
+    tagBg: pillPalette[2],
     meshColor: "#FF7F6E",
     meshBlobs: [
       { dx: 0.3, dy: 0.22, scale: 0.95, opacity: 0.5 },
@@ -64,8 +68,8 @@ const featured = {
   id: "01",
   title: "01. Project Name",
   tags: [
-    { label: "0-to-1", bg: "#E8FFF6" },
-    { label: "Systems Thinking", bg: "#E6F6FF" },
+    { label: "0-to-1", bg: pillPalette[0] },
+    { label: "Systems Thinking", bg: pillPalette[1] },
   ],
   meshColor: FEATURED_MESH_COLOR,
   meshBlobs: FEATURED_MESH_BLOBS,
@@ -96,7 +100,7 @@ function CardMesh({ size = 260, color, blobs }) {
     // The hover scale lives on its own wrapper: .mesh-orbit already animates
     // transform (the slow rotate), so a scale set on that same element would
     // just be overridden by the running animation.
-    <div className="pointer-events-none absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110">
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110">
       <div className="mesh-orbit absolute inset-0">
         {blobs.map((blob, i) => {
           const blobSize = size * blob.scale;
@@ -146,13 +150,12 @@ function ProjectCarousel() {
         <p className="text-[13px] font-medium" style={{ color: "#FFF7E8" }}>
           Swipe through selected work
         </p>
-        <p
-          aria-live="polite"
-          className="shrink-0 text-[13px] font-semibold tabular-nums"
-          style={{ color: "#FFFDF7" }}
-        >
-          {String(slide + 1).padStart(2, "0")} / {String(allProjects.length).padStart(2, "0")}
-        </p>
+        <SlideCounter
+          current={slide + 1}
+          total={allProjects.length}
+          tone="ink"
+          className="shrink-0"
+        />
       </div>
 
       {/* Negative margin + matching padding lets the track run edge to edge
@@ -180,13 +183,14 @@ function ProjectCarousel() {
                   card ever carries more pills than the width allows. */}
               <div className="absolute left-4 right-4 top-4 z-10 flex flex-wrap justify-end gap-1.5">
                 {project.tags.map((t) => (
-                  <span
+                  <Pill
                     key={t.label}
-                    className="tag-shadow pill-pad rounded-full text-[11px] font-medium text-[#1c1833]"
-                    style={{ backgroundColor: t.bg }}
+                    bg={t.bg}
+                    color={color.textPrimary}
+                    className="text-[11px] font-medium"
                   >
                     {t.label}
-                  </span>
+                  </Pill>
                 ))}
               </div>
             </div>
@@ -240,24 +244,15 @@ export default function SelectedWork() {
 
   return (
     <section className="bg-[#24174A] px-6 pb-24 pt-24 text-white md:px-24 md:pb-[200px] md:pt-[200px]">
-      <div className="mx-auto" style={{ maxWidth: 1232 }}>
-        <p
+      <div className="content-container">
+        <SectionHeading
           id="projects"
-          className="scroll-mt-8 text-[12px] font-medium uppercase tracking-[0.15em] md:scroll-mt-10 md:text-[14px] md:tracking-[0.2em]"
-          style={{ color: "#FFF7E8" }}
-        >
-          Projects
-        </p>
-        <h2
-          className="font-georgia fluid-section-title mt-3 font-bold"
-          style={{ color: "#FFFDF7" }}
+          eyebrow="Projects"
+          tone="ink"
+          description="Explore the case studies and strategic thinking behind each key decision."
         >
           Selected work.
-        </h2>
-        <p className="mt-3 max-w-[72ch] text-[17px] md:text-[20px] xl:max-w-none" style={{ color: "#FFF7E8" }}>
-          Explore the case studies and strategic thinking behind each key
-          decision.
-        </p>
+        </SectionHeading>
 
         <ProjectCarousel />
 
@@ -276,13 +271,14 @@ export default function SelectedWork() {
 
           <div className="absolute right-6 top-6 z-10 flex gap-2 md:right-10 md:top-10">
             {["0-to-1", "Systems Thinking"].map((tag, i) => (
-              <span
+              <Pill
                 key={tag}
-                className="tag-shadow pill-pad rounded-full text-xs font-medium text-[#1c1833]"
-                style={{ backgroundColor: i === 0 ? "#E8FFF6" : "#E6F6FF" }}
+                bg={i === 0 ? pillPalette[0] : pillPalette[1]}
+                color={color.textPrimary}
+                className="text-xs font-medium"
               >
                 {tag}
-              </span>
+              </Pill>
             ))}
           </div>
 
@@ -312,12 +308,13 @@ export default function SelectedWork() {
                   blobs={project.meshBlobs}
                 />
 
-                <span
-                  className="tag-shadow absolute right-6 top-6 z-10 rounded-full px-4 py-1.5 text-xs font-medium text-[#1c1833]"
-                  style={{ backgroundColor: project.tagBg }}
+                <Pill
+                  bg={project.tagBg}
+                  color={color.textPrimary}
+                  className="absolute right-6 top-6 z-10 text-xs font-medium"
                 >
                   {project.tag}
-                </span>
+                </Pill>
               </div>
 
               <h3

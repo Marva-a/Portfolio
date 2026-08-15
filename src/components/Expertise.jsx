@@ -1,17 +1,21 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useMediaQuery, { DESKTOP_QUERY } from "../hooks/useMediaQuery";
 import GradientFrame from "./GradientFrame";
+import Pill from "./ui/Pill";
+import Button from "./ui/Button";
+import SlideCounter from "./ui/SlideCounter";
+import { color, pillPalette } from "../styles/tokens";
 
 // Reused everywhere on light backgrounds, matching the hero/selected-work
 // design system: dark navy for headings, muted purple-gray for body copy.
-const DARK = "#1c1833";
-const MUTED = "#4d476a";
+const DARK = color.textPrimary;
+const MUTED = color.textMuted;
 // A touch darker than MUTED, for descriptive copy that needs to hold up
 // against the career journey card's mesh blobs (the pale washes of color
 // eat into MUTED's contrast more than they do on a flat cream background).
-const MUTED_STRONG = "#38324f";
+const MUTED_STRONG = color.textMutedStrong;
 
-const PILL_COLORS = ["#E8FFF6", "#E6F6FF", "#F0E9FF", "#FFE1D6"];
+const PILL_COLORS = pillPalette;
 
 const MESH_CARD_COLORS = ["mesh-purple", "mesh-teal", "mesh-yellow"];
 
@@ -281,7 +285,7 @@ function BulletIcon({ emoji, className }) {
 // Mobile renders its own paginated variant instead.
 function ChapterCard({ chapter }) {
   return (
-    <div className="tag-shadow rounded-3xl bg-[#fffdf7] p-6 md:p-8">
+    <div className="tag-shadow rounded-3xl bg-[var(--color-surface)] p-6 md:p-8">
         <p
           className="text-[14px] font-medium uppercase tracking-[0.2em]"
           style={{ color: MUTED }}
@@ -300,22 +304,20 @@ function ChapterCard({ chapter }) {
 
         <div className="mt-5 flex flex-wrap gap-2">
           {chapter.tags.map((tag, i) => (
-            <span
+            <Pill
               key={tag}
-              className="tag-shadow pill-pad rounded-full text-sm font-medium"
-              style={{
-                backgroundColor: PILL_COLORS[i % PILL_COLORS.length],
-                color: DARK,
-              }}
+              bg={PILL_COLORS[i % PILL_COLORS.length]}
+              color={DARK}
+              className="text-sm font-medium"
             >
               {tag}
-            </span>
+            </Pill>
           ))}
         </div>
 
         <div
           className="mt-6 border-t"
-          style={{ borderColor: "rgba(28,24,51,0.1)" }}
+          style={{ borderColor: color.borderSubtle }}
         />
 
         <ul className="mt-6 space-y-3 text-left">
@@ -451,7 +453,7 @@ export default function Expertise() {
       {/* Same mesh-blob look as the hero, but with a much quieter motion —
           a few px of side-to-side sway rather than the hero's rotation —
           since this section shouldn't compete for attention. */}
-      <div className="pointer-events-none absolute inset-0 z-0">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
         <div
           className="mesh-blob mesh-sway mesh-purple"
           style={{ top: "55%", left: "-8%", width: 680, height: 680 }}
@@ -466,7 +468,7 @@ export default function Expertise() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto" style={{ maxWidth: 1232 }}>
+      <div className="content-container relative z-10">
         <p
           id="expertise"
           className="scroll-mt-8 text-[12px] font-medium uppercase tracking-[0.15em] md:scroll-mt-10 md:text-[14px] md:tracking-[0.2em]"
@@ -537,15 +539,16 @@ export default function Expertise() {
 
         <div
           className="mt-8 hidden border-t xl:block"
-          style={{ borderColor: "rgba(28,24,51,0.1)" }}
+          style={{ borderColor: color.borderSubtle }}
         />
 
-        <span
-          className="tag-shadow pill-pad mt-8 hidden rounded-full text-sm font-medium xl:inline-block"
-          style={{ backgroundColor: "#F0E9FF", color: DARK }}
+        <Pill
+          bg={pillPalette[2]}
+          color={DARK}
+          className="mt-8 hidden text-sm font-medium xl:inline-block"
         >
           {activeSkill.pill}
-        </span>
+        </Pill>
         <p
           className="mt-4 hidden text-[17px] md:text-[20px] xl:block"
           style={{ color: MUTED }}
@@ -584,7 +587,7 @@ export default function Expertise() {
                   <GradientFrame radius="28px" padding="1px" transparent>
                     <div
                       className="tag-shadow relative overflow-hidden rounded-[28px]"
-                      style={{ backgroundColor: "#FFFDF7" }}
+                      style={{ backgroundColor: color.surface }}
                     >
                       <div className="pointer-events-none absolute inset-0">
                         {cardMeshBlobs(i).map((blob, bi) => (
@@ -607,7 +610,7 @@ export default function Expertise() {
                         aria-expanded={isOpen}
                         aria-controls={panelId}
                         onClick={() => setOpenSkillIndex(-1)}
-                        className="relative flex w-full items-center justify-between gap-4 px-6 pb-4 pt-5 text-left"
+                        className="focus-ring-brand relative flex w-full items-center justify-between gap-4 px-6 pb-4 pt-5 text-left"
                       >
                         <span className="flex items-baseline gap-3">
                           <span
@@ -627,7 +630,7 @@ export default function Expertise() {
                           aria-hidden="true"
                           className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[15px] leading-none"
                           style={{
-                            border: "1px solid rgba(28,24,51,0.2)",
+                            border: `1px solid ${color.borderStrong}`,
                             color: DARK,
                           }}
                         >
@@ -641,12 +644,13 @@ export default function Expertise() {
                         aria-labelledby={headerId}
                         className="reveal-panel relative px-6 pb-6"
                       >
-                        <span
-                          className="tag-shadow pill-pad inline-block rounded-full text-sm font-medium"
-                          style={{ backgroundColor: "#F0E9FF", color: DARK }}
+                        <Pill
+                          bg={pillPalette[2]}
+                          color={DARK}
+                          className="inline-block text-sm font-medium"
                         >
                           {skill.pill}
-                        </span>
+                        </Pill>
                         <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
                           {skill.description}
                         </p>
@@ -665,8 +669,8 @@ export default function Expertise() {
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpenSkillIndex(i)}
-                className="flex w-full items-center justify-between gap-4 border-b py-4 text-left"
-                style={{ borderColor: "rgba(28,24,51,0.1)" }}
+                className="focus-ring-brand flex w-full items-center justify-between gap-4 border-b py-4 text-left"
+                style={{ borderColor: color.borderSubtle }}
               >
                 <span className="flex items-baseline gap-3">
                   <span
@@ -686,7 +690,7 @@ export default function Expertise() {
                   aria-hidden="true"
                   className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[15px] leading-none"
                   style={{
-                    border: "1px solid rgba(28,24,51,0.2)",
+                    border: `1px solid ${color.borderStrong}`,
                     color: DARK,
                   }}
                 >
@@ -721,13 +725,7 @@ export default function Expertise() {
                 <p className="text-[13px] font-medium" style={{ color: MUTED }}>
                   Swipe through the chapters
                 </p>
-                <p
-                  aria-live="polite"
-                  className="text-[13px] font-semibold tabular-nums"
-                  style={{ color: DARK }}
-                >
-                  {String(active + 1).padStart(2, "0")} / {String(chapters.length).padStart(2, "0")}
-                </p>
+                <SlideCounter current={active + 1} total={chapters.length} />
               </div>
 
               {/* Negative margin + matching padding lets the track run edge
@@ -810,7 +808,7 @@ export default function Expertise() {
                         }
                         aria-label={isActive ? undefined : `Go to chapter ${i + 1}: ${chapterName(c.title)}`}
                         className="tag-shadow relative flex w-full flex-col rounded-3xl"
-                        style={{ backgroundColor: "#fffdf7" }}
+                        style={{ backgroundColor: color.surface }}
                       >
                         <div className="relative flex flex-1 flex-col overflow-hidden rounded-3xl">
                           <div className="pointer-events-none absolute inset-0">
@@ -863,22 +861,21 @@ export default function Expertise() {
 
                             <div className="mt-[24px] flex flex-wrap gap-1.5">
                               {c.tags.map((tag, ti) => (
-                                <span
+                                <Pill
                                   key={tag}
-                                  className="pill-pad rounded-full text-[12px] font-medium"
-                                  style={{
-                                    backgroundColor: PILL_COLORS[ti % PILL_COLORS.length],
-                                    color: DARK,
-                                  }}
+                                  bg={PILL_COLORS[ti % PILL_COLORS.length]}
+                                  color={DARK}
+                                  shadow={false}
+                                  className="text-[12px] font-medium"
                                 >
                                   {tag}
-                                </span>
+                                </Pill>
                               ))}
                             </div>
 
                             <div
                               className="mt-[28px] border-t"
-                              style={{ borderColor: "rgba(28,24,51,0.1)" }}
+                              style={{ borderColor: color.borderSubtle }}
                             />
 
                             <ul className="mt-[32px] space-y-4">
@@ -914,7 +911,8 @@ export default function Expertise() {
                             <div className="flex-1" />
 
                             <div className="mt-6 flex items-center justify-between gap-3 pt-5">
-                              <button
+                              <Button
+                                as="button"
                                 type="button"
                                 onClick={(e) => {
                                   // Buttons live inside the non-active
@@ -928,13 +926,13 @@ export default function Expertise() {
                                 onKeyDown={(e) => e.stopPropagation()}
                                 disabled={active === 0}
                                 aria-controls={CHAPTER_TRACK_ID}
-                                className="shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-[12px] font-medium disabled:opacity-40"
-                                style={{ border: "1px solid rgba(28,24,51,0.12)", color: MUTED }}
+                                variant="secondary"
                               >
                                 ← Previous
-                              </button>
+                              </Button>
 
-                              <button
+                              <Button
+                                as="button"
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -946,11 +944,10 @@ export default function Expertise() {
                                 // Same outlined treatment as Previous — the
                                 // pair reads as one control, rather than Next
                                 // looking like the card's primary action.
-                                className="shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-[12px] font-medium disabled:opacity-40"
-                                style={{ border: "1px solid rgba(28,24,51,0.12)", color: MUTED }}
+                                variant="secondary"
                               >
                                 Next →
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         </div>
@@ -1004,18 +1001,18 @@ export default function Expertise() {
                         className={
                           active === i
                             ? "gradient-border-anim relative shrink-0 rounded-full"
-                            : "relative shrink-0 rounded-full bg-[#fffdf7]"
+                            : "relative shrink-0 rounded-full bg-[var(--color-surface)]"
                         }
                         style={{
                           width: DOT_SIZE,
                           height: DOT_SIZE,
                           ...(active === i
                             ? { padding: LINE_WIDTH }
-                            : { border: `${LINE_WIDTH}px solid rgba(28,24,51,0.2)` }),
+                            : { border: `${LINE_WIDTH}px solid ${color.borderStrong}` }),
                         }}
                       >
                         {active === i && (
-                          <span className="block h-full w-full rounded-full bg-[#fffdf7]" />
+                          <span className="block h-full w-full rounded-full bg-[var(--color-surface)]" />
                         )}
                       </span>
                       <span

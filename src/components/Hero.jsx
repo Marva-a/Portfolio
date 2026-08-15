@@ -2,15 +2,17 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import GradientFrame from "./GradientFrame";
 import BrandBadge from "./BrandBadge";
+import Pill from "./ui/Pill";
 import useMediaQuery, { DESKTOP_QUERY, MOBILE_QUERY } from "../hooks/useMediaQuery";
 import useScrollDirection from "../hooks/useScrollDirection";
 import heroPhoto from "../assets/hero-photo.jpg";
+import { color, pillPalette } from "../styles/tokens";
 
 const pills = [
-  { label: "0-to-1", bg: "#E8FFF6" },
-  { label: "Systems Thinking", bg: "#E6F6FF" },
-  { label: "B2B2C", bg: "#F0E9FF" },
-  { label: "SaaS", bg: "#FFE1D6" },
+  { label: "0-to-1", bg: pillPalette[0] },
+  { label: "Systems Thinking", bg: pillPalette[1] },
+  { label: "B2B2C", bg: pillPalette[2] },
+  { label: "SaaS", bg: pillPalette[3] },
 ];
 
 // 22vw rather than 16: at 16 the portrait rendered 133px wide on an 834px
@@ -114,7 +116,7 @@ export default function Hero() {
           overflow-hidden, same as it already does at rest, but since each
           blob is much larger than that overshoot, all three stay clearly
           visible throughout. */}
-      <div className="mesh-orbit pointer-events-none absolute inset-0 z-0">
+      <div aria-hidden="true" className="mesh-orbit pointer-events-none absolute inset-0 z-0">
         <div
           className="mesh-blob mesh-yellow"
           style={{
@@ -304,13 +306,14 @@ export default function Hero() {
           style={{ maxWidth: isMobile ? "100%" : TEXT_RESERVE }}
         >
           {pills.map((pill) => (
-            <span
+            <Pill
               key={pill.label}
-              className="tag-shadow pill-pad rounded-full text-[11px] font-medium text-[#1c1833] md:text-[12px] xl:text-sm"
-              style={{ backgroundColor: pill.bg }}
+              bg={pill.bg}
+              color={color.textPrimary}
+              className="text-[11px] font-medium md:text-[12px] xl:text-sm"
             >
               {pill.label}
-            </span>
+            </Pill>
           ))}
         </div>
       </div>

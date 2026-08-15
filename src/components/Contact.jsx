@@ -1,7 +1,10 @@
 import { useState } from "react";
+import Button from "./ui/Button";
+import FormField from "./ui/FormField";
+import { color } from "../styles/tokens";
 
-const MUTED_LIGHT = "#FFF7E8";
-const TITLE_LIGHT = "#FFFDF7";
+const MUTED_LIGHT = color.textOnInkMuted;
+const TITLE_LIGHT = color.textOnInk;
 
 // Web3Forms access key. Safe to ship in client code — it only permits
 // submitting *to this form*, it can't read past submissions or send mail
@@ -47,7 +50,7 @@ const fields = [
 
 function MailIcon(props) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="currentColor" strokeWidth="1.7" />
       <path d="M3.5 6.5L12 13L20.5 6.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
@@ -71,7 +74,7 @@ function PawIcon(props) {
 
 function LinkedInIcon(props) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <rect x="2.5" y="2.5" width="19" height="19" rx="4" stroke="currentColor" strokeWidth="1.7" />
       <circle cx="7.7" cy="8" r="1.15" fill="currentColor" />
       <path d="M7.7 11V17" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
@@ -114,7 +117,7 @@ export default function Contact() {
 
   return (
     <section
-      className="relative overflow-clip bg-[#24174A] px-6 pb-28 pt-24 text-white md:min-h-[var(--contact-min-h)] md:px-24 md:pb-[120px] md:pt-[260px]"
+      className="relative overflow-clip bg-[var(--color-surface-ink)] px-6 pb-28 pt-24 text-white md:min-h-[var(--contact-min-h)] md:px-24 md:pb-[120px] md:pt-[260px]"
       style={{
         // Contact is the last section, so the page can only scroll until its
         // bottom meets the viewport bottom. For a nav click to put CONTACT at
@@ -136,7 +139,7 @@ export default function Contact() {
           clipped at the page's end, which is fine. */}
       {/* Negative insets mirror the section's padding so the mesh covers it —
           they have to track the responsive padding, not the desktop value. */}
-      <div className="mesh-orbit pointer-events-none absolute inset-x-0 -top-24 -bottom-28 z-0 md:-top-[260px] md:-bottom-[120px]">
+      <div aria-hidden="true" className="mesh-orbit pointer-events-none absolute inset-x-0 -top-24 -bottom-28 z-0 md:-top-[260px] md:-bottom-[120px]">
         <div
           className="mesh-blob mesh-coral"
           style={{
@@ -169,7 +172,7 @@ export default function Contact() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto" style={{ maxWidth: 1232 }}>
+      <div className="content-container relative z-10">
         <p
           id="contact"
           className="scroll-mt-8 text-[12px] font-medium uppercase tracking-[0.15em] md:scroll-mt-10 md:text-[14px] md:tracking-[0.2em]"
@@ -241,48 +244,26 @@ export default function Contact() {
 
             <div className="grid grid-cols-1 gap-x-10 gap-y-8 xl:grid-cols-2">
               {fields.map((field) => (
-                <div key={field.name}>
-                  <label
-                    className="text-[18px]"
-                    style={{ color: TITLE_LIGHT }}
-                    htmlFor={`contact-${field.name}`}
-                  >
-                    {field.label}
-                  </label>
-                  <input
-                    id={`contact-${field.name}`}
-                    type={field.type}
-                    name={field.name}
-                    required={field.required}
-                    autoComplete={field.autoComplete}
-                    className="mt-3 w-full border-0 border-b bg-transparent pb-2 text-[16px] outline-none transition"
-                    style={{ borderColor: "rgba(255,253,247,0.3)", color: TITLE_LIGHT }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(255,253,247,0.8)")}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,253,247,0.3)")}
-                  />
-                </div>
+                <FormField
+                  key={field.name}
+                  id={`contact-${field.name}`}
+                  label={field.label}
+                  type={field.type}
+                  name={field.name}
+                  required={field.required}
+                  autoComplete={field.autoComplete}
+                />
               ))}
             </div>
 
-            <div>
-              <label
-                className="text-[18px]"
-                style={{ color: TITLE_LIGHT }}
-                htmlFor="contact-message"
-              >
-                Message*
-              </label>
-              <textarea
-                id="contact-message"
-                name="message"
-                rows={3}
-                required
-                className="mt-3 w-full resize-none border-0 border-b bg-transparent pb-2 text-[16px] outline-none transition"
-                style={{ borderColor: "rgba(255,253,247,0.3)", color: TITLE_LIGHT }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(255,253,247,0.8)")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,253,247,0.3)")}
-              />
-            </div>
+            <FormField
+              as="textarea"
+              id="contact-message"
+              label="Message*"
+              name="message"
+              rows={3}
+              required
+            />
 
             <div className="flex flex-col-reverse items-stretch gap-4 sm:flex-row sm:items-center sm:justify-end sm:gap-5">
               {/* aria-live so screen readers announce the outcome, which is
@@ -291,7 +272,7 @@ export default function Contact() {
                 aria-live="polite"
                 className="text-sm"
                 style={{
-                  color: status === "error" ? "#FFB4A8" : MUTED_LIGHT,
+                  color: status === "error" ? color.statusError : MUTED_LIGHT,
                   opacity: status === "idle" || status === "sending" ? 0 : 1,
                   transition: "opacity 0.3s ease",
                 }}
@@ -301,13 +282,9 @@ export default function Contact() {
                   "Something went wrong. Please email me directly."}
               </p>
 
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                className="gradient-border-anim btn-shine relative min-h-[48px] rounded-full px-8 py-3 text-sm font-semibold text-[#0b0a14] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(10,6,26,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#24174A] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
-              >
+              <Button type="submit" disabled={status === "sending"}>
                 {status === "sending" ? "Sending…" : "Send"}
-              </button>
+              </Button>
             </div>
           </form>
 

@@ -1,13 +1,14 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
 
 :root {
   color-scheme: light;
   --gradient-brand: linear-gradient(
     90deg,
-    #69debe 28%,
-    #7cd2f2 44%,
-    #8f74ff 60%,
-    #ff806e 75%
+    var(--color-brand-teal) 28%,
+    var(--color-brand-sky) 44%,
+    var(--color-brand-violet) 60%,
+    var(--color-brand-coral) 75%
   );
   --fluid-mt-para: clamp(40px, calc(40px + 16 * ((100vw - 375px) / 1025)), 56px);
   /* Front card of the About photo stack. The stack's wrapper adds 64px for
@@ -22,13 +23,13 @@
 
 body {
   margin: 0;
-  font-family: "DM Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .font-georgia {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
 }
 
 /* Off-canvas rather than display:none — a hidden element can't be focused,
@@ -40,20 +41,20 @@ body {
   left: 8px;
   z-index: 100;
   padding: 12px 20px;
-  border-radius: 9999px;
-  background: #fffdf7;
-  color: #1c1833;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 6px 24px rgba(28, 24, 51, 0.18);
+  box-shadow: var(--shadow-skip-link);
   transform: translateY(-200%);
   transition: transform 0.2s ease;
 }
 
 .skip-link:focus-visible {
   transform: translateY(0);
-  outline: 2px solid #8f74ff;
+  outline: var(--border-width-ring) solid var(--color-focus-ring);
   outline-offset: 3px;
 }
 
@@ -62,9 +63,19 @@ body {
    selected word is invisible. This gives every poster word one explicit,
    opaque ring regardless of its fill. */
 .focus-ring-brand:focus-visible {
-  outline: 2px solid #8f74ff;
+  outline: var(--border-width-ring) solid var(--color-focus-ring);
   outline-offset: 4px;
-  border-radius: 6px;
+  border-radius: var(--radius-focus);
+}
+
+/* Same ring, sized for pill-shaped controls (nav links, accordion +/-
+   buttons) instead of .focus-ring-brand's text-sized 6px radius — a 6px
+   radius on a fully-rounded pill leaves the ring's corners visibly cutting
+   across the pill's curve. */
+.focus-ring-pill:focus-visible {
+  outline: var(--border-width-ring) solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-pill);
 }
 
 /* Every pastel pill on the page — hero tags, project tags, chapter tags,
@@ -286,7 +297,7 @@ button:not(:disabled),
 }
 
 .gradient-border > .gradient-border-inner {
-  background: #fffdf7;
+  background: var(--color-surface);
 }
 
 .gradient-border-anim {
@@ -307,10 +318,10 @@ button:not(:disabled),
 .gradient-border-anim-vertical {
   background-image: linear-gradient(
     180deg,
-    #69debe 0%,
-    #7cd2f2 33%,
-    #8f74ff 66%,
-    #ff806e 100%
+    var(--color-brand-teal) 0%,
+    var(--color-brand-sky) 33%,
+    var(--color-brand-violet) 66%,
+    var(--color-brand-coral) 100%
   );
   background-size: 100% 200%;
   animation: gradient-drift-vertical 7s ease-in-out infinite alternate;
@@ -341,7 +352,7 @@ button:not(:disabled),
 }
 
 .skill-word:hover {
-  color: #1c1833;
+  color: var(--color-text-primary);
 }
 
 /* A pale band swept through the letters via background-clip, the same
@@ -361,11 +372,11 @@ button:not(:disabled),
 .text-shimmer {
   background-image: linear-gradient(
     90deg,
-    #1c1833 0%,
-    #1c1833 45%,
+    var(--color-text-primary) 0%,
+    var(--color-text-primary) 45%,
     #8b83b8 50%,
-    #1c1833 55%,
-    #1c1833 100%
+    var(--color-text-primary) 55%,
+    var(--color-text-primary) 100%
   );
   background-size: 300% 100%;
   background-clip: text;
@@ -390,7 +401,7 @@ button:not(:disabled),
   .text-shimmer {
     animation: none;
     background-image: none;
-    color: #1c1833;
+    color: var(--color-text-primary);
   }
 }
 
@@ -400,15 +411,15 @@ button:not(:disabled),
 .timeline-progress {
   background: linear-gradient(
     180deg,
-    #ff806e 0%,
-    #8f74ff 33%,
-    #7cd2f2 66%,
-    #69debe 100%
+    var(--color-brand-coral) 0%,
+    var(--color-brand-violet) 33%,
+    var(--color-brand-sky) 66%,
+    var(--color-brand-teal) 100%
   );
 }
 
 .tag-shadow {
-  box-shadow: 6px 6px 22px 0px rgba(28, 24, 51, 0.06);
+  box-shadow: var(--shadow-tag);
 }
 
 /* Swipe tracks carry their own affordance (peeking next card, counter, dots),
@@ -463,7 +474,7 @@ button:not(:disabled),
 .mesh-purple {
   background: radial-gradient(
     circle,
-    #8f74ff 0%,
+    var(--color-mesh-purple) 0%,
     rgba(143, 116, 255, 0) 70%
   );
   opacity: 0.45;
@@ -472,7 +483,7 @@ button:not(:disabled),
 .mesh-teal {
   background: radial-gradient(
     circle,
-    #70f2cf 0%,
+    var(--color-mesh-teal) 0%,
     rgba(112, 242, 207, 0) 70%
   );
   opacity: 0.45;
@@ -481,7 +492,7 @@ button:not(:disabled),
 .mesh-yellow {
   background: radial-gradient(
     circle,
-    #ffd166 0%,
+    var(--color-mesh-yellow) 0%,
     rgba(255, 209, 102, 0) 70%
   );
   opacity: 0.65;
@@ -492,7 +503,7 @@ button:not(:disabled),
 .mesh-coral {
   background: radial-gradient(
     circle,
-    #ff7f6e 0%,
+    var(--color-mesh-coral) 0%,
     rgba(255, 127, 110, 0) 70%
   );
   opacity: 0.65;
