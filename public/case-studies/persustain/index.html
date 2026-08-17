@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Persustain — iOS App Design Case Study · Marva Abouei</title>
+<meta name="description" content="Case study: designing Persustain, an iOS app connecting individual climate action to shared, verifiable impact. Lead product design from concept to a working four-month MVP.">
+<link rel="icon" type="image/svg+xml" href="../../favicon-ink.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-ink-32.png">
+<link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)" href="../../favicon-mesh.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<script>(function(){var d=window.matchMedia("(prefers-color-scheme: dark)");function a(){var m=d.matches?"mesh":"ink";document.querySelectorAll('link[rel="icon"]:not([media])').forEach(function(l){var n=l.href.replace(/favicon-(ink|mesh)/,"favicon-"+m);if(n!==l.href)l.href=n})}a();d.addEventListener("change",a)})();</script>
+<meta property="og:title" content="Persustain — iOS App Design Case Study">
+<meta property="og:description" content="Designing a path from individual climate action to shared, verifiable impact. Lead product design, zero-to-one, four-month MVP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/dm-sans-italic-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/dm-sans-italic-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/dm-sans-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/dm-sans-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/dm-sans-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/dm-sans-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/dm-sans-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/dm-sans-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  body { margin:0; background:#fff7e8; font-family:"DM Sans", system-ui, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:#1c1833; text-decoration:none; }
+  a:hover { color:#8f74ff; }
+  #cs-nav > div::-webkit-scrollbar { display: none; }
+  @media (max-width: 1000px) {
+    [data-rail] { position: static !important; top: auto !important; flex-basis: 100% !important; }
+  }
+  @keyframes blob-a { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(7vw,4vh,0) scale(1.18); } 100% { transform: translate3d(-3vw,-3vh,0) scale(.94); } }
+  @keyframes blob-b { 0% { transform: translate3d(0,0,0) scale(1.06); } 50% { transform: translate3d(-8vw,5vh,0) scale(.9); } 100% { transform: translate3d(4vw,-4vh,0) scale(1.14); } }
+  @keyframes blob-c { 0% { transform: translate3d(0,0,0) scale(.96); } 50% { transform: translate3d(5vw,-6vh,0) scale(1.2); } 100% { transform: translate3d(-6vw,3vh,0) scale(1); } }
+  @keyframes blob-d { 0% { transform: translate3d(0,0,0) scale(1.1); } 50% { transform: translate3d(-5vw,-5vh,0) scale(.92); } 100% { transform: translate3d(6vw,5vh,0) scale(1.16); } }
+  @keyframes gradient-drift { 0% { background-position:0% 50%; } 100% { background-position:100% 50%; } }
+  @keyframes mesh-rotate { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; } }
+</style>
+</head>
+<body>
+<div style="background:#fff7e8;color:#1c1833;overflow-x:clip">
+
+    
+      <div aria-hidden="true" style="position:fixed;inset:-15%;z-index:0;pointer-events:none;overflow:hidden">
+        <div style="position:absolute;top:4%;left:-6%;width:46vw;height:46vw;border-radius:9999px;filter:blur(115px);opacity:.3;background:radial-gradient(circle,#70f2cf 0%,rgba(255,255,255,0) 70%);animation:blob-a 28s ease-in-out 0s infinite alternate;will-change:transform"></div>
+        <div style="position:absolute;top:26%;right:-8%;width:50vw;height:50vw;border-radius:9999px;filter:blur(115px);opacity:.26;background:radial-gradient(circle,#8f74ff 0%,rgba(255,255,255,0) 70%);animation:blob-b 34s ease-in-out -6s infinite alternate;will-change:transform"></div>
+        <div style="position:absolute;bottom:6%;left:18%;width:44vw;height:44vw;border-radius:9999px;filter:blur(115px);opacity:.3;background:radial-gradient(circle,#ffd166 0%,rgba(255,255,255,0) 70%);animation:blob-c 31s ease-in-out -12s infinite alternate;will-change:transform"></div>
+        <div style="position:absolute;bottom:-6%;right:12%;width:38vw;height:38vw;border-radius:9999px;filter:blur(115px);opacity:.22;background:radial-gradient(circle,#ff7f6e 0%,rgba(255,255,255,0) 70%);animation:blob-d 37s ease-in-out -3s infinite alternate;will-change:transform"></div>
+        <div style="position:absolute;top:52%;left:34%;width:40vw;height:40vw;border-radius:9999px;filter:blur(115px);opacity:.2;background:radial-gradient(circle,#7cd2f2 0%,rgba(255,255,255,0) 70%);animation:blob-a 41s ease-in-out -18s infinite alternate;will-change:transform"></div>
+      </div>
+    
+  <header style="position:relative;overflow:hidden;padding:clamp(28px,4vw,48px) clamp(24px,6vw,96px) clamp(48px,7vw,96px)">
+    
+      <div aria-hidden="true" style="position:absolute;inset:-10% -5%;pointer-events:none;z-index:0">
+        <div style="position:absolute;top:2%;left:-4%;width:640px;height:640px;border-radius:9999px;filter:blur(110px);opacity:.55;animation:blob-a 26s ease-in-out 0s infinite alternate;will-change:transform;background:radial-gradient(circle,#ffd166 0%,rgba(255,209,102,0) 70%)"></div>
+        <div style="position:absolute;top:-6%;right:-6%;width:720px;height:720px;border-radius:9999px;filter:blur(110px);opacity:.42;animation:blob-b 32s ease-in-out -4s infinite alternate;will-change:transform;background:radial-gradient(circle,#8f74ff 0%,rgba(143,116,255,0) 70%)"></div>
+        <div style="position:absolute;top:34%;left:32%;width:760px;height:760px;border-radius:9999px;filter:blur(110px);opacity:.4;animation:blob-c 29s ease-in-out -8s infinite alternate;will-change:transform;background:radial-gradient(circle,#70f2cf 0%,rgba(112,242,207,0) 70%)"></div>
+        <div style="position:absolute;bottom:-10%;right:14%;width:520px;height:520px;border-radius:9999px;filter:blur(110px);opacity:.3;animation:blob-d 35s ease-in-out -12s infinite alternate;will-change:transform;background:radial-gradient(circle,#ff7f6e 0%,rgba(255,127,110,0) 70%)"></div>
+      </div>
+    
+
+    <div style="position:relative;z-index:1;max-width:1232px;margin:0 auto">
+      <a href="https://marva-a.github.io/Portfolio/#projects" style="display:inline-block;padding:1px;border-radius:9999px;background:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;animation:gradient-drift 7s ease-in-out infinite alternate;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
+        <span style="display:flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:9999px;background:#fffdf7;font-family:Georgia,'Times New Roman',serif;font-size:19px;font-weight:700;letter-spacing:.02em;color:#1c1833">MA</span>
+      </a>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(24px,4vw,56px);align-items:end;margin-top:clamp(20px,3vw,36px)">
+        <div style="padding-bottom:clamp(0px,2vw,24px)">
+          <h1 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(34px,4.4vw,54px);line-height:1.05;letter-spacing:-.015em;margin:0;color:#1c1833">Persustain</h1>
+          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:14px 0 0">iOS app design · 2026</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px">
+            <span style="padding:8px 16px;border-radius:9999px;background:#e8fff6;color:#1c1833;font-size:14px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">0-to-1</span>
+            <span style="padding:8px 16px;border-radius:9999px;background:#e6f6ff;color:#1c1833;font-size:14px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Systems Thinking</span>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;align-items:flex-end;gap:clamp(12px,2vw,28px)">
+          <div style="width:clamp(150px,17vw,236px);padding:9px;border-radius:44px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 34px 60px rgba(28,24,51,.22)">
+            <div style="position:relative;border-radius:36px;overflow:hidden;background:#fff">
+              <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:38%;height:19px;border-radius:9999px;background:#14101f;z-index:2"></div>
+                  <div style="height:36px;background:#fff"></div>
+              <img src="assets/01-persustain-dashboard-showing-the-current.png" alt="Persustain dashboard showing the current period footprint of 182 kg CO2 with an Estimated label" style="display:block;width:100%;height:auto">
+            </div>
+          </div>
+          <div style="width:clamp(150px,17vw,236px);padding:9px;border-radius:44px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 34px 60px rgba(28,24,51,.22);margin-bottom:clamp(24px,5vw,72px)">
+            <div style="position:relative;border-radius:36px;overflow:hidden;background:#fff">
+              <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:38%;height:19px;border-radius:9999px;background:#14101f;z-index:2"></div>
+                  <div style="height:36px;background:#fff"></div>
+              <img src="assets/02-my-impact-so-far-showing-attributed-cont.png" alt="My Impact so far, showing attributed contribution, contribution share and estimated value" style="display:block;width:100%;height:auto">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(34px,5.4vw,80px);line-height:1.08;letter-spacing:-.02em;color:#1c1833;margin:clamp(40px,6vw,88px) 0 0;max-width:19ch;text-wrap:balance">Designing a path from individual climate action to shared, <em style="font-style:italic;background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">verifiable</em> impact.</p>
+    </div>
+  </header>
+
+  <nav id="cs-nav" aria-label="Jump to a section" style="position:sticky;top:0;z-index:50;padding:13px clamp(24px,6vw,96px);background:rgba(255,247,232,.55);backdrop-filter:blur(20px) saturate(1.35);-webkit-backdrop-filter:blur(20px) saturate(1.35);border-bottom:1px solid rgba(28,24,51,.07)">
+    <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:-1px;height:2px;overflow:hidden"><div id="cs-progress" style="height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 40%,#8f74ff 70%,#ff806e);transform:scaleX(0);transform-origin:left center"></div></div>
+    <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:nowrap;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:1px">
+      <div id="cs-home" style="flex:0 0 auto;display:flex;align-items:center;gap:11px;max-width:0;opacity:0;overflow:hidden;transition:max-width .32s ease,opacity .28s ease,margin-right .32s ease;margin-right:0">
+        <a href="https://marva-a.github.io/Portfolio/#hero" aria-label="Back to portfolio home" style="flex:0 0 auto;display:block;padding:1px;border-radius:9999px;background:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;animation:gradient-drift 7s ease-in-out infinite alternate">
+          <span style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9999px;background:#fffdf7;font-family:Georgia,'Times New Roman',serif;font-size:13px;font-weight:700;letter-spacing:.02em;color:#1c1833">MA</span>
+        </a>
+        <span aria-hidden="true" style="flex:0 0 auto;width:1px;height:22px;background:rgba(28,24,51,.14)"></span>
+      </div>
+      <span style="flex:0 0 auto;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;margin-right:6px">Jump to</span>
+      <a href="#summary" style="padding:7px 13px;border-radius:9999px;background:#fffdf7;border:1px solid rgba(28,24,51,.1);font-size:13px;font-weight:500;transition:background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap">Summary</a>
+      <a href="#pivot" style="padding:7px 13px;border-radius:9999px;background:#fffdf7;border:1px solid rgba(28,24,51,.1);font-size:13px;font-weight:500;transition:background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap">Pivot</a>
+      <a href="#system" style="padding:7px 13px;border-radius:9999px;background:#fffdf7;border:1px solid rgba(28,24,51,.1);font-size:13px;font-weight:500;transition:background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap">System</a>
+      <a href="#trust" style="padding:7px 13px;border-radius:9999px;background:#fffdf7;border:1px solid rgba(28,24,51,.1);font-size:13px;font-weight:500;transition:background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap">Trust</a>
+      <a href="#delivery" style="padding:7px 13px;border-radius:9999px;background:#fffdf7;border:1px solid rgba(28,24,51,.1);font-size:13px;font-weight:500;transition:background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap">Delivery</a>
+      <a href="#outcomes" style="padding:7px 13px;border-radius:9999px;background:#fffdf7;border:1px solid rgba(28,24,51,.1);font-size:13px;font-weight:500;transition:background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap">Outcomes</a>
+      <a href="#reflection" style="padding:7px 13px;border-radius:9999px;background:#fffdf7;border:1px solid rgba(28,24,51,.1);font-size:13px;font-weight:500;transition:background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap">Reflection</a>
+    </div>
+  </nav>
+
+  <section id="summary" data-screen-label="Summary" style="position:relative;padding:clamp(64px,8vw,128px) clamp(24px,6vw,96px)">
+    <div style="max-width:1232px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,4vw,64px);align-items:start">
+      <div style="grid-column:span 1">
+        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Summary</p>
+        <p style="font-size:17px;line-height:1.65;color:#4d476a;margin:18px 0 0">Persustain began with a compelling five-year business vision connecting individual climate action to shared projects, future verification, and eventually carbon-market participation. But it existed only as an investor deck, not yet as a product.</p>
+        <p style="font-size:17px;line-height:1.65;color:#4d476a;margin:18px 0 0">The fastest way to deliver a four-month MVP was another carbon tracker. But that would have reduced the client's vision to its smallest, least distinctive part. Instead, I repositioned tracking as the entry point into a broader participation system, one designed to turn individual actions into shared, eventually verifiable impact.</p>
+        <p style="font-size:17px;line-height:1.65;color:#4d476a;margin:18px 0 0">Over four months, I led product strategy and UX from concept to a working MVP, translating that investor deck into a product designed for users to understand, engineers to build, stakeholders to demonstrate, and the team to continue developing in Phase 2.</p>
+      </div>
+
+      <div>
+        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Role</p>
+        <p style="font-size:17px;line-height:1.55;color:#1c1833;margin:14px 0 0">Lead Product Designer</p>
+        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Responsibilities</p>
+        <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Product strategy and definition</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Roadmap and feature prioritisation</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Information architecture</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">UX direction</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Design leadership</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Cross-functional delivery</li>
+        </ul>
+        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Timeline</p>
+        <p style="font-size:17px;line-height:1.5;color:#1c1833;margin:14px 0 0">Phase 1 completed (4 months)<br>Phase 2 in progress</p>
+      </div>
+
+      <div>
+        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Team</p>
+        <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">1 Technical Lead</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">1 Junior Design Engineer</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">1 Junior AI Developer</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Client stakeholders</li>
+        </ul>
+        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Platform</p>
+        <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">FlutterFlow</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Firebase</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Climatiq</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">OpenAI</li>
+          <li style="font-size:17px;line-height:1.5;color:#1c1833">Figma</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="max-width:1232px;margin:clamp(56px,7vw,104px) auto 0">
+      <figure style="margin:0 0 clamp(56px,7vw,104px)">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(16px,2vw,28px)">
+          <div style="padding:8px;border-radius:38px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 24px 48px rgba(28,24,51,.16)">
+            <div style="position:relative;border-radius:31px;overflow:hidden;background:#fff"><div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:38%;height:15px;border-radius:9999px;background:#14101f;z-index:2"></div><div style="height:29px;background:#fff"></div><img src="assets/03-onboarding-your-actions-create-real-clim.png" alt="Onboarding: your actions create real climate impact" style="display:block;width:100%;height:auto"></div>
+          </div>
+          <div style="padding:8px;border-radius:38px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 24px 48px rgba(28,24,51,.16)">
+            <div style="position:relative;border-radius:31px;overflow:hidden;background:#fff"><div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:38%;height:15px;border-radius:9999px;background:#14101f;z-index:2"></div><div style="height:29px;background:#fff"></div><img src="assets/01-persustain-dashboard-showing-the-current.png" alt="Dashboard showing the current period footprint of 182 kg CO2, labelled Estimated" style="display:block;width:100%;height:auto"></div>
+          </div>
+          <div style="padding:8px;border-radius:38px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 24px 48px rgba(28,24,51,.16)">
+            <div style="position:relative;border-radius:31px;overflow:hidden;background:#fff"><div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:38%;height:15px;border-radius:9999px;background:#14101f;z-index:2"></div><div style="height:29px;background:#fff"></div><img src="assets/04-project-page-showing-the-six-step-lifecy.png" alt="Project page showing the six-step lifecycle from action to real climate value" style="display:block;width:100%;height:auto"></div>
+          </div>
+          <div style="padding:8px;border-radius:38px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 24px 48px rgba(28,24,51,.16)">
+            <div style="position:relative;border-radius:31px;overflow:hidden;background:#fff"><div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:38%;height:15px;border-radius:9999px;background:#14101f;z-index:2"></div><div style="height:29px;background:#fff"></div><img src="assets/05-impact-lifecycle-with-an-evidence-pack-i.png" alt="Impact lifecycle with an evidence pack in progress and later stages marked pending or simulated" style="display:block;width:100%;height:auto"></div>
+          </div>
+        </div>
+        <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 01 — What shipped in four months: onboarding, a footprint dashboard tied to a shared project, the lifecycle that project sits in, and the evidence pack behind it.</figcaption>
+      </figure>
+
+      <figure style="margin:0;position:relative;overflow:hidden;border-radius:28px;background:#fffdf7;border:1px solid rgba(28,24,51,.08);padding:clamp(28px,4vw,56px)">
+        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">The loop the product had to make visible</p>
+        <div style="position:relative;margin-top:4px">
+          <div aria-hidden="true" style="position:absolute;top:34px;left:34px;right:34px;height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 45%,#8f74ff)"></div>
+          <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:clamp(14px,2vw,26px)">
+          <div style="display:flex;flex-direction:column;align-items:stretch">
+            <div aria-hidden="true" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
+            <div style="margin-top:18px;border-radius:22px;background:#e8fff6;padding:24px">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">01</p>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(20px,2vw,25px);font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Individual action</p>
+              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Logged transport, home energy and diet choices.</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:stretch">
+            <div aria-hidden="true" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
+            <div style="margin-top:18px;border-radius:22px;background:#e6f6ff;padding:24px">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">02</p>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(20px,2vw,25px);font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Shared project</p>
+              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Contributions aggregated into a climate project.</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:stretch">
+            <div aria-hidden="true" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
+            <div style="margin-top:18px;border-radius:22px;background:#f0e9ff;padding:24px">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">03</p>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(20px,2vw,25px);font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Verifiable impact</p>
+              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Evidence, verification state and eventual value.</p>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div style="position:relative;height:104px">
+          <div aria-hidden="true" style="position:absolute;top:0;left:34px;right:34px;height:62px;border:2px dashed rgba(143,116,255,.45);border-top:none;border-radius:0 0 52px 52px"></div>
+          <div aria-hidden="true" style="position:absolute;top:-1px;left:28px;width:11px;height:11px;border-left:2px solid #8f74ff;border-top:2px solid #8f74ff;transform:rotate(45deg)"></div>
+          <p style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);margin:0;max-width:min(46ch,86%);text-align:center;background:#fffdf7;padding:0 16px;font-size:15px;line-height:1.5;color:#4d476a"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">Hypothesis &nbsp;</span>each verified outcome makes the next action worth logging</p>
+        </div>
+        <p style="font-size:14px;color:#4d476a;margin:20px 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 02 — The individual-to-collective loop, and the intended retention hypothesis: that each verified outcome would make the next action worth logging.</p>
+      </figure>
+
+      <div style="margin:clamp(44px,5.5vw,72px) 0 0">
+        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">What Phase 1 delivered</p>
+        <ul style="list-style:none;padding:0;margin:18px 0 0;border-bottom:1px solid rgba(28,24,51,.12)">
+        <li style="display:flex;flex-wrap:wrap;gap:clamp(14px,2.5vw,40px);align-items:baseline;padding:clamp(20px,2.6vw,30px) 0;border-top:1px solid rgba(28,24,51,.12)">
+          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:baseline;gap:12px;min-width:74px">
+            <span style="width:9px;height:9px;border-radius:9999px;background:#69debe;transform:translateY(-4px)"></span>
+            <span style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,2.4vw,30px);font-weight:700;color:#c9c2d8;line-height:1">01</span>
+          </span>
+          <span style="flex:1 1 380px;min-width:0;font-size:clamp(18px,1.9vw,22px);line-height:1.45;color:#1c1833;text-wrap:pretty">Translated a five-year investor vision into a working four-month MVP without reducing it to another carbon tracker</span>
+        </li>
+        <li style="display:flex;flex-wrap:wrap;gap:clamp(14px,2.5vw,40px);align-items:baseline;padding:clamp(20px,2.6vw,30px) 0;border-top:1px solid rgba(28,24,51,.12)">
+          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:baseline;gap:12px;min-width:74px">
+            <span style="width:9px;height:9px;border-radius:9999px;background:#7cd2f2;transform:translateY(-4px)"></span>
+            <span style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,2.4vw,30px);font-weight:700;color:#c9c2d8;line-height:1">02</span>
+          </span>
+          <span style="flex:1 1 380px;min-width:0;font-size:clamp(18px,1.9vw,22px);line-height:1.45;color:#1c1833;text-wrap:pretty">Made the long-term verification journey demonstrable without presenting future capabilities as already live</span>
+        </li>
+        <li style="display:flex;flex-wrap:wrap;gap:clamp(14px,2.5vw,40px);align-items:baseline;padding:clamp(20px,2.6vw,30px) 0;border-top:1px solid rgba(28,24,51,.12)">
+          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:baseline;gap:12px;min-width:74px">
+            <span style="width:9px;height:9px;border-radius:9999px;background:#8f74ff;transform:translateY(-4px)"></span>
+            <span style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,2.4vw,30px);font-weight:700;color:#c9c2d8;line-height:1">03</span>
+          </span>
+          <span style="flex:1 1 380px;min-width:0;font-size:clamp(18px,1.9vw,22px);line-height:1.45;color:#1c1833;text-wrap:pretty">Established a shared object, lifecycle and trust-state model that kept design and engineering anchored to the same product strategy</span>
+        </li>
+        <li style="display:flex;flex-wrap:wrap;gap:clamp(14px,2.5vw,40px);align-items:baseline;padding:clamp(20px,2.6vw,30px) 0;border-top:1px solid rgba(28,24,51,.12)">
+          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:baseline;gap:12px;min-width:74px">
+            <span style="width:9px;height:9px;border-radius:9999px;background:#ff806e;transform:translateY(-4px)"></span>
+            <span style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,2.4vw,30px);font-weight:700;color:#c9c2d8;line-height:1">04</span>
+          </span>
+          <span style="flex:1 1 380px;min-width:0;font-size:clamp(18px,1.9vw,22px);line-height:1.45;color:#1c1833;text-wrap:pretty">The client funded a Phase 2 engagement and continued with us</span>
+        </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="pivot" data-screen-label="The Strategic Pivot" style="scroll-margin-top:92px;position:relative;padding:clamp(64px,8vw,128px) clamp(24px,6vw,96px);border-top:1px solid rgba(28,24,51,.1)">
+    <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
+        <div data-rail="1" style="flex:0 1 186px;position:sticky;top:86px;align-self:flex-start">
+          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">01</p>
+          <p style="font-size:14px;line-height:1.45;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:12px 0 0">The Strategic Pivot</p>
+          <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
+        </div>
+        <div style="flex:1 1 620px;min-width:0">
+          <h2 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(30px,4vw,60px);line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:22ch">Deciding what kind of product this needed to be.</h2>
+
+      <div style="max-width:760px">
+        <p style="font-size:clamp(20px,2.2vw,25px);line-height:1.5;color:#1c1833;margin:34px 0 0;text-wrap:pretty">Joining Persustain at the zero-to-one stage, I inherited an investor pitch deck with no existing product or dedicated team. I selected and assembled a cross-functional team from within the agency, balancing the expertise the project required with available capacity, then led product design and delivery to turn the five-year vision into a working MVP.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The client had a compelling five-year strategy that connected individual climate actions to shared environmental projects, third-party verification, and future carbon-market participation.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">There were no user journeys, information architecture, feature priorities, or shared product architecture. Even the most fundamental question remained unanswered: what would someone actually do inside the app?</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">As Lead Product Designer, I led Phase 1 product and design decisions, defining the MVP scope, feature set, Information Architecture, and UX/UI direction. Early on, I partnered closely with the engineering team to evaluate technical feasibility and align on the tech stack, ensuring our design solutions were viable from day one while they owned system architecture and implementation.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">We were also working against a hard constraint: the MVP needed to be designed and delivered within four months for an incubator milestone review, leaving little room for experimentation or major course corrections.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The challenge wasn't simply designing an interface. It was deciding what kind of product this needed to be before a single screen could be justified.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">The Decision That Changed the Project</h3>
+        <p style="font-size:19px;line-height:1.65;color:#1c1833;margin:20px 0 0;font-weight:500">I needed to answer a more fundamental question: were we building the right product?</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">If the goal had simply been to deliver an MVP on time, building a simple carbon tracker would have been the obvious choice. It fit the timeline, reduced technical complexity, and followed a familiar pattern used across the industry. But the client's long-term vision wasn't another tracking app. Its differentiation was a shared contribution system where individual actions could eventually become verified collective impact. If we reduced the MVP to tracking alone, we risked delivering a product that was easy to build but failed to demonstrate what made the business unique. I needed to understand whether the client's vision addressed a genuine gap in the market before making it the foundation of the MVP.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Finding the Real Problem</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">To answer that question without the budget or timeline for a dedicated research phase, I ran a rapid competitive analysis across five climate apps (Klima, Commons, Earth Hero, LiveGreen, and JouleBug), reviewing more than 80 public user reviews alongside each product's onboarding, interaction patterns, and retention strategies.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I was trying to understand why people stopped using these products after the initial excitement wore off, not looking for interface inspiration. Because this was secondary research rather than validation with Persustain users, I treated the findings as directional evidence for defining the MVP hypothesis.</p>
+      </div>
+
+      <figure style="margin:clamp(40px,5vw,64px) 0 0">
+        <div style="border-radius:28px;background:#fffdf7;border:1px solid rgba(28,24,51,.08);padding:clamp(28px,4vw,56px)">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a">Reviewed</span>
+            <span style="padding:6px 14px;border-radius:9999px;background:#fff7e8;border:1px solid rgba(28,24,51,.1);font-size:13px">Klima</span>
+            <span style="padding:6px 14px;border-radius:9999px;background:#fff7e8;border:1px solid rgba(28,24,51,.1);font-size:13px">Commons</span>
+            <span style="padding:6px 14px;border-radius:9999px;background:#fff7e8;border:1px solid rgba(28,24,51,.1);font-size:13px">Earth Hero</span>
+            <span style="padding:6px 14px;border-radius:9999px;background:#fff7e8;border:1px solid rgba(28,24,51,.1);font-size:13px">LiveGreen</span>
+            <span style="padding:6px 14px;border-radius:9999px;background:#fff7e8;border:1px solid rgba(28,24,51,.1);font-size:13px">JouleBug</span>
+            <span style="padding:6px 14px;border-radius:9999px;background:#f0e9ff;font-size:13px">80+ public reviews</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(20px,3vw,40px);margin-top:36px">
+            <div style="border-radius:24px;background:#e8fff6;padding:clamp(24px,3vw,36px)">
+              <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Gap 01</p>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,2.2vw,30px);font-weight:700;color:#1c1833;margin:12px 0 0">The Efficacy Gap</p>
+              <p style="font-size:17px;line-height:1.6;color:#38324f;margin:14px 0 0">Reviewers often responded positively to gamification, but it couldn't answer the question beneath the habit. People consistently questioned whether their individual actions made any meaningful difference. They weren't asking "how can I log more activities?" They were asking "does any of this actually matter?" Without a clear connection between personal effort and real-world environmental impact, the habit eventually lost its meaning.</p>
+            </div>
+            <div style="border-radius:24px;background:#e6f6ff;padding:clamp(24px,3vw,36px)">
+              <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Gap 02</p>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,2.2vw,30px);font-weight:700;color:#1c1833;margin:12px 0 0">The Trust Gap</p>
+              <p style="font-size:17px;line-height:1.6;color:#38324f;margin:14px 0 0">The second pattern was confidence. When carbon calculations changed unexpectedly, or when the reasoning behind a score wasn't visible, users quickly began questioning the reliability of the platform itself. If people couldn't understand where their numbers came from, they stopped trusting them.</p>
+            </div>
+          </div>
+        </div>
+        <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 03 — Secondary research synthesis: two recurring concerns associated with disengagement, treated as directional evidence rather than validated findings.</figcaption>
+      </figure>
+
+      <div style="max-width:760px">
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">The Insight</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The research strengthened the case for a hypothesis the investor deck had only hinted at. The real opportunity wasn't building a better carbon tracker. It was using personal tracking as the entry point into a much larger participation system.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Rather than treating tracking as the destination, I reframed it as the beginning of a broader user journey, one that connected individual behaviour to shared climate projects, future verification, visible collective impact and potential future value.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Suddenly, the client's long-term business vision wasn't competing with the MVP. Instead, it became a product hypothesis worth testing, one that directly responded to the behavioural gaps we had identified.</p>
+      </div>
+
+      <div style="margin:clamp(40px,5vw,64px) 0 0;border-radius:28px;padding:clamp(28px,4vw,56px);background:#fffdf7;border:1px solid rgba(28,24,51,.08);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,3vw,48px);align-items:center">
+        <div>
+          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;margin:0">The strategic shift</p>
+          <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:16px 0 0">This changed the product question completely.</p>
+        </div>
+        <div>
+          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">From</p>
+          <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,24px);line-height:1.3;color:#4d476a;margin:10px 0 0;text-decoration:line-through;text-decoration-color:rgba(28,24,51,.3)">How do we build a better carbon tracker?</p>
+          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:26px 0 0">To</p>
+          <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(21px,2.2vw,30px);line-height:1.25;color:#1c1833;font-weight:700;margin:10px 0 0">How might we help people see their individual actions as part of a larger collective outcome?</p>
+          <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:18px 0 0">That single shift became the foundation for every design decision that followed.</p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="system" data-screen-label="Defining the Product System" style="scroll-margin-top:92px;position:relative;padding:clamp(64px,8vw,128px) clamp(24px,6vw,96px);border-top:1px solid rgba(28,24,51,.1)">
+    
+      <div aria-hidden="true" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0">
+        <div style="position:absolute;top:12%;right:-8%;width:620px;height:620px;border-radius:9999px;filter:blur(110px);opacity:.3;animation:blob-c 33s ease-in-out infinite alternate;will-change:transform;background:radial-gradient(circle,#70f2cf 0%,rgba(112,242,207,0) 70%)"></div>
+      </div>
+    
+    <div style="max-width:1232px;margin:0 auto;position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
+        <div data-rail="1" style="flex:0 1 186px;position:sticky;top:86px;align-self:flex-start">
+          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">02</p>
+          <p style="font-size:14px;line-height:1.45;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:12px 0 0">Defining the Product System</p>
+          <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
+        </div>
+        <div style="flex:1 1 620px;min-width:0">
+          <h2 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(30px,4vw,60px);line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:22ch">Turning a hypothesis into something engineers could build.</h2>
+
+      <div style="max-width:760px">
+        <p style="font-size:clamp(20px,2.2vw,25px);line-height:1.5;color:#1c1833;margin:34px 0 0;text-wrap:pretty">The research gave me enough directional evidence to define an MVP hypothesis. The next challenge was turning that hypothesis into a product engineers could build.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Before designing interfaces, I needed to define the system itself. The investor deck described concepts like community projects, verification, certificates, and carbon value, but none of them existed as product entities yet. Without a shared understanding of how those pieces related to one another, design and engineering risked solving different problems. So I focused on creating the product foundation that every design and technical decision could build upon.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Building a Shared Product Language</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I planned and facilitated an OOUX (Object-Oriented UX) workshop with stakeholders (developers and the client) to identify the platform's core objects and their relationships.</p>
+      </div>
+
+      <figure style="margin:clamp(36px,5vw,56px) 0 0">
+        <div style="border-radius:28px;background:#fffdf7;border:1px solid rgba(28,24,51,.08);padding:clamp(28px,4vw,56px)">
+          <div style="display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between">
+            <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;margin:0">Object map</p>
+            <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0;white-space:nowrap">7 objects · 6 relationships</p>
+          </div>
+          <div style="margin-top:24px;padding:14px 0 4px 34px;background:linear-gradient(180deg,#69debe,#7cd2f2 32%,#8f74ff 62%,#ff806e) left top / 2px 100% no-repeat">
+            <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+              <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 6px #fffdf7"></span>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,23px);font-weight:700;color:#1c1833;margin:0">User</p>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">profile · baseline · location</p>
+              <span style="margin-left:auto;flex:0 0 auto;background:#e8fff6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833">Phase 1</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
+              <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
+              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">logs</span>
+            </div>
+            <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+              <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 6px #fffdf7"></span>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,23px);font-weight:700;color:#1c1833;margin:0">Activity</p>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">logged action · quantity · estimate</p>
+              <span style="margin-left:auto;flex:0 0 auto;background:#e8fff6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833">Phase 1</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
+              <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
+              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">aggregates into</span>
+            </div>
+            <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+              <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 6px #fffdf7"></span>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,23px);font-weight:700;color:#1c1833;margin:0">Shared Climate Project</p>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">aggregation period · participants</p>
+              <span style="margin-left:auto;flex:0 0 auto;background:#e8fff6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833">Phase 1</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
+              <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
+              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">produces</span>
+            </div>
+            <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+              <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 6px #fffdf7"></span>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,23px);font-weight:700;color:#1c1833;margin:0">Evidence Pack</p>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">aggregated data · methodology</p>
+              <span style="margin-left:auto;flex:0 0 auto;background:#e8fff6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833">Phase 1</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
+              <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
+              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">is submitted for</span>
+            </div>
+            <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+              <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ffb27a;box-shadow:0 0 0 6px #fffdf7"></span>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,23px);font-weight:700;color:#1c1833;margin:0">Verification</p>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">review status · reviewer</p>
+              <span style="margin-left:auto;flex:0 0 auto;background:transparent;border:1px dashed rgba(28,24,51,.3);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833">Simulated</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
+              <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
+              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">yields</span>
+            </div>
+            <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+              <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ff9a86;box-shadow:0 0 0 6px #fffdf7"></span>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,23px);font-weight:700;color:#1c1833;margin:0">Certificate</p>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">origin · registry reference</p>
+              <span style="margin-left:auto;flex:0 0 auto;background:transparent;border:1px dashed rgba(28,24,51,.3);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833">Simulated</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
+              <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
+              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">carries</span>
+            </div>
+            <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+              <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ff806e;box-shadow:0 0 0 6px #fffdf7"></span>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,23px);font-weight:700;color:#1c1833;margin:0">Value</p>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">contribution share · estimated value</p>
+              <span style="margin-left:auto;flex:0 0 auto;background:transparent;border:1px dashed rgba(28,24,51,.3);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833">Simulated</span>
+            </div>
+          </div>
+        </div>
+        <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 04 — The canonical object map synthesised after the workshop: seven objects and the relationships that connected them.</figcaption>
+      </figure>
+
+      <div style="max-width:760px">
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">Rather than treating the workshop as a design exercise, I used it to establish a shared product language across business, design and engineering. Together, we defined the core objects, their relationships and the lifecycle connecting them. I then synthesised those decisions into the canonical object map that underpinned the user journeys, functional specifications and implementation discussions that followed. This gave the team a stable product architecture before implementation began, reducing the risk that each discipline would interpret the investor vision differently.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Modelling the Whole Lifecycle</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">With the core objects established, I defined the complete six-stage lifecycle of a contribution.</p>
+      </div>
+
+      
+        <figure style="margin:clamp(36px,5vw,56px) 0 0">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:clamp(12px,1.6vw,20px)">
+            <div style="border-radius:24px;overflow:hidden;background:#fffdf7;border:1px solid rgba(28,24,51,.08)"><img src="assets/06-your-actions-log-daily-climate-friendly.png" alt="Your Actions: log daily climate-friendly actions" style="display:block;width:100%;height:auto"></div>
+            <div style="border-radius:24px;overflow:hidden;background:#fffdf7;border:1px solid rgba(28,24,51,.08)"><img src="assets/07-climate-project-actions-combined-into-st.png" alt="Climate Project: actions combined into structured climate projects" style="display:block;width:100%;height:auto"></div>
+            <div style="border-radius:24px;overflow:hidden;background:#fffdf7;border:1px solid rgba(28,24,51,.08)"><img src="assets/08-verification-project-data-reviewed-and-i.png" alt="Verification: project data reviewed and independently validated" style="display:block;width:100%;height:auto"></div>
+            <div style="border-radius:24px;overflow:hidden;background:#fffdf7;border:1px solid rgba(28,24,51,.08)"><img src="assets/09-registration-verified-projects-submitted.png" alt="Registration: verified projects submitted to recognised carbon registries" style="display:block;width:100%;height:auto"></div>
+            <div style="border-radius:24px;overflow:hidden;background:#fffdf7;border:1px solid rgba(28,24,51,.08)"><img src="assets/10-certification-approved-projects-receive.png" alt="Certification: approved projects receive official certification" style="display:block;width:100%;height:auto"></div>
+            <div style="border-radius:24px;overflow:hidden;background:#fffdf7;border:1px solid rgba(28,24,51,.08)"><img src="assets/11-value-certified-credits-generate-real-me.png" alt="Value: certified credits generate real, measurable value" style="display:block;width:100%;height:auto"></div>
+          </div>
+          <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 05 — Actions → Aggregation → Verification → Registry → Certification → Value, explained in-product as one connected lifecycle.</figcaption>
+        </figure>
+      
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:clamp(28px,3vw,40px) 0 0">
+        <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a">Built in Phase 1</span>
+        <span style="padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px">Actions</span>
+        <span style="padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px">Aggregation</span>
+        <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin-left:12px">Simulated in Phase 1</span>
+        <span style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);font-size:14px">Verification</span>
+        <span style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);font-size:14px">Registry</span>
+        <span style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);font-size:14px">Certification</span>
+        <span style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);font-size:14px">Value</span>
+      </div>
+
+      <div style="max-width:760px">
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:clamp(28px,3vw,40px) 0 0;text-wrap:pretty">I modelled these as connected stages rather than independent future features. Activities could contribute to a shared project during an aggregation period, represented through evidence progress and explicit lifecycle states.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The MVP implemented the internal objects and states needed to represent this lifecycle. However, external verification bodies, registry connectivity, certification and market issuance remained simulated. This distinction gave Phase 2 a defined starting point without presenting external infrastructure as operational.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Structuring the Experience</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">With the product architecture established, the next challenge was making a technically complex system understandable without reducing it to a simplistic tracker.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I translated the product architecture into an information architecture centred on the journey from individual action to verified collective impact. Rather than exposing technical components such as evidence packs, registries and verification workflows, I organised the experience around two primary destinations: the Dashboard and the Project page.</p>
+      </div>
+
+      <figure style="margin:clamp(40px,5vw,64px) 0 0">
+        <div style="display:flex;flex-direction:column;border-bottom:1px solid rgba(28,24,51,.13)">
+          <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(30px,4vw,52px) 0;border-top:1px solid rgba(28,24,51,.13)">
+            <div style="flex:1 1 330px;min-width:0">
+              <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center">
+                <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.16em;color:#8f74ff">Destination 01</span>
+                <span style="display:inline-flex;align-items:center;gap:9px;padding:6px 14px;border-radius:9999px;background:#e8fff6;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833"><span aria-hidden="true" style="width:8px;height:8px;border-radius:9999px;background:#69debe"></span>Dashboard</span>
+              </div>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(26px,3.2vw,42px);line-height:1.12;letter-spacing:-.01em;color:#1c1833;margin:20px 0 0;text-wrap:balance">“Did my actions matter?”</p>
+              <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:16px 0 0;max-width:42ch">A personal emissions summary sitting directly beside the shared project that personal activity supports.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:22px">
+              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;color:#1c1833">attributed contribution</span>
+              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;color:#1c1833">contribution share</span>
+              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;color:#1c1833">estimated value</span>
+              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;color:#1c1833">project progress</span>
+              </div>
+            </div>
+            <div style="flex:0 1 300px;display:flex;justify-content:center;min-width:220px">
+              <div style="width:100%;max-width:290px;padding:9px;border-radius:44px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 26px 52px rgba(28,24,51,.22)">
+              <div style="position:relative;border-radius:36px;overflow:hidden;background:#fff">
+                <img src="assets/02-my-impact-so-far-showing-attributed-cont.png" alt="Dashboard: My Impact so far, attributed contribution, contribution share and estimated value" style="display:block;width:100%;height:auto">
+              </div>
+            </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(30px,4vw,52px) 0;border-top:1px solid rgba(28,24,51,.13)">
+            <div style="flex:1 1 330px;min-width:0">
+              <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center">
+                <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.16em;color:#8f74ff">Destination 02</span>
+                <span style="display:inline-flex;align-items:center;gap:9px;padding:6px 14px;border-radius:9999px;background:#e6f6ff;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833"><span aria-hidden="true" style="width:8px;height:8px;border-radius:9999px;background:#7cd2f2"></span>Project page</span>
+              </div>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(26px,3.2vw,42px);line-height:1.12;letter-spacing:-.01em;color:#1c1833;margin:20px 0 0;text-wrap:balance">“Where did my contribution go?”</p>
+              <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:16px 0 0;max-width:42ch">One place that explains the whole system: the project a contribution supports, the lifecycle it sits in, and how much of that is verified.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:22px">
+              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:14px;color:#1c1833">contribution → project impact</span>
+              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:14px;color:#1c1833">full impact lifecycle</span>
+              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:14px;color:#1c1833">methodology and assumptions</span>
+              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:14px;color:#1c1833">Estimated · Pending · Simulated</span>
+              </div>
+            </div>
+            <div style="flex:0 1 400px;display:flex;justify-content:center;align-items:flex-end;gap:clamp(10px,1.6vw,20px);min-width:240px">
+              <div style="width:100%;max-width:232px;padding:9px;border-radius:44px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 26px 52px rgba(28,24,51,.22)">
+              <div style="position:relative;border-radius:36px;overflow:hidden;background:#fff">
+                <img src="assets/12-project-page-community-micro-greening-an.png" alt="Project page: Community Micro-Greening and Carbon Sequestration Initiative with participation and partner detail" style="display:block;width:100%;height:auto">
+              </div>
+            </div>
+              <div style="width:100%;max-width:232px;padding:9px;border-radius:44px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 26px 52px rgba(28,24,51,.22)">
+              <div style="position:relative;border-radius:36px;overflow:hidden;background:#fff">
+                <img src="assets/04-project-page-showing-the-six-step-lifecy.png" alt="Project page: six-step lifecycle from action to real climate value, with alignment references and core assumptions" style="display:block;width:100%;height:auto">
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <figcaption style="font-size:14px;color:#4d476a;margin-top:18px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 06 — Two destinations, one progressive path: personal activity → the shared project it supports → the lifecycle that project sits in.</figcaption>
+      </figure>
+
+      <div style="max-width:760px">
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">The Dashboard was designed to answer the user's first question: did my actions matter? It does more than report a footprint. Alongside a personal emissions summary, My Impact So Far shows attributed contribution, contribution share, estimated value, and the progress of the project that contribution supports. Rather than reporting emissions alone, the design connects personal activity to the shared project it supports.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Selecting the project was designed to answer the next question: where did my contribution go? Rather than sending users through multiple screens, the Project page explains the entire system in one place. It connects an individual's contribution to overall project impact, exposes the complete impact lifecycle, and shows completed and in-progress lifecycle steps while labelling uncertain or future information as Estimated, Pending or Simulated. Methodology and assumptions remain visible alongside those states, allowing users to understand both how the system works and what has, or hasn't, been verified. Together, these destinations created a progressive path from personal activity to shared, eventually verifiable impact.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trust" data-screen-label="Designing for Trust" style="scroll-margin-top:92px;position:relative;padding:clamp(64px,8vw,128px) clamp(24px,6vw,96px);border-top:1px solid rgba(28,24,51,.1)">
+    <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
+        <div data-rail="1" style="flex:0 1 186px;position:sticky;top:86px;align-self:flex-start">
+          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">03</p>
+          <p style="font-size:14px;line-height:1.45;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:12px 0 0">Designing for Trust</p>
+          <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
+        </div>
+        <div style="flex:1 1 620px;min-width:0">
+          <h2 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(30px,4vw,60px);line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:24ch">Showing a five-year vision without claiming it was already live.</h2>
+
+      <div style="max-width:760px">
+        <p style="font-size:clamp(20px,2.2vw,25px);line-height:1.5;color:#1c1833;margin:34px 0 0;text-wrap:pretty">By this point, the product communicated how individual actions became collective impact. The remaining challenge was trust.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The client's long-term lifecycle connected individual actions to aggregation, third-party verification, registry participation, certification and value creation. Removing those workflows from the product would have stripped away its core differentiation. Pretending they already existed would have undermined the trust we were trying to build. Neither option was acceptable. I needed a way to communicate the complete product vision while remaining completely honest about what had, and hadn't, been built.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Making Product Maturity Visible</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Before high-fidelity design began, I specified two dimensions the interface needed to communicate: lifecycle progress and information certainty. I designed a distinct system for each.</p>
+      </div>
+
+      <figure style="margin:clamp(36px,5vw,56px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(20px,3vw,40px);align-items:start">
+        <div>
+          <div style="border-radius:28px;background:#fffdf7;border:1px solid rgba(28,24,51,.08);padding:0 clamp(24px,3vw,40px)">
+            <div style="padding:clamp(22px,3vw,32px) 0">
+              <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline">
+                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">Dimension 01</p>
+                <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(21px,2.1vw,27px);font-weight:700;color:#1c1833;margin:0">Lifecycle status</p>
+              </div>
+              <p style="font-size:17px;line-height:1.55;color:#4d476a;margin:12px 0 0;max-width:46ch">Where is the project in its process?</p>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px"><span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833"><span aria-hidden="true" style="font-size:11px;color:#4d476a">✓</span>Completed</span><span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833"><span aria-hidden="true" style="font-size:11px;color:#4d476a">◐</span>In progress</span><span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px solid rgba(28,24,51,.12);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833"><span aria-hidden="true" style="font-size:11px;color:#4d476a">○</span>Awaiting action</span></div>
+              
+            </div>
+            <div style="position:relative;height:1px;background:rgba(28,24,51,.14)">
+              <span style="position:absolute;top:50%;left:0;transform:translateY(-50%);background:#fffdf7;padding-right:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">never conflated</span>
+            </div>
+            <div style="padding:clamp(22px,3vw,32px) 0">
+              <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline">
+                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">Dimension 02</p>
+                <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(21px,2.1vw,27px);font-weight:700;color:#1c1833;margin:0">Trust state</p>
+              </div>
+              <p style="font-size:17px;line-height:1.55;color:#4d476a;margin:12px 0 0;max-width:46ch">What can the product truthfully claim?</p>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px"><div style="display:flex;flex-wrap:wrap;gap:clamp(18px,2.5vw,32px);width:100%">
+                <div style="flex:1 1 190px;min-width:0">
+                  <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#f0e9ff;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833">Estimated</span>
+                  <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:12px 0 0">based on available data or documented assumptions.</p>
+                </div>
+                <div style="flex:1 1 190px;min-width:0">
+                  <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833">Pending</span>
+                  <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:12px 0 0">dependent on future evidence, review or approval.</p>
+                </div>
+                <div style="flex:1 1 190px;min-width:0">
+                  <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#ffe1d6;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833">Simulated</span>
+                  <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:12px 0 0">intentionally representing a future capability that was not yet operational.</p>
+                </div>
+              </div></div>
+              
+            </div>
+          </div>
+          <figcaption style="font-size:14px;color:#4d476a;margin-top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 07 — The specification: two dimensions, kept deliberately separate so progress could never be mistaken for proof.</figcaption>
+        </div>
+        <div>
+          <div style="width:100%;max-width:300px;margin:0 auto;padding:9px;border-radius:44px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 30px 60px rgba(28,24,51,.2)">
+            <div style="position:relative;border-radius:36px;overflow:hidden;background:#fff">
+              <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:38%;height:19px;border-radius:9999px;background:#14101f;z-index:2"></div>
+                  <div style="height:36px;background:#fff"></div>
+              <img src="assets/05-impact-lifecycle-with-an-evidence-pack-i.png" alt="Impact lifecycle with an evidence pack in progress: data collection open, aggregation in progress, verification, registry, certificate and credit value pending and simulated" style="display:block;width:100%;height:auto">
+            </div>
+          </div>
+          <figcaption style="font-size:14px;color:#4d476a;margin-top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Fig. 08 — The same specification in the build: lifecycle steps carry their own status, and every future step is labelled Pending or Simulated.</figcaption>
+        </div>
+      </figure>
+
+      <div style="max-width:760px">
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">This distinction allowed the product to communicate its long-term direction without presenting verification, registry integration or carbon-market participation as completed functionality.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Transparency as a Product Principle</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The transparency approach extended beyond status labels. Methodologies, calculation assumptions, verification progress and lifecycle status were available at relevant points throughout the experience. The interface exposed not only the information itself, but also how it had been produced and how much certainty the product could reasonably attach to it. Rather than asking people to trust the platform, the interface provided the context they needed to make that judgement themselves.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Keeping AI Interpretive, Not Authoritative</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Working with the AI developer, I defined boundaries for how generated content could appear within the product. OpenAI supported plain-language insights and evidence-pack summaries using the product's structured data.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">AI could not calculate or verify project impact, issue credits, certify outcomes or determine market legitimacy. Those outcomes depended on calculation sources, supporting evidence, external review and later lifecycle stages.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">These guardrails allowed AI to support explanation without letting generated content imply authority the product had not earned.</p>
+      </div>
+
+      <figure style="margin:clamp(36px,5vw,56px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,56px);align-items:center">
+        <div style="width:100%;max-width:300px;justify-self:center;padding:9px;border-radius:44px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 30px 60px rgba(28,24,51,.2)">
+          <div style="position:relative;border-radius:36px;overflow:hidden;background:#fff">
+            <div style="position:absolute;top:9px;left:50%;transform:translateX(-50%);width:38%;height:19px;border-radius:9999px;background:#14101f;z-index:2"></div>
+            <div style="height:36px;background:#fff"></div>
+            <img src="assets/13-ai-insight-card-reporting-a-13-percent-r.png" alt="AI Insight card reporting a 13 percent reduction compared to last month, above a footprint movement chart" style="display:block;width:100%;height:auto">
+          </div>
+        </div>
+        <div>
+          <div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">AI guardrails</p>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff;margin:0">interpretive, not authoritative</p>
+            </div>
+            <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#1c1833;font-weight:500;margin:26px 0 0">Could</p>
+            <ul style="list-style:none;padding:0;margin:10px 0 0">
+              <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
+                <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#2f9e7d">✓</span>
+                <span style="font-size:16px;line-height:1.5;color:#1c1833">Explain a trend in plain language</span>
+              </li>
+              <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
+                <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#2f9e7d">✓</span>
+                <span style="font-size:16px;line-height:1.5;color:#1c1833">Summarise an evidence pack</span>
+              </li>
+              <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
+                <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#2f9e7d">✓</span>
+                <span style="font-size:16px;line-height:1.5;color:#1c1833">Help match a description to a known activity</span>
+              </li>
+            </ul>
+            <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#1c1833;font-weight:500;margin:28px 0 0">Could not</p>
+            <ul style="list-style:none;padding:0;margin:10px 0 0">
+              <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
+                <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#d4644f">✕</span>
+                <span style="font-size:16px;line-height:1.5;color:#4d476a">Calculate or verify project impact</span>
+              </li>
+              <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
+                <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#d4644f">✕</span>
+                <span style="font-size:16px;line-height:1.5;color:#4d476a">Issue credits</span>
+              </li>
+              <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
+                <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#d4644f">✕</span>
+                <span style="font-size:16px;line-height:1.5;color:#4d476a">Certify outcomes</span>
+              </li>
+              <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
+                <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#d4644f">✕</span>
+                <span style="font-size:16px;line-height:1.5;color:#4d476a">Determine market legitimacy</span>
+              </li>
+            </ul>
+          </div>
+          <figcaption style="font-size:14px;color:#4d476a;margin-top:24px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 09 — Generated insight sits beside the data it interprets, labelled as interpretation rather than presented as a verified result.</figcaption>
+        </div>
+      </figure>
+
+      <div style="max-width:760px">
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Balancing MVP Constraints with Long-Term Vision</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">This approach to trust and transparency balanced product honesty with the need to communicate the long-term vision. The interface separated lifecycle status from trust-state labels, although whether users understand those distinctions or whether they reduce confusion or increase trust, remains a Phase 2 research question. For the business, the MVP made the broader product journey demonstrable to investors and incubator stakeholders without presenting future capabilities as already operational.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Trust principle" style="position:relative;overflow:hidden;background:#24174a;padding:clamp(72px,9vw,140px) clamp(24px,6vw,96px)">
+    
+      <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none">
+        <div style="position:absolute;top:-30%;left:10%;width:640px;height:640px;border-radius:9999px;filter:blur(110px);opacity:.4;animation:blob-b 30s ease-in-out -5s infinite alternate;will-change:transform;background:radial-gradient(circle,#8f74ff 0%,rgba(143,116,255,0) 70%)"></div>
+        <div style="position:absolute;bottom:-35%;right:8%;width:600px;height:600px;border-radius:9999px;filter:blur(110px);opacity:.35;animation:blob-a 38s ease-in-out -9s infinite alternate;will-change:transform;background:radial-gradient(circle,#70f2cf 0%,rgba(112,242,207,0) 70%)"></div>
+      </div>
+    
+    <blockquote style="position:relative;max-width:1000px;margin:0 auto;text-align:center">
+      <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#fff7e8;margin:0;opacity:.75">Looking back, one of the most important product decisions on the project</p>
+      <p style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(26px,3.6vw,52px);line-height:1.2;letter-spacing:-.01em;color:#fffdf7;margin:28px 0 0;text-wrap:balance">Trust isn't built by hiding uncertainty, it's built by <span style="background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">making uncertainty understandable</span>.</p>
+    </blockquote>
+  </section>
+
+  <section id="delivery" data-screen-label="Leading Cross-Functional Delivery" style="scroll-margin-top:92px;position:relative;padding:clamp(64px,8vw,128px) clamp(24px,6vw,96px)">
+    <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
+        <div data-rail="1" style="flex:0 1 186px;position:sticky;top:86px;align-self:flex-start">
+          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">04</p>
+          <p style="font-size:14px;line-height:1.45;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:12px 0 0">Leading Cross-Functional Delivery</p>
+          <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
+        </div>
+        <div style="flex:1 1 620px;min-width:0">
+          <h2 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(30px,4vw,60px);line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:22ch">Reconciling business goals, user needs and technical constraints.</h2>
+
+      <div style="max-width:760px">
+        <p style="font-size:clamp(20px,2.2vw,25px);line-height:1.5;color:#1c1833;margin:34px 0 0;text-wrap:pretty">The shared product architecture became most valuable during implementation, when business goals, user needs and technical constraints had to be reconciled continuously.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I held primary responsibility for MVP scope, product logic, UX direction and how features expressed the agreed object model and lifecycle. The Technical Lead guided technical architecture and feasibility; the Junior Design Engineer produced the detailed interface and implemented the frontend and Firestore flows; and the Junior AI Developer implemented AI behaviour and integrations. The client provided the long-term business vision, domain context and feedback, making their alignment and confidence essential throughout the engagement.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">When trade-offs surfaced across those responsibilities, I facilitated decisions by tracing the question back to the relevant object, relationship or lifecycle state before debating an interface solution. The activity-log example below shows how that approach worked in practice.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Supporting Implementation</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Delivering the product required continuous collaboration with engineering, not a single hand-off. We held weekly cross-functional meetings alongside asynchronous updates, with focused working sessions whenever a decision required more than a status check.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I translated product decisions into detailed user journeys, interaction flows and functional specifications, then remained involved throughout implementation, answering questions, adapting designs when technical constraints surfaced and reviewing completed flows with engineering. Our internal checks covered core functionality, data flows and lifecycle progression.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">One design review exposed a significant usability risk in the activity log. An early version required users to enter technical consumption values, but most people would not know how much electricity their kettle used when boiling water or which emissions factor applied. Asking for information users could not reasonably provide would make logging slower and reduce confidence in the resulting estimate.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I initially explored allowing users to describe an activity in natural language, for example, "boiled water with an electric kettle", and having the system interpret it and calculate the carbon-footprint estimate automatically. Engineering determined that reliably translating unrestricted text into all the inputs required for calculation was not feasible within the MVP timeline. Climatiq could calculate an emissions estimate once it received structured data; the difficult part was accurately inferring that data from an open-ended description.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">We agreed on a simpler compromise: a searchable catalogue of familiar activities. OpenAI could enrich a description or help match it to a likely activity, but it did not calculate the carbon footprint or autonomously determine every required input. Users confirmed the activity and entered only a quantity they could reasonably know, such as frequency, duration, distance or amount. The resulting structured data was passed to Climatiq, which produced the emissions estimate. The result was presented as Estimated, with the relevant methodology and assumptions available for review.</p>
+      </div>
+
+      <figure style="margin:clamp(40px,5vw,64px) 0 0">
+        <div style="display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between;padding-bottom:22px;border-bottom:1px solid rgba(28,24,51,.13)">
+          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Activity log, as built</p>
+          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#8f74ff;margin:0">people enter only what they can know</p>
+        </div>
+        <div style="position:relative;margin-top:30px">
+          <div aria-hidden="true" style="position:absolute;top:8px;left:26px;right:26px;height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 50%,#8f74ff)"></div>
+          <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:clamp(20px,3vw,44px)">
+            <div style="display:flex;flex-direction:column">
+              <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 01</p>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,24px);font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">Choose a known activity</p>
+              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">A searchable catalogue of familiar activities, instead of technical consumption values.</p>
+              <div style="margin-top:22px;padding:8px;border-radius:38px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 24px 48px rgba(28,24,51,.16)">
+                <div style="position:relative;border-radius:31px;overflow:hidden;background:#fff">
+                  <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:38%;height:15px;border-radius:9999px;background:#14101f;z-index:2"></div>
+                  <div style="height:29px;background:#fff"></div>
+                  <img src="assets/14-what-would-you-like-to-log-transport-or.png" alt="What would you like to log? Transport or Home Energy" style="display:block;width:100%;height:auto">
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column">
+              <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 02</p>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,24px);font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">Enter only what you know</p>
+              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Frequency, duration, distance or amount — nothing a person would have to look up.</p>
+              <div style="margin-top:22px;padding:8px;border-radius:38px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 24px 48px rgba(28,24,51,.16)">
+                <div style="position:relative;border-radius:31px;overflow:hidden;background:#fff">
+                  <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:38%;height:15px;border-radius:9999px;background:#14101f;z-index:2"></div>
+                  <div style="height:29px;background:#fff"></div>
+                  <img src="assets/15-log-transport-transport-mode-distance-an.png" alt="Log Transport: transport mode, distance and date" style="display:block;width:100%;height:auto">
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column">
+              <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 03</p>
+              <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,24px);font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">See how the number was made</p>
+              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">The result is presented as Estimated, with methodology and assumptions available.</p>
+              <div style="margin-top:22px;padding:8px;border-radius:38px;background:linear-gradient(160deg,#3a3157,#15101f 60%);box-shadow:0 24px 48px rgba(28,24,51,.16)">
+                <div style="position:relative;border-radius:31px;overflow:hidden;background:#fff">
+                  <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:38%;height:15px;border-radius:9999px;background:#14101f;z-index:2"></div>
+                  <div style="height:29px;background:#fff"></div>
+                  <img src="assets/16-activity-logged-confirmation-showing-an.png" alt="Activity Logged confirmation showing an estimated impact calculated from a simulated methodology-based calculation" style="display:block;width:100%;height:auto">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-top:clamp(28px,3.5vw,44px);padding-top:26px;border-top:1px solid rgba(28,24,51,.13)">
+            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#fffdf7">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Person</p>
+              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">confirms the activity and one quantity</p>
+            </div>
+            <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
+            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#f0e9ff">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">OpenAI</p>
+              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">enriches or matches the description</p>
+            </div>
+            <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
+            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#e6f6ff">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Structured data</p>
+              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">activity type, quantity, date</p>
+            </div>
+            <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
+            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#e8fff6">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Climatiq</p>
+              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">calculates the emissions estimate</p>
+            </div>
+            <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
+            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#ffe1d6">
+              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Result</p>
+              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">shown as Estimated, methodology attached</p>
+            </div>
+        </div>
+        <figcaption style="font-size:14px;color:#4d476a;margin-top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">Fig. 10 — The compromise in the build: a catalogue of familiar activities, one quantity a person can reasonably know, and a result presented as Estimated.</figcaption>
+      </figure>
+
+      <div style="max-width:760px">
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">The solution was less flexible than unrestricted natural-language logging, but it could preserve the core usability goal while remaining technically feasible and transparent about the certainty of its calculations. This became a pattern throughout implementation: we evaluated technical trade-offs against the underlying user need rather than defending a particular design solution.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Guiding MVP Scope</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The client's vision included numerous opportunities for expansion: gamification, personalised sustainability plans, rewards, advanced analytics and social features. Many had genuine value. The harder question was not whether an idea was good, but whether it was right for this stage.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">With a four-month deadline, the goal was not to maximise the feature list. It was to deliver one complete experience that made the relationship between individual action and collective impact clear enough to evaluate.</p>
+      </div>
+
+      <div style="margin:clamp(36px,4vw,56px) 0 0;border-radius:28px;background:#f0e9ff;padding:clamp(28px,4vw,48px);max-width:860px">
+        <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">The scope test I introduced</p>
+        <p style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.6vw,34px);line-height:1.25;color:#1c1833;margin:16px 0 0">Does this strengthen the core behavioural loop, or make it harder to assess on its own?</p>
+      </div>
+
+      <div style="max-width:760px">
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">The clearest test came when the client wanted to introduce rewards and gamification during Phase 1. Rather than rejecting the idea outright, I brought the conversation back to the hypothesis we had agreed to examine first: whether the individual-to-collective loop was compelling without additional engagement mechanics.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">We agreed to defer rewards, gamification and personalisation until after usability testing. Because the decision was evaluated against an agreed product question (not personal preference) the client supported it. This kept Phase 1 focused on a complete individual-to-collective experience and created a clearer hypothesis for Phase 2 testing.</p>
+
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Closing the Design-to-Build Gap</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Once I established the core UX artifacts (user flows, user journeys) and the lean design system, I delegated screen design and UI production in Figma to the Junior Design Engineer. Upon my review and approval, she then built those screens directly in FlutterFlow, while I maintained oversight of critical flows and implementation specs. I guided her through regular critiques that evaluated accessibility, usability, visual design fidelity, and whether the build faithfully reflected our agreed object model and lifecycle logic.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">That alignment wasn't a one-time result of the workshop. During one review, an early UI pass had drifted back toward a conventional carbon tracker and omitted the shared-project logic that made Persustain distinctive. I traced the issue back to the agreed object and lifecycle models, using the shared language, not my opinion, showing which relationships had disappeared from the interface. We then revised the experience so that personal tracking visibly connected to shared projects and lifecycle progress.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="outcomes" data-screen-label="Outcomes and What's Next" style="scroll-margin-top:92px;position:relative;padding:clamp(64px,8vw,128px) clamp(24px,6vw,96px);border-top:1px solid rgba(28,24,51,.1)">
+    <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
+        <div data-rail="1" style="flex:0 1 186px;position:sticky;top:86px;align-self:flex-start">
+          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">05</p>
+          <p style="font-size:14px;line-height:1.45;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:12px 0 0">Outcomes &amp; What's Next</p>
+          <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
+        </div>
+        <div style="flex:1 1 620px;min-width:0">
+          <h2 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(30px,4vw,60px);line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:22ch">What Phase 1 established.</h2>
+
+      <div style="max-width:760px">
+        <p style="font-size:clamp(20px,2.2vw,25px);line-height:1.5;color:#1c1833;margin:34px 0 0;text-wrap:pretty">Phase 1 was delivered within the agreed four-month scope for the incubator milestone review. The working MVP demonstrated the relationship between individual action, shared projects and the future verification lifecycle, turning the client's investor deck into something stakeholders could demonstrate rather than a vision they could only describe.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The client funded a Phase 2 engagement and continued with us. This is meaningful evidence of delivery and client confidence, but it is not evidence of user adoption or market impact.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Phase 1 also established shared object, lifecycle and trust-state models, supported by documented user flows and functional specifications. These foundations give Phase 2 a defined conceptual starting point. Whether they reduce future rework or improve delivery speed has not yet been measured.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Persustain was delivered as an incubator MVP rather than a public launch, so there are no post-launch activation, retention or engagement metrics to report. The same principle that governs the product's trust-state design governs this case study: nothing is presented as measured until it has actually been measured.</p>
+      </div>
+
+      <div style="max-width:760px">
+        <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">What I'll Validate First in Phase 2</h3>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Phase 2 extends beyond usability testing. It includes continued product development toward the later lifecycle stages (verification, registry participation, certification and value creation) while testing the core experience with real users.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">My first product-design priority will be to test the assumptions Phase 1 left unproven:</p>
+      </div>
+
+      <ul style="list-style:none;padding:0;margin:clamp(28px,3vw,40px) 0 0;display:flex;flex-wrap:wrap;gap:clamp(12px,1.6vw,20px);align-items:stretch">
+        <li style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#e8fff6;padding:clamp(22px,2.6vw,30px)">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span aria-hidden="true" style="width:9px;height:9px;border-radius:9999px;background:#69debe"></span>
+            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#4d476a">Q01</span>
+            <span aria-hidden="true" style="margin-left:auto;font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;line-height:.7;color:rgba(28,24,51,.16)">?</span>
+          </div>
+          <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether users understand how their activity contributes to a shared project</p>
+          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:auto 0 0;padding-top:24px">Comprehension</p>
+        </li>
+        <li style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#e6f6ff;padding:clamp(22px,2.6vw,30px)">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span aria-hidden="true" style="width:9px;height:9px;border-radius:9999px;background:#7cd2f2"></span>
+            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#4d476a">Q02</span>
+            <span aria-hidden="true" style="margin-left:auto;font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;line-height:.7;color:rgba(28,24,51,.16)">?</span>
+          </div>
+          <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether Estimated, Pending and Simulated increase trust rather than create confusion</p>
+          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:auto 0 0;padding-top:24px">Trust labels</p>
+        </li>
+        <li style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#f0e9ff;padding:clamp(22px,2.6vw,30px)">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span aria-hidden="true" style="width:9px;height:9px;border-radius:9999px;background:#8f74ff"></span>
+            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#4d476a">Q03</span>
+            <span aria-hidden="true" style="margin-left:auto;font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;line-height:.7;color:rgba(28,24,51,.16)">?</span>
+          </div>
+          <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether the Project page gives people a stronger reason to return than personal tracking alone</p>
+          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:auto 0 0;padding-top:24px">Retention</p>
+        </li>
+      </ul>
+
+      <div style="max-width:760px">
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:clamp(28px,3vw,40px) 0 0;text-wrap:pretty">The findings will inform how we refine the core loop and introduce later lifecycle capabilities. After launch, I will establish behavioural baselines before setting targets for activation, repeat activity logging, project-page engagement and return behaviour.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Once those questions are better understood, I will also test how users respond when a project is delayed or unsuccessful, whether transparent communication maintains trust or causes them to lose confidence in the platform.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reflection" data-screen-label="Reflection" style="scroll-margin-top:92px;position:relative;padding:clamp(64px,8vw,128px) clamp(24px,6vw,96px);border-top:1px solid rgba(28,24,51,.1)">
+    <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
+        <div data-rail="1" style="flex:0 1 186px;position:sticky;top:86px;align-self:flex-start">
+          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">06</p>
+          <p style="font-size:14px;line-height:1.45;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:12px 0 0">Reflection</p>
+          <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
+        </div>
+        <div style="flex:1 1 620px;min-width:0">
+          <h2 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(30px,4vw,60px);line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:24ch">An investor deck and a product spec are written in two different languages.</h2>
+      <div style="max-width:760px">
+        <p style="font-size:clamp(20px,2.2vw,25px);line-height:1.5;color:#1c1833;margin:34px 0 0;text-wrap:pretty">If I'm honest, the moment that's stayed with me isn't a screen, it's realizing that an investor deck and a product spec are written in two different languages. Most of my early value came before interface design: translating an ambitious business narrative into objects, relationships, lifecycle rules and product decisions the team could build.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Persustain's business model was already coherent to the people building it into a five-year narrative. What it wasn't, yet, was buildable.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The harder lesson came later: defining a system doesn't mean it survives execution. Even with a documented object model, someone still has to notice when execution quietly slides back toward the familiar, and use the shared language, not authority, to correct it.</p>
+        <p style="font-size:19px;line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">And the trust-state pattern (Estimated, Pending, Simulated) is the piece I'm proudest of, and the one I'm least certain about. I designed it to solve an honesty problem: how do you show a five-year vision without lying about what's live today. Whether those distinctions genuinely increase user trust is a question only real users can answer, and that's exactly what Phase 2 is intended to validate.</p>
+        <p style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,2.4vw,32px);line-height:1.3;color:#1c1833;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">Product design isn't always about removing complexity. Sometimes the harder work is organizing it so people can understand what is true, what comes next, and what they can confidently do. The interface was one expression of that work; the more meaningful contribution was creating a shared understanding across business, design, and engineering that turned an ambitious climate strategy into something buildable.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="position:relative;overflow:hidden;background:#24174a;padding:clamp(64px,8vw,120px) clamp(24px,6vw,96px)">
+    
+      <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none">
+        <div style="position:absolute;bottom:-40%;left:20%;width:700px;height:700px;border-radius:9999px;filter:blur(110px);opacity:.4;animation:blob-d 35s ease-in-out -2s infinite alternate;will-change:transform;background:radial-gradient(circle,#ff7f6e 0%,rgba(255,127,110,0) 70%)"></div>
+      </div>
+    
+    <div style="position:relative;max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between">
+      <p style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(24px,3vw,40px);line-height:1.15;color:#fffdf7;margin:0;max-width:20ch">Thanks for reading.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <a href="https://marva-a.github.io/Portfolio/#projects" style="padding:14px 26px;border-radius:9999px;background:#fffdf7;color:#1c1833;font-size:16px;font-weight:600">Back to selected work</a>
+        <a href="https://marva-a.github.io/Portfolio/#contact" style="padding:14px 26px;border-radius:9999px;border:1px solid rgba(255,253,247,.35);color:#fffdf7;font-size:16px;font-weight:600">Get in touch</a>
+      </div>
+    </div>
+  </footer>
+</div>
+<script>
+(function () {
+  function init() {
+    var nav = document.getElementById('cs-nav');
+    if (!nav) return;
+    var bar = document.getElementById('cs-progress');
+    var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+    var pairs = links
+      .map(function (a) { return { a: a, t: document.getElementById(a.getAttribute('href').slice(1)) }; })
+      .filter(function (p) { return p.t; });
+    var current = -1;
+    function paint(i) {
+      if (i === current) return;
+      current = i;
+      pairs.forEach(function (p, n) {
+        var on = n === i;
+        p.a.style.background = on ? '#1c1833' : '#fffdf7';
+        p.a.style.color = on ? '#fffdf7' : '#1c1833';
+        p.a.style.borderColor = on ? '#1c1833' : 'rgba(28,24,51,.1)';
+      });
+    }
+    var home = document.getElementById('cs-home');
+    var stuck = null;
+    function onScroll() {
+      if (home) {
+        var on = nav.getBoundingClientRect().top <= 1 && window.scrollY > 12;
+        if (on !== stuck) {
+          stuck = on;
+          home.style.maxWidth = on ? '60px' : '0px';
+          home.style.opacity = on ? '1' : '0';
+          home.style.marginRight = on ? '4px' : '0';
+        }
+      }
+      var y = window.scrollY + 150;
+      var idx = -1;
+      pairs.forEach(function (p, n) {
+        if (p.t.getBoundingClientRect().top + window.scrollY <= y) idx = n;
+      });
+      paint(idx);
+      if (bar) {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

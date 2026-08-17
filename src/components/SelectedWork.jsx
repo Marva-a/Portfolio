@@ -64,9 +64,16 @@ const DESCRIPTION =
 
 // Project 01 is the desktop hero card, laid out separately there. Pulling it
 // into data lets the mobile carousel render all five identically.
+// The case study is a standalone static page under public/, not a route in
+// this SPA, so it gets a real path instead of a hash — same reasoning as the
+// Resume link in Nav.jsx. BASE_URL resolves correctly on both the dev server
+// and GitHub Pages without hardcoding the repo name here.
 const featured = {
   id: "01",
-  title: "01. Project Name",
+  title: "01. Persustain",
+  href: `${import.meta.env.BASE_URL}case-studies/persustain/`,
+  description:
+    "Designing a path from individual climate action to shared, verifiable impact.",
   tags: [
     { label: "0-to-1", bg: pillPalette[0] },
     { label: "Systems Thinking", bg: pillPalette[1] },
@@ -165,13 +172,19 @@ function ProjectCarousel() {
         onScroll={handleScroll}
         className="no-scrollbar -mx-6 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-2 md:-mx-24 md:px-24"
       >
-        {allProjects.map((project, i) => (
+        {allProjects.map((project, i) => {
+          // Cards without a real case study yet stay inert (CTA text, no
+          // link); Persustain and any future project with an href become a
+          // single tap target spanning the whole card.
+          const Wrapper = project.href ? "a" : "div";
+          return (
           <article
             key={project.id}
             className="w-[78vw] max-w-[520px] shrink-0 snap-center"
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${allProjects.length}: ${project.title}`}
           >
+          <Wrapper {...(project.href ? { href: project.href } : {})} className="block">
             {/* Square rather than 4:5 — the 4:5 height existed to seat the
                 metrics block along the bottom edge. With only the pills left
                 in it, that extra height read as an empty well. */}
@@ -199,7 +212,7 @@ function ProjectCarousel() {
               {project.title}
             </h3>
             <p className="mt-2 text-[15px] leading-relaxed" style={{ color: "#FFF7E8" }}>
-              {DESCRIPTION}
+              {project.description || DESCRIPTION}
             </p>
             <span
               className="mt-3 inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold"
@@ -208,8 +221,10 @@ function ProjectCarousel() {
               View case study
               <span aria-hidden="true">{"\u2192"}</span>
             </span>
+          </Wrapper>
           </article>
-        ))}
+          );
+        })}
       </div>
 
     </div>
@@ -259,8 +274,9 @@ export default function SelectedWork() {
         {/* Desktop composition: hero card, then a two-up grid. */}
         <div className="hidden xl:block">
         {/* Featured project */}
-        <div
-          className={`relative mt-10 overflow-hidden rounded-3xl bg-[#24174A] p-6 md:aspect-auto md:h-[500px] md:cursor-none md:p-10 ${CARD_HOVER}`}
+        <a
+          href={featured.href}
+          className={`relative mt-10 block overflow-hidden rounded-3xl bg-[#24174A] p-6 md:aspect-auto md:h-[500px] md:cursor-none md:p-10 ${CARD_HOVER}`}
           {...cardHoverProps}
         >
           <CardMesh
@@ -270,29 +286,28 @@ export default function SelectedWork() {
           />
 
           <div className="absolute right-6 top-6 z-10 flex gap-2 md:right-10 md:top-10">
-            {["0-to-1", "Systems Thinking"].map((tag, i) => (
+            {featured.tags.map((tag) => (
               <Pill
-                key={tag}
-                bg={i === 0 ? pillPalette[0] : pillPalette[1]}
+                key={tag.label}
+                bg={tag.bg}
                 color={color.textPrimary}
                 className="text-xs font-medium"
               >
-                {tag}
+                {tag.label}
               </Pill>
             ))}
           </div>
 
-        </div>
+        </a>
 
-        <div className="mt-8 text-left">
+        <a href={featured.href} className="mt-8 block text-left">
           <h3 className="font-georgia fluid-card-title font-bold" style={{ color: "#FFFDF7" }}>
-            01. Project Name
+            {featured.title}
           </h3>
           <p className="mt-2 text-[17px] md:text-[20px]" style={{ color: "#FFF7E8" }}>
-            Explore the case studies, strategic thinking behind each key
-            decision and the business outcome.
+            {featured.description || DESCRIPTION}
           </p>
-        </div>
+        </a>
 
         {/* Grid of remaining projects */}
         <div className="mt-12 grid gap-x-6 gap-y-10 md:grid-cols-2">
