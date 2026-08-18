@@ -133,23 +133,31 @@
         <span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 20px;border-radius:9999px;background:#fffdf7;font-family:'DM Sans',system-ui,'Segoe UI',Roboto,sans-serif;font-size:15px;font-weight:500;color:#1c1833">MA</span>
       </a>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(24px,4vw,56px);align-items:start;margin-top:clamp(20px,3vw,36px)">
-        <div>
-          <h1 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(34px,4.4vw,54px);line-height:1.05;letter-spacing:-.015em;margin:0;color:#1c1833">Persustain</h1>
-          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:14px 0 0">iOS app design · 2026</p>
-          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px">
-            <span style="padding:8px 16px;border-radius:9999px;background:#e8fff6;color:#1c1833;font-size:14px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">0-to-1</span>
-            <span style="padding:8px 16px;border-radius:9999px;background:#e6f6ff;color:#1c1833;font-size:14px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Systems Thinking</span>
-          </div>
-        </div>
+      <!-- Title, phones and the headline all share one left edge: this
+           block sizes to its natural content width (not stretched to the
+           header's full 1232px) and is centred as a unit, which is what
+           gives it the wide, even margin on both sides. -->
+      <div style="display:flex;justify-content:center">
+        <div style="max-width:640px;margin-top:clamp(20px,3vw,36px)">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:clamp(24px,4vw,56px)">
+            <div>
+              <h1 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(34px,4.4vw,54px);line-height:1.05;letter-spacing:-.015em;margin:0;color:#1c1833">Persustain</h1>
+              <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:14px 0 0">iOS app design · 2026</p>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px">
+                <span style="padding:8px 16px;border-radius:9999px;background:#e8fff6;color:#1c1833;font-size:14px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">0-to-1</span>
+                <span style="padding:8px 16px;border-radius:9999px;background:#e6f6ff;color:#1c1833;font-size:14px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Systems Thinking</span>
+              </div>
+            </div>
 
-        <div style="display:flex;justify-content:center;align-items:flex-end;gap:clamp(12px,2vw,28px)">
-          <img src="assets/17-hero-dashboard.png" alt="Persustain dashboard showing Current Period: 182 kg CO2, 13% below baseline, February 2026" style="display:block;width:clamp(150px,17vw,236px);height:auto;border-radius:44px;box-shadow:0 34px 60px rgba(28,24,51,.22)">
-          <img src="assets/18-hero-impact.png" alt="Persustain My Impact so far: 12 kg CO2e logged, and the Footprint Movement chart" style="display:block;width:clamp(150px,17vw,236px);height:auto;margin-bottom:clamp(24px,5vw,72px);border-radius:44px;box-shadow:0 34px 60px rgba(28,24,51,.22)">
+            <div style="display:flex;align-items:flex-end;gap:clamp(12px,2vw,28px)">
+              <img src="assets/17-hero-dashboard.png" alt="Persustain dashboard showing Current Period: 182 kg CO2, 13% below baseline, February 2026" style="display:block;width:clamp(150px,17vw,236px);height:auto;border-radius:44px;box-shadow:0 34px 60px rgba(28,24,51,.22)">
+              <img src="assets/18-hero-impact.png" alt="Persustain My Impact so far: 12 kg CO2e logged, and the Footprint Movement chart" style="display:block;width:clamp(150px,17vw,236px);height:auto;margin-bottom:clamp(24px,5vw,72px);border-radius:44px;box-shadow:0 34px 60px rgba(28,24,51,.22)">
+            </div>
+          </div>
+
+          <p style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(34px,5.4vw,80px);line-height:1.08;letter-spacing:-.02em;color:#1c1833;margin:clamp(40px,6vw,88px) 0 0;text-wrap:balance">Turning individual climate action into shared, <em style="font-style:italic;background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">verifiable</em> impact.</p>
         </div>
       </div>
-
-      <p style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(34px,5.4vw,80px);line-height:1.08;letter-spacing:-.02em;color:#1c1833;margin:clamp(40px,6vw,88px) 0 0;max-width:19ch;text-wrap:balance">Turning individual climate action into shared, <em style="font-style:italic;background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">verifiable</em> impact.</p>
     </div>
   </header>
 
