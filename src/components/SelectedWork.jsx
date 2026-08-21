@@ -68,18 +68,15 @@ const DESCRIPTION =
 // this SPA, so it gets a real path instead of a hash — same reasoning as the
 // Resume link in Nav.jsx. BASE_URL resolves correctly on both the dev server
 // and GitHub Pages without hardcoding the repo name here.
-// Two written versions of the Persustain case study live under public/,
-// sharing one design: "persustain" and "persustain-v2". Both always deploy;
-// only the one named here is linked from the site. To switch which is live,
-// change this single value — and move the <meta name="robots" content=
-// "noindex"> tag into the head of whichever version is now the unlinked one,
-// so the two never compete as duplicate content in search.
-const PERSUSTAIN_VERSION = "persustain-v2";
-
+// This is always the live case study at the canonical
+// /case-studies/persustain/ URL. An earlier written version is kept,
+// unlinked, at public/case-studies/persustain-archive/ (see the comment
+// in that page's <head> for how to swap which one is live) — the URL
+// here never changes, only what's swapped into this folder does.
 const featured = {
   id: "01",
   title: "01. Persustain",
-  href: `${import.meta.env.BASE_URL}case-studies/${PERSUSTAIN_VERSION}/`,
+  href: `${import.meta.env.BASE_URL}case-studies/persustain/`,
   description:
     "Designing a path from individual climate action to shared, verifiable impact.",
   tags: [
