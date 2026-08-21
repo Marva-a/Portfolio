@@ -249,6 +249,32 @@
   .cs-jump-dot { flex:0 0 auto; width:7px; height:7px; border-radius:9999px }
   .cs-jump-dot { flex:0 0 auto; width:7px; height:7px; border-radius:9999px }
 
+  /* Chase shimmer for the full-story chapter pills — same mechanism as the
+     homepage's "Open to new roles" text-shimmer (a lighter band swept
+     through the letters via background-clip), but run once per pill in
+     sequence rather than all six lighting up together. Every pill shares
+     one 6s cycle at the same animation-duration; only the animation-delay
+     differs (staggered by inline style, one second apart), so the sweep
+     visits pill 1, then 2, ... then 6, then loops back to 1. The sweep
+     itself is quick (first 15% of the cycle, ~0.9s) so it clears one pill's
+     slot before the next one's delay expires. */
+  .cs-jump-shine {
+    background-image: linear-gradient(90deg, #1c1833 0%, #1c1833 45%, #8b83b8 50%, #1c1833 55%, #1c1833 100%);
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: cs-jump-chase 6s ease-in-out infinite;
+  }
+  @keyframes cs-jump-chase {
+    0% { background-position: 100% 0; }
+    15% { background-position: 0% 0; }
+    100% { background-position: 0% 0; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .cs-jump-shine { animation:none; background-image:none; color:#1c1833 }
+  }
+
   /* Experimental: hide the bar on scroll-down, reveal it on scroll-up —
      only once it's actually pinned (from chapter 01 on; before that it
      doesn't exist on screen regardless). Transform rather than display, so
@@ -605,12 +631,12 @@
            over at chapter 01, it reads as the same row continuing, not a
            different one swapped in underneath it. -->
       <nav aria-label="Chapters" style="display:flex;flex-wrap:wrap;gap:10px;margin:clamp(40px,5.5vw,72px) 0 0">
-        <a href="#pivot" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#69debe"></span>Strategic Pivot</a>
-        <a href="#system" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#7cd2f2"></span>Product System</a>
-        <a href="#trust" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#8f74ff"></span>Designing for Trust</a>
-        <a href="#delivery" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#ff806e"></span>Cross-Functional Delivery</a>
-        <a href="#outcomes" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#ffd166"></span>Outcomes &amp; What's Next</a>
-        <a href="#reflection" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#69debe"></span>Reflection</a>
+        <a href="#pivot" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#69debe"></span><span class="cs-jump-shine" style="animation-delay:0s">Strategic Pivot</span></a>
+        <a href="#system" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#7cd2f2"></span><span class="cs-jump-shine" style="animation-delay:1s">Product System</span></a>
+        <a href="#trust" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#8f74ff"></span><span class="cs-jump-shine" style="animation-delay:2s">Designing for Trust</span></a>
+        <a href="#delivery" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#ff806e"></span><span class="cs-jump-shine" style="animation-delay:3s">Cross-Functional Delivery</span></a>
+        <a href="#outcomes" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#ffd166"></span><span class="cs-jump-shine" style="animation-delay:4s">Outcomes &amp; What's Next</span></a>
+        <a href="#reflection" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#69debe"></span><span class="cs-jump-shine" style="animation-delay:5s">Reflection</span></a>
       </nav>
 
       <!-- Closing invitation for this band — generous space above it so it
