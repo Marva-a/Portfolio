@@ -641,7 +641,12 @@
 
       <!-- Closing invitation for this band — generous space above it so it
            reads as its own beat after the pills, not crowded against them. -->
-      <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(255,247,232,.6);margin:clamp(56px,7vw,88px) 0 0;display:flex;align-items:baseline;gap:8px">Keep reading <span aria-hidden="true">&darr;</span></p>
+      <!-- Same arrow glyph as the resume page's icon-arrow.svg (there
+           rotated for an external-link diagonal; here at its natural
+           orientation, pointing straight down), inlined rather than
+           referenced so its colour can just inherit from the text via
+           currentColor. -->
+      <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(255,247,232,.6);margin:clamp(56px,7vw,88px) 0 0;display:flex;align-items:center;gap:8px">Keep reading <svg aria-hidden="true" width="14" height="14" viewBox="0 0 62 62" fill="currentColor"><path d="M 11.895 25.554 L 11.895 1.292 C 11.895 0.925 12.018 0.617 12.265 0.369 C 12.511 0.121 12.818 -0.002 13.187 0 C 13.555 0.002 13.863 0.125 14.109 0.369 C 14.355 0.614 14.479 0.921 14.479 1.292 L 14.479 25.554 L 24.156 15.877 C 24.397 15.636 24.694 15.507 25.047 15.49 C 25.397 15.472 25.709 15.602 25.985 15.877 C 26.26 16.153 26.398 16.458 26.398 16.792 C 26.398 17.126 26.26 17.431 25.985 17.706 L 14.646 29.042 C 14.23 29.46 13.743 29.67 13.187 29.67 C 12.631 29.67 12.144 29.46 11.727 29.042 L 0.389 17.706 C 0.148 17.465 0.019 17.169 0.002 16.818 C -0.016 16.466 0.113 16.153 0.389 15.877 C 0.665 15.602 0.969 15.464 1.304 15.464 C 1.638 15.464 1.942 15.602 2.218 15.877 L 11.895 25.554 Z" fill-rule="evenodd" transform="matrix(1 0 0 1 17.813 14.208)"></path></svg></p>
     </div>
   </section>
 
