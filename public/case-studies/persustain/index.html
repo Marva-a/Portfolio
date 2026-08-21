@@ -111,6 +111,41 @@
   @media (max-width: 1000px) {
     [data-rail] { position: static !important; top: auto !important; flex-basis: 100% !important; }
   }
+  /* Below 768px the fixed MA badge (top:24, ~50px tall) sits directly over
+     the hero title at this header's default padding-top, clipping
+     "Persustain" behind the badge on load — the one place on the page
+     where the badge's permanent overlap actually lands on content instead
+     of passing over it mid-scroll. Same fix as the homepage's mobile hero:
+     give the title clearance below the badge rather than under it. */
+  @media (max-width: 767px) {
+    #cs-hero { padding-top: 96px !important; }
+  }
+  /* Every section's fluid clamp() padding bottoms out well under 96px on
+     a phone (64/56/72/40, depending on the section) — the homepage's own
+     sections (SelectedWork, Expertise, About) all use a flat pt-24/pb-24,
+     96px on every side, on mobile. Matched here section by section so the
+     case study keeps the same vertical rhythm; the hero's top is left
+     alone per the fix above. Its bottom padding is dropped instead of
+     matched — the hero's phones already sit well clear of Summary below,
+     and 96px of empty space under them just widened that gap further. */
+  @media (max-width: 767px) {
+    #cs-hero {
+      padding-bottom: 0 !important;
+    }
+    #summary,
+    #full-story,
+    #pivot,
+    #system,
+    #trust,
+    [data-screen-label="Trust principle"],
+    #delivery,
+    #outcomes,
+    #reflection,
+    [aria-labelledby="next-projects"] {
+      padding-top: 96px !important;
+      padding-bottom: 96px !important;
+    }
+  }
   @keyframes blob-a { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(7vw,4vh,0) scale(1.18); } 100% { transform: translate3d(-3vw,-3vh,0) scale(.94); } }
   @keyframes blob-b { 0% { transform: translate3d(0,0,0) scale(1.06); } 50% { transform: translate3d(-8vw,5vh,0) scale(.9); } 100% { transform: translate3d(4vw,-4vh,0) scale(1.14); } }
   @keyframes blob-c { 0% { transform: translate3d(0,0,0) scale(.96); } 50% { transform: translate3d(5vw,-6vh,0) scale(1.2); } 100% { transform: translate3d(-6vw,3vh,0) scale(1); } }
@@ -182,8 +217,21 @@
   .cs-proj-blob { position:absolute; border-radius:9999px; filter:blur(45px); pointer-events:none }
   @media (prefers-reduced-motion:reduce) { .cs-proj:hover { transform:none } }
 
-  .cs-eyebrow-ink { font-size:12px; letter-spacing:.15em; text-transform:uppercase }
-  @media (min-width:768px) { .cs-eyebrow-ink { font-size:14px; letter-spacing:.2em } }
+  /* "Want the short/full version?" — the page's transition cues between
+     one reading mode and the next, not just another section label. Sized
+     above the 13px eyebrows used for in-section labels (Summary, Role,
+     Object map, …) so they read as a bigger structural beat than the
+     labels they sit beside. */
+  .cs-eyebrow-ink { font-size:16px; letter-spacing:.14em; text-transform:uppercase }
+  @media (min-width:768px) { .cs-eyebrow-ink { font-size:19px; letter-spacing:.18em } }
+
+  /* "More work" — this one IS a normal section label (the "Next projects"
+     opener), so it takes the homepage's own eyebrow size exactly
+     (SectionHeading.jsx: text-[12px]/tracking-[0.15em], md:text-[14px]/
+     tracking-[0.2em]) rather than cs-eyebrow-ink's bigger transition-cue
+     size above. */
+  .cs-eyebrow-section { font-size:12px; letter-spacing:.15em; text-transform:uppercase }
+  @media (min-width:768px) { .cs-eyebrow-section { font-size:14px; letter-spacing:.2em } }
 
   .cs-colophon { display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center }
   @media (min-width:768px) { .cs-colophon { flex-direction:row; justify-content:space-between; text-align:left } }
@@ -217,6 +265,117 @@
   .cs-summary-grid { grid-template-columns:1fr }
   @media (min-width:768px) { .cs-summary-grid { grid-template-columns:1fr 1fr } }
   @media (min-width:1024px) { .cs-summary-grid { grid-template-columns:2fr 1.2fr 1fr } }
+
+  /* Role/Responsibility/Timeline/Team/Tools, collapsed on a phone behind a
+     "Read more" toggle — same mechanism as the homepage's About bio: a
+     clamped block with a gradient fade over the cut, not a hard cut-off.
+     display:contents on the wrapper from 768px up dissolves it entirely,
+     so Role and Team go back to being direct grid children (the original
+     3-column layout) rather than one column sharing a cell; the fade and
+     toggle disappear alongside it, same cutoff About's xl:hidden uses. */
+  .cs-meta-wrap { position:relative; overflow:hidden; max-height:70px; transition:max-height .3s ease }
+  .cs-meta-wrap.expanded { overflow:visible; max-height:2000px }
+  .cs-meta-fade { position:absolute; inset:auto 0 0 0; height:56px; background:linear-gradient(to top,#fff7e8,rgba(255,247,232,0)); pointer-events:none }
+  .cs-meta-wrap.expanded .cs-meta-fade { opacity:0 }
+  /* Team stacks directly under Role inside the clamped wrap on a phone, so
+     it needs its own top gap there; from 768px up display:contents returns
+     it to being Role's neighbouring grid column instead, where the grid's
+     own gap already separates them. */
+  .cs-meta-team-gap { margin-top:32px }
+  @media (min-width:768px) { .cs-meta-team-gap { margin-top:0 } }
+  /* mt-3 (12px) — the exact gap Read more/Read less sits at under the
+     clamped bio on the homepage's About section. The toggle is its own
+     grid item in .cs-summary-grid's single mobile column, so that grid's
+     own row-gap (clamp(32px,4vw,64px)) lands between the wrap and the
+     button in addition to this margin — cancelled with the identical
+     clamp expression so only the intended 12px actually shows. */
+  .cs-bio-toggle { display:inline-block; margin-top:calc(12px - clamp(32px, 4vw, 64px)); font-size:15px; font-weight:600; color:#1c1833; text-decoration:underline; text-underline-offset:2px; background:none; border:0; padding:0; font-family:inherit }
+  @media (min-width:768px) {
+    .cs-meta-wrap { display:contents }
+    .cs-meta-fade { display:none }
+    .cs-bio-toggle { display:none !important }
+  }
+
+  /* The retention-loop figure's connecting line and loop-back arc are both
+     drawn for the desktop's 3-up row (a bar spanning dot-to-dot, an arc
+     curling from card 3 back to card 1) — on a phone the three cards stack
+     in one column instead, so that geometry no longer lines up with
+     anything: the bar floats disconnected above card 01, and the arc's
+     hard-coded left/right insets land across card 03's own text instead of
+     under it. Both are desktop-only; the mobile card stack already reads
+     as a sequence without them, and a plain, non-absolute hypothesis line
+     takes over for the caption the arc was carrying. */
+  .cs-loop-line, .cs-loop-arc { display:none }
+  @media (min-width:768px) { .cs-loop-line, .cs-loop-arc { display:block } }
+
+  /* Mobile's own loop-back — a vertical counterpart to the arc above,
+     since there's no row width left to curl one under any more. Runs down
+     the figure's own left padding gutter (never crossing into a card, so
+     it can't land on top of any card's text the way the horizontal
+     version did) from card 01's dot to just above card 03, then curves
+     back in at the top with an arrowhead — the same "loops back to the
+     start" reading as the desktop arc, just turned 90°. */
+  .cs-loop-line-mobile, .cs-loop-arrow-mobile, .cs-loop-dot-mobile { display:block }
+  @media (min-width:768px) { .cs-loop-line-mobile, .cs-loop-arrow-mobile, .cs-loop-dot-mobile { display:none } }
+
+  /* The figure reserves a dedicated left-hand lane on a phone for the loop
+     line and its vertical hypothesis caption (see .cs-loop-hint below),
+     wider than the figure's own default padding — otherwise there's
+     nowhere for a 24px gap plus a rotated line of text to sit without
+     spilling past the figure's edge. */
+  @media (max-width:767px) { .cs-loop-figure { padding-left:88px !important } }
+
+  /* Narrower, centred cards on a phone — full-width cards read as too big
+     a claim for what's a three-step illustration, not a set of primary
+     content blocks. Centred within what's left of the figure once the
+     annotation lane above has taken its share, so the line still runs
+     immediately down their left edge. */
+  @media (max-width:767px) { .cs-loop-body { max-width:200px; margin-left:auto; margin-right:auto } }
+
+  /* The colourful per-card dots (numbering 01/02/03 in each accent colour)
+     are desktop-only now — the loop line + arrow already carry the
+     "sequence that loops back" reading on a phone, so the dots were just
+     repeating it in a way that no longer aligned with anything once the
+     cards stacked. Their card's own top margin (previously reserving
+     space for the dot above it) is dropped alongside them. */
+  .cs-loop-dot { display:none }
+  @media (min-width:768px) { .cs-loop-dot { display:block } }
+  @media (max-width:767px) { .cs-loop-card { margin-top:0 !important } }
+
+  /* A flat 24px between cards on a phone, rather than the fluid
+     clamp(14px,2vw,26px) the desktop row uses — with only one column left
+     the gap is just vertical rhythm, not something that needs to flex
+     with viewport width. */
+  @media (max-width:767px) { .cs-loop-grid { gap:24px !important } }
+
+  /* The hypothesis line, rotated with writing-mode:vertical-rl so it runs
+     top-to-bottom — "Hypothesis" reads first, at the top, same as the
+     horizontal version always led with it — directly in the lane
+     .cs-loop-figure reserved for it, 24px clear of the dashed line beside
+     it (line at left:-20 to 0; this sits at left:-64 to -44 — a 24px gap
+     between the two). No purple fill any more either, since it was
+     competing with card 03's own purple. */
+  .cs-loop-hint { display:block; color:#4d476a }
+  @media (min-width:768px) { .cs-loop-hint { display:none } }
+
+  /* "The loop the product had to make visible" and the closing "The loop,
+     and its retention hypothesis." caption — both should read at the same
+     13px every other card/section label on the page uses and sit
+     genuinely centred on the card, not just centred within the figure's
+     reserved-lane content box (which is itself off-centre, padded 88px on
+     the left vs. ~28px on the right). Both pull back out to the figure's
+     ordinary, symmetric width — shifted left by the lane's extra 60px and
+     widened by the same amount — before centring, so they read against
+     the card's true width rather than the lane-narrowed one. Wrapping to
+     two lines at this size is fine; it's how the title read before any of
+     this, just centred now instead of left-aligned. */
+  @media (max-width:767px) {
+    .cs-loop-title, .cs-loop-caption { margin-left:-60px !important; width:calc(100% + 60px) !important; text-align:center !important }
+    /* Same 24px rhythm as the gap between the cards themselves — title
+       down to card 01, and card 03 back up to the closing caption. */
+    .cs-loop-inner { margin-top:24px !important }
+    .cs-loop-caption { margin-top:24px !important }
+  }
 
   /* Chapter copy: the standfirst that opens each chapter and the body that
      follows it. Stepped at the site's two breakpoints (md 768 / xl 1280,
@@ -349,6 +508,46 @@
   .cs-proj-grid { display:grid; grid-template-columns:1fr; gap:clamp(24px,3vw,40px) }
   @media (min-width:768px) { .cs-proj-grid { grid-template-columns:3fr 2fr; align-items:start } }
 
+  /* "What shipped in four months" — four placeholder shots that stacked
+     into one ~1300px column on a phone, making the 2-minute summary read
+     as the longest section on the page. Below 768px this becomes the same
+     horizontally swipeable, snap-scrolling track as the homepage's project
+     carousel (SelectedWork.jsx's ProjectCarousel) instead of one more long
+     column; the grid comes back once there's room to lay two-plus out side
+     by side. Bleeds to the screen edge the same way that carousel does
+     (negative margin + matching padding), so the first card still lines up
+     with the section's own text but the track itself can scroll flush.
+     overflow-x:auto forces the cross axis to clip too, which was cutting
+     the cards' own box-shadow (6px 6px 22px) off at the top and bottom —
+     same fix as #cs-nav-inner below: pad the reach the shadow actually
+     needs (22-6=16px above, 6+22=28px below) and hand it straight back
+     with a matching negative margin, so the track's footprint in the
+     page is unchanged. */
+  #cs-shots-track { display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-left:24px; -webkit-overflow-scrolling:touch; scrollbar-width:none; -ms-overflow-style:none; margin:-16px -24px -28px; padding:16px 24px 28px }
+  #cs-shots-track::-webkit-scrollbar { display:none }
+  #cs-shots-track > * { flex:0 0 78%; scroll-snap-align:center }
+  @media (min-width:768px) {
+    #cs-shots-track { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); overflow:visible; margin:0; padding:0; gap:clamp(16px,2vw,28px) }
+    #cs-shots-track > * { flex:initial }
+  }
+
+  /* Swipe hint + "01 / 04" readout — the same pair as the homepage's
+     project carousel (SelectedWork.jsx's "Swipe through selected work" +
+     SlideCounter), shown only while the track above is actually a
+     swipeable carousel. */
+  .cs-shots-hint { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin:0 0 16px }
+  @media (min-width:768px) { .cs-shots-hint { display:none } }
+  .cs-shots-counter { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; letter-spacing:.05em; color:rgba(28,24,51,.45); margin:0 }
+
+  /* "At a glance · 2 min" and "6 chapters · 12 min" — the full read-time
+     line from 768px up. Below that it shortens to just "2 min"/"12 min",
+     still after the hairline (which stays put at every width — it's the
+     eyebrow's own underline, not part of the text it was separating). */
+  .cs-readtime { display:none }
+  @media (min-width:768px) { .cs-readtime { display:inline } }
+  .cs-readtime-mobile { display:inline-block; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; letter-spacing:.05em }
+  @media (min-width:768px) { .cs-readtime-mobile { display:none } }
+
   /* Ownership cards — a deliberate 2x2 rather than auto-fit, which splits
      four items 3-then-1 once a row has room for three: uneven sizes, one
      lonely card on its own line. Two even columns from tablet up, one on
@@ -445,8 +644,8 @@
                  what stagger the tops. Square bottom corners because a rounded
                  one would undo the cut. -->
             <div class="cs-hero-phones" style="flex:1 1 300px;min-width:0;display:flex;align-items:flex-end;gap:clamp(12px,2vw,28px)">
-              <img src="assets/17-hero-dashboard.png" alt="Persustain dashboard showing Current Period: 182 kg CO2, 13% below baseline, February 2026" style="display:block;flex:1 1 0;min-width:0;width:auto;height:auto;aspect-ratio:1 / 0.93;object-fit:cover;object-position:top;border-radius:18.5% 18.5% 0 0 / 19% 19% 0 0;box-shadow:0 34px 60px rgba(28,24,51,.22)">
-              <img src="assets/18-hero-impact.png" alt="Persustain My Impact so far: 12 kg CO2e logged, and the Footprint Movement chart" style="display:block;flex:1 1 0;min-width:0;width:auto;height:auto;aspect-ratio:1 / 1.4;object-fit:cover;object-position:top;border-radius:17.5% 17.5% 0 0 / 16% 16% 0 0;box-shadow:0 34px 60px rgba(28,24,51,.22)">
+              <img src="assets/17-hero-dashboard.png" alt="Persustain dashboard showing Current Period: 182 kg CO2, 13% below baseline, February 2026" style="display:block;flex:1 1 0;min-width:0;width:auto;height:auto;aspect-ratio:1 / 0.93;object-fit:cover;object-position:top;border-radius:18.5% 18.5% 0 0 / 19% 19% 0 0;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
+              <img src="assets/18-hero-impact.png" alt="Persustain My Impact so far: 12 kg CO2e logged, and the Footprint Movement chart" style="display:block;flex:1 1 0;min-width:0;width:auto;height:auto;aspect-ratio:1 / 1.4;object-fit:cover;object-position:top;border-radius:17.5% 17.5% 0 0 / 16% 16% 0 0;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
             </div>
           </div>
 
@@ -464,9 +663,10 @@
          paired device bracketing the short read, rather than two
          unrelated treatments. -->
     <div style="max-width:1232px;margin:0 auto clamp(34px,4vw,58px);display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px">
-      <span class="cs-eyebrow-ink" style="color:#4d476a;font-weight:500">Want the short version?</span>
+      <span class="cs-eyebrow-ink" style="color:#4d476a;font-weight:500">Want the short story?</span>
       <span aria-hidden="true" style="flex:1 1 120px;height:1px;background:linear-gradient(90deg,rgba(28,24,51,.18),rgba(28,24,51,0))"></span>
-      <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(28,24,51,.45)">At a glance &middot; 2 min</span>
+      <span class="cs-readtime-mobile" style="color:rgba(28,24,51,.45)">2 min</span>
+      <span class="cs-readtime" style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(28,24,51,.45)">At a glance &middot; 2 min</span>
     </div>
     <div class="cs-summary-grid" style="max-width:1232px;margin:0 auto;display:grid;gap:clamp(32px,4vw,64px);align-items:start">
       <div style="grid-column:span 1">
@@ -476,88 +676,109 @@
         <p style="font-size:17px;line-height:1.65;color:#1c1833;margin:18px 0 0">That decision shaped everything that followed — the product architecture, information architecture, and a trust system (<em>Estimated / Pending / Simulated</em>) that clearly distinguished what was real from what was still to come. By the end of Phase 1, the client had a working MVP that demonstrated the broader vision to investors and funded a Phase 2 engagement to build on it.</p>
       </div>
 
-      <div>
-        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Role</p>
-        <p style="font-size:17px;line-height:1.55;color:#1c1833;margin:14px 0 0">Lead Product Designer</p>
-        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Responsibility</p>
-        <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Product strategy &amp; definition</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Roadmap and prioritisation</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Information architecture</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">UX/UI direction</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Design leadership</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Cross-functional delivery</li>
-        </ul>
-        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Timeline</p>
-        <p style="font-size:17px;line-height:1.5;color:#1c1833;margin:14px 0 0">Phase 1 complete (4 months)<br>Phase 2 in progress</p>
+      <div class="cs-meta-wrap" id="cs-meta-wrap">
+        <div id="cs-summary-role">
+          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Role</p>
+          <p style="font-size:17px;line-height:1.55;color:#1c1833;margin:14px 0 0">Lead Product Designer</p>
+          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Responsibility</p>
+          <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Product strategy &amp; definition</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Roadmap and prioritisation</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Information architecture</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">UX/UI direction</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Design leadership</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Cross-functional delivery</li>
+          </ul>
+          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Timeline</p>
+          <p style="font-size:17px;line-height:1.5;color:#1c1833;margin:14px 0 0">Phase 1 complete (4 months)<br>Phase 2 in progress</p>
+        </div>
+
+        <div id="cs-summary-team" class="cs-meta-team-gap">
+          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Team</p>
+          <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Technical Lead</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Design Engineer</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">AI Developer</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Client stakeholders</li>
+          </ul>
+          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Tools</p>
+          <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">FlutterFlow</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Firebase</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Climatiq</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">OpenAI</li>
+            <li style="font-size:17px;line-height:1.5;color:#1c1833">Figma</li>
+          </ul>
+        </div>
+
+        <div class="cs-meta-fade" aria-hidden="true"></div>
       </div>
 
-      <div>
-        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Team</p>
-        <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Technical Lead</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Design Engineer</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">AI Developer</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Client stakeholders</li>
-        </ul>
-        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Tools</p>
-        <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">FlutterFlow</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Firebase</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Climatiq</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">OpenAI</li>
-          <li style="font-size:17px;line-height:1.5;color:#1c1833">Figma</li>
-        </ul>
-      </div>
+      <!-- A direct grid child, not nested in the wrap, so it isn't clamped
+           along with it: collapsed, this sits right under the fade;
+           expanded, it lands after Figma, the true end of the metadata.
+           Hidden outright at 768px up via .cs-bio-toggle's own media
+           query, so it never becomes a stray 4th column there. -->
+      <button type="button" class="cs-bio-toggle" id="cs-summary-meta-toggle" aria-expanded="false" aria-controls="cs-meta-wrap" style="justify-self:start;text-align:left">Read more</button>
     </div>
 
     <div style="max-width:1232px;margin:clamp(56px,7vw,104px) auto 0">
       <figure style="margin:0 0 clamp(56px,7vw,104px)">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(16px,2vw,28px)">
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+        <div class="cs-shots-hint">
+          <p style="font-size:13px;font-weight:500;color:#4d476a;margin:0">Swipe to see all four</p>
+          <p class="cs-shots-counter" id="cs-shots-counter" aria-live="polite">01 / 04</p>
+        </div>
+        <div id="cs-shots-track">
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
         </div>
         <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">What shipped in four months: onboarding to evidence pack.</figcaption>
       </figure>
-      <figure style="margin:0;position:relative;overflow:hidden;border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
-        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">The loop the product had to make visible</p>
-        <div style="position:relative;margin-top:4px">
-          <div aria-hidden="true" style="position:absolute;top:34px;left:34px;right:34px;height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 45%,#8f74ff)"></div>
-          <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:clamp(14px,2vw,26px)">
-          <div style="display:flex;flex-direction:column;align-items:stretch">
-            <div aria-hidden="true" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
-            <div style="margin-top:18px;border-radius:22px;background:#e8fff6;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">01</p>
-              <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Individual action</p>
-              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Logged transport, home energy and diet choices.</p>
+      <figure class="cs-loop-figure" style="margin:0;position:relative;overflow:hidden;border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
+        <p class="cs-loop-title" style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">The loop the product had to make visible</p>
+        <div class="cs-loop-body">
+          <div class="cs-loop-inner" style="position:relative;margin-top:4px">
+            <div aria-hidden="true" class="cs-loop-line" style="position:absolute;top:34px;left:34px;right:34px;height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 45%,#8f74ff)"></div>
+            <div aria-hidden="true" class="cs-loop-line-mobile" style="position:absolute;top:35px;bottom:12px;left:-20px;width:20px;border-left:2px dashed rgba(143,116,255,.45);border-top:2px dashed rgba(143,116,255,.45);border-radius:16px 0 0 0"></div>
+            <div aria-hidden="true" class="cs-loop-arrow-mobile" style="position:absolute;top:29px;left:-6px;width:11px;height:11px;border-right:2px solid #8f74ff;border-top:2px solid #8f74ff;transform:rotate(45deg)"></div>
+            <div aria-hidden="true" class="cs-loop-dot-mobile" style="position:absolute;bottom:12px;left:-24px;width:9px;height:9px;border-radius:9999px;background:#8f74ff"></div>
+            <p class="cs-loop-hint" style="position:absolute;top:35px;bottom:12px;left:-64px;width:20px;margin:0;writing-mode:vertical-rl;text-align:center;font-size:12px;line-height:1.4;color:#4d476a"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#8f74ff">Hypothesis &nbsp;</span>each verified outcome makes the next action worth logging</p>
+            <div class="cs-loop-grid" style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:clamp(14px,2vw,26px)">
+            <div style="display:flex;flex-direction:column;align-items:stretch">
+              <div aria-hidden="true" class="cs-loop-dot" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
+              <div class="cs-loop-card" style="margin-top:18px;border-radius:22px;background:#e8fff6;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
+                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">01</p>
+                <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Individual action</p>
+                <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Logged transport, home energy and diet choices.</p>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:stretch">
-            <div aria-hidden="true" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
-            <div style="margin-top:18px;border-radius:22px;background:#e6f6ff;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">02</p>
-              <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Shared project</p>
-              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Contributions aggregated into a climate project.</p>
+            <div style="display:flex;flex-direction:column;align-items:stretch">
+              <div aria-hidden="true" class="cs-loop-dot" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
+              <div class="cs-loop-card" style="margin-top:18px;border-radius:22px;background:#e6f6ff;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
+                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">02</p>
+                <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Shared project</p>
+                <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Contributions aggregated into a climate project.</p>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:stretch">
-            <div aria-hidden="true" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
-            <div style="margin-top:18px;border-radius:22px;background:#f0e9ff;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">03</p>
-              <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Verifiable impact</p>
-              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Evidence, verification state and eventual value.</p>
+            <div style="display:flex;flex-direction:column;align-items:stretch">
+              <div aria-hidden="true" class="cs-loop-dot" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
+              <div class="cs-loop-card" style="margin-top:18px;border-radius:22px;background:#f0e9ff;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
+                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">03</p>
+                <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Verifiable impact</p>
+                <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Evidence, verification state and eventual value.</p>
+              </div>
             </div>
-          </div>
+            </div>
           </div>
         </div>
-        <div style="position:relative;height:104px">
+        <div class="cs-loop-arc" style="position:relative;height:104px">
           <div aria-hidden="true" style="position:absolute;top:0;left:34px;right:34px;height:62px;border:2px dashed rgba(143,116,255,.45);border-top:none;border-radius:0 0 52px 52px"></div>
           <div aria-hidden="true" style="position:absolute;top:-1px;left:28px;width:11px;height:11px;border-left:2px solid #8f74ff;border-top:2px solid #8f74ff;transform:rotate(45deg)"></div>
           <p style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);margin:0;max-width:min(46ch,86%);text-align:center;background:#fffdf7;padding:0 16px;font-size:15px;line-height:1.5;color:#4d476a"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">Hypothesis &nbsp;</span>each verified outcome makes the next action worth logging</p>
         </div>
-        <p style="font-size:14px;color:#4d476a;margin:20px 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">The loop, and its retention hypothesis.</p>
+        <p class="cs-loop-caption" style="font-size:14px;color:#4d476a;margin:20px 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">The loop, and its retention hypothesis.</p>
       </figure>
 
       <div style="margin:clamp(44px,5.5vw,72px) 0 0">
@@ -618,7 +839,8 @@
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px">
         <span class="cs-eyebrow-ink" style="color:#fff7e8;font-weight:500">Want the full story?</span>
         <span aria-hidden="true" style="flex:1 1 120px;height:1px;background:linear-gradient(90deg,rgba(255,253,247,.35),rgba(255,253,247,0))"></span>
-        <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(255,247,232,.6)">6 chapters &middot; 12 min</span>
+        <span class="cs-readtime-mobile" style="color:rgba(255,247,232,.6)">12 min</span>
+        <span class="cs-readtime" style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(255,247,232,.6)">6 chapters &middot; 12 min</span>
       </div>
 
       <h2 style="font-size:round(clamp(26px, calc(26px + 38 * ((100vw - 320px) / 704)), 64px), 2px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.08;letter-spacing:-.02em;color:#fffdf7;margin:clamp(20px,2.6vw,32px) 0 0;max-width:19ch">How I turned an investor vision into a <em style="font-style:italic;background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">buildable</em> product system.</h2>
@@ -887,7 +1109,7 @@
               </div>
             </div>
             <div style="flex:0 1 300px;display:flex;justify-content:center;min-width:220px">
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(30px,4vw,52px) 0;border-top:1px solid rgba(28,24,51,.13)">
@@ -906,8 +1128,8 @@
               </div>
             </div>
             <div style="flex:0 1 400px;display:flex;justify-content:center;align-items:flex-end;gap:clamp(10px,1.6vw,20px);min-width:240px">
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
           </div>
         </div>
@@ -976,7 +1198,7 @@
           <figcaption style="font-size:14px;color:#4d476a;margin-top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Two dimensions, kept deliberately separate.</figcaption>
         </div>
         <div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
           <figcaption style="font-size:14px;color:#4d476a;margin-top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Future steps labelled Pending or Simulated.</figcaption>
         </div>
       </figure>
@@ -989,7 +1211,7 @@
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The same principle governed how I scoped AI. Working with the AI developer, I set the boundary at <em>interpretive, not authoritative</em>: OpenAI could explain a trend in plain language, summarise an evidence pack, or help match a description to a known activity. It could not calculate or verify impact, issue credits, certify outcomes, or determine market legitimacy — those stayed tied to calculation sources, evidence, and later lifecycle stages that hadn't been built yet.</p>
       </div>
       <figure style="margin:clamp(36px,5vw,56px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,56px);align-items:center">
-        <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+        <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
         <div>
           <div>
             <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline">
@@ -1148,21 +1370,21 @@
               <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 01</p>
               <p style="font-size:clamp(19px,1.9vw,24px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">Choose a known activity</p>
               <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">A searchable catalogue of familiar activities, instead of technical consumption values.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
             <div style="display:flex;flex-direction:column">
               <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
               <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 02</p>
               <p style="font-size:clamp(19px,1.9vw,24px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">Enter only what you know</p>
               <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Frequency, duration, distance or amount — nothing a person would have to look up.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
             <div style="display:flex;flex-direction:column">
               <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
               <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 03</p>
               <p style="font-size:clamp(19px,1.9vw,24px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">See how the number was made</p>
               <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">The result is presented as Estimated, with methodology and assumptions available.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:0 34px 60px rgba(28,24,51,.22);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
           </div>
         </div>
@@ -1317,7 +1539,7 @@
     
     <section aria-labelledby="next-projects" class="cs-x" style="position:relative;padding-top:clamp(64px,8vw,120px);padding-bottom:clamp(40px,5vw,72px)">
       <div style="position:relative;max-width:1232px;margin:0 auto">
-        <p class="cs-eyebrow-ink" style="color:#fff7e8;font-weight:500;margin:0">More work</p>
+        <p class="cs-eyebrow-section" style="color:#fff7e8;font-weight:500;margin:0">More work</p>
         <h2 id="next-projects" style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(30px,4vw,60px);line-height:1.06;letter-spacing:-.015em;color:#fffdf7;margin:12px 0 0">Next projects.</h2>
         <p class="cs-copy" style="line-height:1.6;color:#fff7e8;margin:12px 0 0;max-width:72ch">Explore the case studies and strategic thinking behind each key decision.</p>
 
@@ -1621,6 +1843,41 @@
   } else {
     init();
   }
+})();
+
+// "01 / 04" readout for the "What shipped" swipe track — same idea as
+// SlideCounter on the homepage's project carousel, derived from scroll
+// position rather than an observer since scroll is the one event a real
+// swipe is guaranteed to fire.
+(function () {
+  var track = document.getElementById('cs-shots-track');
+  var counter = document.getElementById('cs-shots-counter');
+  if (!track || !counter) return;
+  var total = track.children.length;
+  function paint() {
+    var first = track.firstElementChild;
+    if (!first) return;
+    var step = first.getBoundingClientRect().width + 16; // matches the track's gap
+    var i = Math.round(track.scrollLeft / step);
+    i = Math.min(total - 1, Math.max(0, i));
+    counter.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  }
+  track.addEventListener('scroll', paint, { passive: true });
+  paint();
+})();
+
+// Summary metadata Read more/Read less — same toggle as the homepage's
+// About bio, just without React state: a class swap drives the clamp,
+// the fade and the button label together.
+(function () {
+  var wrap = document.getElementById('cs-meta-wrap');
+  var toggle = document.getElementById('cs-summary-meta-toggle');
+  if (!wrap || !toggle) return;
+  toggle.addEventListener('click', function () {
+    var expanded = wrap.classList.toggle('expanded');
+    toggle.textContent = expanded ? 'Read less' : 'Read more';
+    toggle.setAttribute('aria-expanded', String(expanded));
+  });
 })();
 </script>
 </body>
