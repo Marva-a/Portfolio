@@ -92,7 +92,15 @@ async function main() {
     html = result.stdout
   } finally {
     await new Promise((res) => server.httpServer.close(res))
-    rmSync(profileDir, { recursive: true, force: true })
+    // Best-effort: Chrome's own helper processes can still be flushing a
+    // lock file in the profile dir for a moment after the main process
+    // exits, which turns a plain rmSync into a flaky ENOTEMPTY. Losing this
+    // temp dir doesn't affect correctness, so don't let it fail the build.
+    try {
+      rmSync(profileDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 })
+    } catch (err) {
+      console.warn(`prerender: couldn't remove temp profile dir ${profileDir}: ${err.message}`)
+    }
   }
 
   if (!html.includes('id="root"') || /<div id="root">\s*<\/div>/.test(html)) {
