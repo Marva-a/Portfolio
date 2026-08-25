@@ -6,9 +6,14 @@
 // Why: the site is a client-rendered SPA, so the file GitHub Pages would
 // otherwise serve at "/" has an empty <div id="root">. Crawlers and tools
 // that don't execute JS (LinkedIn/Slack unfurlers, some ATS scrapers, plain
-// HTTP fetches) see nothing. Baking the rendered HTML in fixes that while
-// leaving the JS bundle in place to hydrate for interactivity — see the
-// hydrateRoot/createRoot switch in src/main.jsx.
+// HTTP fetches) see nothing. Baking the rendered HTML in fixes that.
+//
+// main.jsx still does a plain createRoot over this markup rather than
+// hydrateRoot: Framer Motion writes several inline styles straight to the
+// DOM outside React's diffing, which threw cascading hydration-mismatch
+// errors for JS-enabled visitors. createRoot re-renders instead of diffing,
+// so crawlers/no-JS visitors still get this real markup with none of that
+// risk for JS visitors.
 //
 // Uses puppeteer-core (CDP) rather than shelling out to `chrome --dump-dom`:
 // that CLI flag combined with --headless=new reliably hung past a 45s
@@ -73,11 +78,11 @@ async function main() {
     const page = await browser.newPage()
     // The site branches its layout on matchMedia breakpoints (mobile nav vs
     // desktop, single- vs two-column composition — see DESKTOP_QUERY in
-    // src/hooks/useMediaQuery.js). Puppeteer's default 800x600 viewport
-    // falls between those breakpoints and matches neither, so it prerenders
-    // a layout that mismatches almost every real visitor on hydration
-    // (React error #418). 1440x900 is comfortably inside the desktop
-    // breakpoint and matches the common case.
+    // src/hooks/useMediaQuery.js), and this snapshot is what crawlers and
+    // no-JS visitors see verbatim (JS-enabled visitors immediately get a
+    // fresh client render on top — see main.jsx). Puppeteer's default
+    // 800x600 viewport falls between those breakpoints and matches neither,
+    // so pin it to a common desktop size instead.
     await page.setViewport({ width: 1440, height: 900 })
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30_000 })
     html = await page.content()
