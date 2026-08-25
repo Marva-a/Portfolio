@@ -71,6 +71,14 @@ async function main() {
   let html
   try {
     const page = await browser.newPage()
+    // The site branches its layout on matchMedia breakpoints (mobile nav vs
+    // desktop, single- vs two-column composition — see DESKTOP_QUERY in
+    // src/hooks/useMediaQuery.js). Puppeteer's default 800x600 viewport
+    // falls between those breakpoints and matches neither, so it prerenders
+    // a layout that mismatches almost every real visitor on hydration
+    // (React error #418). 1440x900 is comfortably inside the desktop
+    // breakpoint and matches the common case.
+    await page.setViewport({ width: 1440, height: 900 })
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30_000 })
     html = await page.content()
   } finally {
