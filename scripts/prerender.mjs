@@ -78,16 +78,22 @@ async function main() {
         '--disable-component-update',
         '--disable-domain-reliability',
         `--user-data-dir=${profileDir}`,
-        '--virtual-time-budget=8000',
+        // No --virtual-time-budget: this page makes real network requests
+        // (Google Fonts), and virtual time budgets pause the renderer's
+        // clock while it waits on those — which stalled Chrome well past
+        // its budget in CI. --dump-dom on its own already waits for the
+        // page's real load event before dumping, which is what we want.
         '--dump-dom',
         url,
       ],
-      { encoding: 'utf8', maxBuffer: 1024 * 1024 * 32, timeout: 30_000, stdio: ['ignore', 'pipe', 'ignore'] },
+      { encoding: 'utf8', maxBuffer: 1024 * 1024 * 32, timeout: 45_000, stdio: ['ignore', 'pipe', 'pipe'] },
     )
 
     if (result.error) throw result.error
     if (result.status !== 0) {
-      throw new Error(`prerender: Chrome exited with status ${result.status}`)
+      throw new Error(
+        `prerender: Chrome exited with status ${result.status}\n${result.stderr}`,
+      )
     }
     html = result.stdout
   } finally {
