@@ -1,6 +1,7 @@
 // Runs after `vite build` (see the "build" script in package.json). Boots the
 // production build with Vite's own preview server, loads it in headless
-// Chrome, and dumps the fully-rendered DOM back over dist/index.html.
+// Chrome via the DevTools protocol, and dumps the fully-rendered DOM back
+// over dist/index.html.
 //
 // Why: the site is a client-rendered SPA, so the file GitHub Pages would
 // otherwise serve at "/" has an empty <div id="root">. Crawlers and tools
@@ -9,15 +10,18 @@
 // leaving the JS bundle in place to hydrate for interactivity — see the
 // hydrateRoot/createRoot switch in src/main.jsx.
 //
-// Deliberately shells out to a real Chrome instead of adding puppeteer/
-// playwright as a dependency, matching how scripts/og-card.html and
-// scripts/apple-touch.html already render via headless Chrome CLI.
-import { execFileSync, spawnSync } from 'node:child_process'
-import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
-import { platform, tmpdir } from 'node:os'
+// Uses puppeteer-core (CDP) rather than shelling out to `chrome --dump-dom`:
+// that CLI flag combined with --headless=new reliably hung past a 45s
+// timeout on this page (real network requests for Google Fonts), both
+// locally and in CI, regardless of --virtual-time-budget. page.goto with an
+// explicit waitUntil condition is the well-supported path for exactly this.
+import { execFileSync } from 'node:child_process'
+import { existsSync, writeFileSync } from 'node:fs'
+import { platform } from 'node:os'
 import { fileURLToPath } from 'node:url'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { preview } from 'vite'
+import puppeteer from 'puppeteer-core'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
@@ -58,55 +62,20 @@ async function main() {
   const url = server.resolvedUrls.local[0]
 
   const chrome = process.env.CHROME_PATH || findChrome()
-  const profileDir = mkdtempSync(join(tmpdir(), 'prerender-chrome-'))
+  const browser = await puppeteer.launch({
+    executablePath: chrome,
+    headless: true,
+    args: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+  })
 
   let html
   try {
-    const result = spawnSync(
-      chrome,
-      [
-        '--headless=new',
-        '--disable-gpu',
-        '--no-sandbox',
-        '--hide-scrollbars',
-        '--mute-audio',
-        '--no-first-run',
-        '--no-default-browser-check',
-        '--disable-extensions',
-        '--disable-sync',
-        '--disable-background-networking',
-        '--disable-component-update',
-        '--disable-domain-reliability',
-        `--user-data-dir=${profileDir}`,
-        // No --virtual-time-budget: this page makes real network requests
-        // (Google Fonts), and virtual time budgets pause the renderer's
-        // clock while it waits on those — which stalled Chrome well past
-        // its budget in CI. --dump-dom on its own already waits for the
-        // page's real load event before dumping, which is what we want.
-        '--dump-dom',
-        url,
-      ],
-      { encoding: 'utf8', maxBuffer: 1024 * 1024 * 32, timeout: 45_000, stdio: ['ignore', 'pipe', 'pipe'] },
-    )
-
-    if (result.error) throw result.error
-    if (result.status !== 0) {
-      throw new Error(
-        `prerender: Chrome exited with status ${result.status}\n${result.stderr}`,
-      )
-    }
-    html = result.stdout
+    const page = await browser.newPage()
+    await page.goto(url, { waitUntil: 'networkidle0', timeout: 30_000 })
+    html = await page.content()
   } finally {
+    await browser.close()
     await new Promise((res) => server.httpServer.close(res))
-    // Best-effort: Chrome's own helper processes can still be flushing a
-    // lock file in the profile dir for a moment after the main process
-    // exits, which turns a plain rmSync into a flaky ENOTEMPTY. Losing this
-    // temp dir doesn't affect correctness, so don't let it fail the build.
-    try {
-      rmSync(profileDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 })
-    } catch (err) {
-      console.warn(`prerender: couldn't remove temp profile dir ${profileDir}: ${err.message}`)
-    }
   }
 
   if (!html.includes('id="root"') || /<div id="root">\s*<\/div>/.test(html)) {
