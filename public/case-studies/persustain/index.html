@@ -419,7 +419,11 @@
   .cs-jump { position:relative; overflow:hidden; flex:0 0 auto; display:inline-flex; align-items:center; gap:7px; padding:7px 13px; border-radius:9999px; background:#fffdf7; color:#1c1833; font-size:13px; font-weight:500; white-space:nowrap; box-shadow:6px 6px 22px rgba(28,24,51,.06); transition:background .18s ease,color .18s ease }
   .cs-jump.on { background:#1c1833; color:#fffdf7 }
   /* Background stays put on hover/press — only the shine sweep below
-     signals interactivity, not a colour shift. */
+     signals interactivity, not a colour shift. Text colour is pinned here
+     too: the page's global `a:hover { color:#8f74ff }` (meant for inline
+     text links) would otherwise tint every pill's label purple on hover. */
+  .cs-jump:hover { color:#1c1833 }
+  .cs-jump.on:hover { color:#fffdf7 }
   /* Hover/focus shine sweep — identical mechanism and timing to the
      homepage's .btn-shine-brand (index.css) and this page's own #ma-badge
      hover, reused here for the same "brand gradient passing through"
