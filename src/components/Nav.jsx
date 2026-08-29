@@ -63,9 +63,10 @@ const ICONS = {
 
 // Resume is a standalone static page under public/, not a section of this
 // SPA, so it gets a real path instead of a hash. BASE_URL carries Vite's
-// configured base ("/Portfolio/" in this repo, "/" if that ever changes),
-// and always ends in a slash — so this resolves correctly both on the dev
-// server and on GitHub Pages without hardcoding the repo name here.
+// configured base ("/" in this repo, since the site is served from the
+// custom domain root — see vite.config.js) and always ends in a slash —
+// so this resolves correctly both on the dev server and in production
+// without hardcoding a path here.
 const links = [
   { id: "projects", label: "Projects", href: "#projects" },
   { id: "expertise", label: "Expertise", href: "#expertise" },

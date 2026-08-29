@@ -10,7 +10,7 @@ one component, so future changes happen in one place instead of N.
 of this for real — the actual token values and the actual components, not a
 second description of them. Locally it's `npm run dev` then
 `/design-system.html`; once deployed it's
-`https://marva-a.github.io/Portfolio/design-system.html`. It is **not**
+`https://www.marva.design/design-system.html`. It is **not**
 linked from the public nav yet (by design — see the task this shipped
 under), only reachable by direct URL.
 
