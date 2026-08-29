@@ -429,7 +429,7 @@
      hover, reused here for the same "brand gradient passing through"
      read on every jump pill. */
   .cs-jump::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(115deg,transparent 28%,rgba(105,222,190,.5) 40%,rgba(124,210,242,.5) 48%,rgba(143,116,255,.5) 56%,rgba(255,128,110,.5) 64%,transparent 76%); transform:translateX(-120%) }
-  .cs-jump:hover::after, .cs-jump:focus-visible::after { transform:translateX(120%); transition:transform .75s cubic-bezier(.22,1,.36,1) }
+  .cs-jump:not(.on):hover::after, .cs-jump:not(.on):focus-visible::after { transform:translateX(120%); transition:transform .75s cubic-bezier(.22,1,.36,1) }
   @media (prefers-reduced-motion:reduce) { .cs-jump::after { display:none } }
   /* Same accent dot as the chapter index in the full-story band, reused
      here so a pill and its chapter read as the same thing in two places on
