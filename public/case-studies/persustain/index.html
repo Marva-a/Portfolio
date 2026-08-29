@@ -416,8 +416,23 @@
      border was coming off; the active state is now a class the scroll-spy
      toggles rather than three inline properties it has to keep in sync. */
   /* font-size (13px) already matches the shared Labels scale (.type-label). */
-  .cs-jump { flex:0 0 auto; display:inline-flex; align-items:center; gap:7px; padding:7px 13px; border-radius:9999px; background:#fffdf7; color:#1c1833; font-size:13px; font-weight:500; white-space:nowrap; box-shadow:6px 6px 22px rgba(28,24,51,.06); transition:background .18s ease,color .18s ease }
+  .cs-jump { position:relative; overflow:hidden; flex:0 0 auto; display:inline-flex; align-items:center; gap:7px; padding:7px 13px; border-radius:9999px; background:#fffdf7; color:#1c1833; font-size:13px; font-weight:500; white-space:nowrap; box-shadow:6px 6px 22px rgba(28,24,51,.06); transition:background .18s ease,color .18s ease }
   .cs-jump.on { background:#1c1833; color:#fffdf7 }
+  /* Hover/press tint — same two steps as the homepage nav pills
+     (hover:bg-black/5, active:bg-black/10), mixed against this pill's own
+     cream fill since it (unlike the homepage's transparent tab) already
+     carries an opaque background. Skipped on the current pill: it's
+     already ink-filled, and a black tint on top of that would just read as
+     dirt. */
+  .cs-jump:not(.on):hover { background:#f5f2ea }
+  .cs-jump:not(.on):active { background:#ebe7db }
+  /* Hover/focus shine sweep — identical mechanism and timing to the
+     homepage's .btn-shine-brand (index.css) and this page's own #ma-badge
+     hover, reused here for the same "brand gradient passing through"
+     read on every jump pill. */
+  .cs-jump::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(115deg,transparent 28%,rgba(105,222,190,.5) 40%,rgba(124,210,242,.5) 48%,rgba(143,116,255,.5) 56%,rgba(255,128,110,.5) 64%,transparent 76%); transform:translateX(-120%) }
+  .cs-jump:hover::after, .cs-jump:focus-visible::after { transform:translateX(120%); transition:transform .75s cubic-bezier(.22,1,.36,1) }
+  @media (prefers-reduced-motion:reduce) { .cs-jump::after { display:none } }
   /* Same accent dot as the chapter index in the full-story band, reused
      here so a pill and its chapter read as the same thing in two places on
      the page. Summary and Full story aren't numbered chapters, so they
