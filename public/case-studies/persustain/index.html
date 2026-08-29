@@ -156,6 +156,31 @@
   .cs-x { padding-left:24px; padding-right:24px; }
   @media (min-width:768px) { .cs-x { padding-left:96px; padding-right:96px; } }
 
+  /* ---- Canonical type hierarchy — mirrors src/index.css exactly, kept in
+     sync by hand (same pattern as tokens.css/tokens.js). Eyebrow/H1/H2/H3/
+     Body/Caption/Labels — the one hierarchy shared with the homepage. ---- */
+  .type-eyebrow { font-weight:500; text-transform:uppercase; font-size:12px; letter-spacing:.15em }
+  @media (min-width:768px) { .type-eyebrow { font-size:14px; letter-spacing:.2em } }
+
+  .fluid-headline { font-family:Georgia,'Times New Roman',serif; font-weight:700; line-height:1.08; letter-spacing:-.015em; font-size:round(clamp(26px, calc(30px + 66 * ((100vw - 375px) / 1025)), 96px), 2px) }
+  @media (min-width:768px) and (max-width:1279.98px) { .fluid-headline { font-size:round(clamp(46px, calc(46px + 42 * ((100vw - 768px) / 512)), 88px), 2px) } }
+
+  .fluid-section-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; letter-spacing:-.015em; font-size:round(clamp(24px, calc(24px + 40 * ((100vw - 320px) / 704)), 64px), 2px) }
+
+  .fluid-subsection-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:round(clamp(20px, calc(20px + 20 * ((100vw - 320px) / 704)), 40px), 2px) }
+
+  .fluid-card-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:round(clamp(18px, calc(18px + 14 * ((100vw - 320px) / 704)), 32px), 2px) }
+
+  .type-body { font-size:17px; line-height:1.6 }
+  @media (min-width:768px) { .type-body { font-size:20px } }
+
+  .fluid-quote { font-family:Georgia,'Times New Roman',serif; font-weight:500; font-style:italic; font-size:round(clamp(20px, calc(20px + 8 * ((100vw - 320px) / 704)), 28px), 2px) }
+
+  .type-caption { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:14px; letter-spacing:.02em }
+
+  .type-label { font-size:13px }
+  .type-label-mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; letter-spacing:.05em }
+
   /* MA badge — fixed, matching the homepage's badge exactly: same left/top
      offsets at the same md breakpoint, same expand/collapse and
      hide-on-scroll motion. There is only ever this one badge — no handoff to
@@ -217,21 +242,10 @@
   .cs-proj-blob { position:absolute; border-radius:9999px; filter:blur(45px); pointer-events:none }
   @media (prefers-reduced-motion:reduce) { .cs-proj:hover { transform:none } }
 
-  /* "Want the short/full version?" — the page's transition cues between
-     one reading mode and the next, not just another section label. Sized
-     above the 13px eyebrows used for in-section labels (Summary, Role,
-     Object map, …) so they read as a bigger structural beat than the
-     labels they sit beside. */
-  .cs-eyebrow-ink { font-size:16px; letter-spacing:.14em; text-transform:uppercase }
-  @media (min-width:768px) { .cs-eyebrow-ink { font-size:19px; letter-spacing:.18em } }
-
-  /* "More work" — this one IS a normal section label (the "Next projects"
-     opener), so it takes the homepage's own eyebrow size exactly
-     (SectionHeading.jsx: text-[12px]/tracking-[0.15em], md:text-[14px]/
-     tracking-[0.2em]) rather than cs-eyebrow-ink's bigger transition-cue
-     size above. */
-  .cs-eyebrow-section { font-size:12px; letter-spacing:.15em; text-transform:uppercase }
-  @media (min-width:768px) { .cs-eyebrow-section { font-size:14px; letter-spacing:.2em } }
+  /* "Want the short/full version?" and "More work" now both use the shared
+     .type-eyebrow class (see canonical type hierarchy above) instead of
+     their own bespoke sizes — consolidated onto the one eyebrow scale the
+     homepage uses everywhere. */
 
   .cs-colophon { display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center }
   @media (min-width:768px) { .cs-colophon { flex-direction:row; justify-content:space-between; text-align:left } }
@@ -289,7 +303,10 @@
      own row-gap (clamp(32px,4vw,64px)) lands between the wrap and the
      button in addition to this margin — cancelled with the identical
      clamp expression so only the intended 12px actually shows. */
-  .cs-bio-toggle { display:inline-block; margin-top:calc(12px - clamp(32px, 4vw, 64px)); font-size:15px; font-weight:600; color:#1c1833; text-decoration:underline; text-underline-offset:2px; background:none; border:0; padding:0; font-family:inherit }
+  /* font-size matches the shared Labels scale (.type-label, 13px); kept as
+     its own declaration rather than the class since font-weight:600 here is
+     a deliberate CTA emphasis. */
+  .cs-bio-toggle { display:inline-block; margin-top:calc(12px - clamp(32px, 4vw, 64px)); font-size:13px; font-weight:600; color:#1c1833; text-decoration:underline; text-underline-offset:2px; background:none; border:0; padding:0; font-family:inherit }
   @media (min-width:768px) {
     .cs-meta-wrap { display:contents }
     .cs-meta-fade { display:none }
@@ -383,15 +400,14 @@
      interpolated, so each of the three sizes is hit exactly. The 4px gap
      between the two holds at every width, which is what keeps the
      standfirst reading as a standfirst on a phone as well as on a desktop. */
-  .cs-lead { font-size:22px }
-  .cs-copy { font-size:16px }
+  .cs-lead { font-family:Georgia,'Times New Roman',serif; font-weight:500; font-size:20px; line-height:1.4 }
+  .cs-copy { font-size:17px; line-height:1.65 }
   @media (min-width:768px) {
-    .cs-lead { font-size:24px }
-    .cs-copy { font-size:18px }
+    .cs-lead { font-size:22px }
+    .cs-copy { font-size:20px }
   }
   @media (min-width:1280px) {
-    .cs-lead { font-size:26px }
-    .cs-copy { font-size:20px }
+    .cs-lead { font-size:24px }
   }
 
   /* Jump links — the site's pill shape: no stroke, just the soft offset
@@ -399,6 +415,7 @@
      homepage). Seven identical inline styles became one rule while the
      border was coming off; the active state is now a class the scroll-spy
      toggles rather than three inline properties it has to keep in sync. */
+  /* font-size (13px) already matches the shared Labels scale (.type-label). */
   .cs-jump { flex:0 0 auto; display:inline-flex; align-items:center; gap:7px; padding:7px 13px; border-radius:9999px; background:#fffdf7; color:#1c1833; font-size:13px; font-weight:500; white-space:nowrap; box-shadow:6px 6px 22px rgba(28,24,51,.06); transition:background .18s ease,color .18s ease }
   .cs-jump.on { background:#1c1833; color:#fffdf7 }
   /* Same accent dot as the chapter index in the full-story band, reused
@@ -496,9 +513,10 @@
   /* Trade-off blocks in Delivery: a monospace kicker, the decision as the
      heading, and the tension it resolved as a standfirst under it. Same
      three-part rhythm as the object map's rows, so the two read as one page. */
-  .cs-tradeoff-kicker { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:#8f74ff; margin:0 }
-  .cs-tradeoff-sub { font-size:17px; line-height:1.5; color:#4d476a; margin:10px 0 0; font-style:italic }
-  .cs-tradeoff-sub { font-size:17px; line-height:1.5; color:#4d476a; margin:10px 0 0; font-style:italic }
+  /* Typography now comes from .type-eyebrow (kicker) / .type-body (sub) at
+     the call sites — this rule only carries color and spacing. */
+  .cs-tradeoff-kicker { color:#8f74ff; margin:0 }
+  .cs-tradeoff-sub { color:#4d476a; margin:10px 0 0; font-style:italic }
 
   /* Next-projects grid. One card is the emphasis, one is the follow-up —
      stacked and equal-width on a phone (there's no room to justify a
@@ -537,15 +555,18 @@
      swipeable carousel. */
   .cs-shots-hint { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin:0 0 16px }
   @media (min-width:768px) { .cs-shots-hint { display:none } }
-  .cs-shots-counter { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; letter-spacing:.05em; color:rgba(28,24,51,.45); margin:0 }
+  /* Typography now comes from .type-label-mono at the call site — this rule
+     only carries color. */
+  .cs-shots-counter { color:rgba(28,24,51,.45); margin:0 }
 
   /* "At a glance · 2 min" and "6 chapters · 12 min" — the full read-time
      line from 768px up. Below that it shortens to just "2 min"/"12 min",
      still after the hairline (which stays put at every width — it's the
-     eyebrow's own underline, not part of the text it was separating). */
+     eyebrow's own underline, not part of the text it was separating).
+     Typography now comes from .type-label-mono at the call site. */
   .cs-readtime { display:none }
   @media (min-width:768px) { .cs-readtime { display:inline } }
-  .cs-readtime-mobile { display:inline-block; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; letter-spacing:.05em }
+  .cs-readtime-mobile { display:inline-block }
   @media (min-width:768px) { .cs-readtime-mobile { display:none } }
 
   /* Ownership cards — a deliberate 2x2 rather than auto-fit, which splits
@@ -560,9 +581,9 @@
      enough from 1280px up to hold the longest bullet (123 characters) on
      one line. Its fit ceiling at 1280px is ~15.4px; 14px stays a safe hair
      under that. */
-  .cs-deliver-text { font-size:clamp(18px,1.9vw,22px) }
-  @media (min-width:1280px) {
-    .cs-deliver-text { font-size:clamp(14px, calc(14px + 3 * ((100vw - 1280px) / 160)), 17px) }
+  .cs-deliver-text { font-size:17px }
+  @media (min-width:768px) {
+    .cs-deliver-text { font-size:20px }
   }
 
   /* "At a glance" section marker. Same gradient, size and drift as the MA
@@ -627,11 +648,11 @@
         <div style="max-width:860px;width:100%;margin-top:clamp(20px,3vw,36px)">
           <div class="cs-hero-row">
             <div class="cs-hero-text">
-              <h1 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:round(clamp(18px, calc(18px + 14 * ((100vw - 320px) / 704)), 32px), 2px);line-height:1.05;letter-spacing:-.015em;margin:0;color:#1c1833">Persustain</h1>
-              <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:14px 0 0">iOS app design · 2026</p>
+              <h1 class="fluid-card-title" style="line-height:1.05;letter-spacing:-.015em;margin:0;color:#1c1833">Persustain</h1>
+              <p class="type-eyebrow" style="color:#4d476a;margin:14px 0 0">iOS app design · 2026</p>
               <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px">
-                <span style="padding:8px 16px;border-radius:9999px;background:#e8fff6;color:#1c1833;font-size:14px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">0-to-1</span>
-                <span style="padding:8px 16px;border-radius:9999px;background:#e6f6ff;color:#1c1833;font-size:14px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Systems Thinking</span>
+                <span class="type-label" style="padding:8px 16px;border-radius:9999px;background:#e8fff6;color:#1c1833;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">0-to-1</span>
+                <span class="type-label" style="padding:8px 16px;border-radius:9999px;background:#e6f6ff;color:#1c1833;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Systems Thinking</span>
               </div>
             </div>
 
@@ -649,7 +670,7 @@
             </div>
           </div>
 
-          <p style="font-size:round(clamp(24px, calc(24px + 40 * ((100vw - 320px) / 704)), 64px), 2px);letter-spacing:-.02em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.08;letter-spacing:-.02em;color:#1c1833;margin:clamp(40px,6vw,88px) 0 0">Turning individual<br>climate action into shared,<br><em style="font-style:italic;background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">verifiable</em> impact.</p>
+          <p style="font-size:round(clamp(24px, calc(24px + 40 * ((100vw - 320px) / 704)), 64px), 2px);letter-spacing:-.02em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.08;color:#1c1833;margin:clamp(40px,6vw,88px) 0 0">Turning individual<br>climate action into shared,<br><em style="font-style:italic;background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">verifiable</em> impact.</p>
         </div>
       </div>
     </div>
@@ -663,51 +684,51 @@
          paired device bracketing the short read, rather than two
          unrelated treatments. -->
     <div style="max-width:1232px;margin:0 auto clamp(34px,4vw,58px);display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px">
-      <span class="cs-eyebrow-ink" style="color:#4d476a;font-weight:500">Want the short story?</span>
+      <span class="type-eyebrow" style="color:#4d476a;font-weight:500">Want the short story?</span>
       <span aria-hidden="true" style="flex:1 1 120px;height:1px;background:linear-gradient(90deg,rgba(28,24,51,.18),rgba(28,24,51,0))"></span>
-      <span class="cs-readtime-mobile" style="color:rgba(28,24,51,.45)">2 min</span>
-      <span class="cs-readtime" style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(28,24,51,.45)">At a glance &middot; 2 min</span>
+      <span class="cs-readtime-mobile type-label-mono" style="color:rgba(28,24,51,.45)">2 min</span>
+      <span class="cs-readtime type-label-mono" style="color:rgba(28,24,51,.45)">At a glance &middot; 2 min</span>
     </div>
     <div class="cs-summary-grid" style="max-width:1232px;margin:0 auto;display:grid;gap:clamp(32px,4vw,64px);align-items:start">
       <div style="grid-column:span 1">
-        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Summary</p>
-        <p style="font-size:17px;line-height:1.65;color:#1c1833;margin:18px 0 0">I joined Persustain as a five-year investor vision with no product behind it: individual climate actions, aggregated into shared projects, eventually verified and carbon-market-ready. As Lead Product Designer, I had four months to turn that vision into a working MVP for an incubator milestone, directing a cross-functional team of three.</p>
-        <p style="font-size:17px;line-height:1.65;color:#1c1833;margin:18px 0 0">The easiest build was a carbon tracker — it fit the timeline and the tech stack. I chose the harder path: treat tracking as the entry point into the participation system the client was actually pitching, then design an interface that could make that ambitious roadmap tangible without claiming any future capability was already live.</p>
-        <p style="font-size:17px;line-height:1.65;color:#1c1833;margin:18px 0 0">That decision shaped everything that followed — the product architecture, information architecture, and a trust system (<em>Estimated / Pending / Simulated</em>) that clearly distinguished what was real from what was still to come. By the end of Phase 1, the client had a working MVP that demonstrated the broader vision to investors and funded a Phase 2 engagement to build on it.</p>
+        <p class="type-eyebrow" style="color:#4d476a;margin:0">Summary</p>
+        <p class="cs-copy" style="color:#1c1833;margin:18px 0 0">I joined Persustain as a five-year investor vision with no product behind it: individual climate actions, aggregated into shared projects, eventually verified and carbon-market-ready. As Lead Product Designer, I had four months to turn that vision into a working MVP for an incubator milestone, directing a cross-functional team of three.</p>
+        <p class="cs-copy" style="color:#1c1833;margin:18px 0 0">The easiest build was a carbon tracker — it fit the timeline and the tech stack. I chose the harder path: treat tracking as the entry point into the participation system the client was actually pitching, then design an interface that could make that ambitious roadmap tangible without claiming any future capability was already live.</p>
+        <p class="cs-copy" style="color:#1c1833;margin:18px 0 0">That decision shaped everything that followed — the product architecture, information architecture, and a trust system (<em>Estimated / Pending / Simulated</em>) that clearly distinguished what was real from what was still to come. By the end of Phase 1, the client had a working MVP that demonstrated the broader vision to investors and funded a Phase 2 engagement to build on it.</p>
       </div>
 
       <div class="cs-meta-wrap" id="cs-meta-wrap">
         <div id="cs-summary-role">
-          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Role</p>
-          <p style="font-size:17px;line-height:1.55;color:#1c1833;margin:14px 0 0">Lead Product Designer</p>
-          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Responsibility</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:0">Role</p>
+          <p class="type-body" style="line-height:1.55;color:#1c1833;margin:14px 0 0">Lead Product Designer</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:32px 0 0">Responsibility</p>
           <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Product strategy &amp; definition</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Roadmap and prioritisation</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Information architecture</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">UX/UI direction</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Design leadership</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Cross-functional delivery</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Product strategy &amp; definition</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Roadmap and prioritisation</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Information architecture</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">UX/UI direction</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Design leadership</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Cross-functional delivery</li>
           </ul>
-          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Timeline</p>
-          <p style="font-size:17px;line-height:1.5;color:#1c1833;margin:14px 0 0">Phase 1 complete (4 months)<br>Phase 2 in progress</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:32px 0 0">Timeline</p>
+          <p class="type-body" style="line-height:1.5;color:#1c1833;margin:14px 0 0">Phase 1 complete (4 months)<br>Phase 2 in progress</p>
         </div>
 
         <div id="cs-summary-team" class="cs-meta-team-gap">
-          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Team</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:0">Team</p>
           <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Technical Lead</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Design Engineer</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">AI Developer</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Client stakeholders</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Technical Lead</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Design Engineer</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">AI Developer</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Client stakeholders</li>
           </ul>
-          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:32px 0 0">Tools</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:32px 0 0">Tools</p>
           <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:4px">
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">FlutterFlow</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Firebase</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Climatiq</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">OpenAI</li>
-            <li style="font-size:17px;line-height:1.5;color:#1c1833">Figma</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">FlutterFlow</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Firebase</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Climatiq</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">OpenAI</li>
+            <li class="type-body" style="line-height:1.5;color:#1c1833">Figma</li>
           </ul>
         </div>
 
@@ -725,19 +746,19 @@
     <div style="max-width:1232px;margin:clamp(56px,7vw,104px) auto 0">
       <figure style="margin:0 0 clamp(56px,7vw,104px)">
         <div class="cs-shots-hint">
-          <p style="font-size:13px;font-weight:500;color:#4d476a;margin:0">Swipe to see all four</p>
-          <p class="cs-shots-counter" id="cs-shots-counter" aria-live="polite">01 / 04</p>
+          <p class="type-label" style="font-weight:500;color:#4d476a;margin:0">Swipe to see all four</p>
+          <p class="cs-shots-counter type-label-mono" id="cs-shots-counter" aria-live="polite">01 / 04</p>
         </div>
         <div id="cs-shots-track">
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
         </div>
-        <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">What shipped in four months: onboarding to evidence pack.</figcaption>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">What shipped in four months: onboarding to evidence pack.</figcaption>
       </figure>
       <figure class="cs-loop-figure" style="margin:0;position:relative;overflow:hidden;border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
-        <p class="cs-loop-title" style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">The loop the product had to make visible</p>
+        <p class="cs-loop-title type-eyebrow" style="color:#4d476a;margin:0">The loop the product had to make visible</p>
         <div class="cs-loop-body">
           <div class="cs-loop-inner" style="position:relative;margin-top:4px">
             <div aria-hidden="true" class="cs-loop-line" style="position:absolute;top:34px;left:34px;right:34px;height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 45%,#8f74ff)"></div>
@@ -749,25 +770,25 @@
             <div style="display:flex;flex-direction:column;align-items:stretch">
               <div aria-hidden="true" class="cs-loop-dot" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
               <div class="cs-loop-card" style="margin-top:18px;border-radius:22px;background:#e8fff6;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">01</p>
-                <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Individual action</p>
-                <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Logged transport, home energy and diet choices.</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">01</p>
+                <p class="fluid-card-title" style="color:#1c1833;margin:10px 0 0;line-height:1.15">Individual action</p>
+                <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">Logged transport, home energy and diet choices.</p>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:stretch">
               <div aria-hidden="true" class="cs-loop-dot" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
               <div class="cs-loop-card" style="margin-top:18px;border-radius:22px;background:#e6f6ff;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">02</p>
-                <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Shared project</p>
-                <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Contributions aggregated into a climate project.</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">02</p>
+                <p class="fluid-card-title" style="color:#1c1833;margin:10px 0 0;line-height:1.15">Shared project</p>
+                <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">Contributions aggregated into a climate project.</p>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:stretch">
               <div aria-hidden="true" class="cs-loop-dot" style="width:18px;height:18px;margin:26px 0 0 26px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 7px #fffdf7;position:relative;z-index:1"></div>
               <div class="cs-loop-card" style="margin-top:18px;border-radius:22px;background:#f0e9ff;padding:24px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">03</p>
-                <p style="font-size:clamp(20px,2vw,25px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:10px 0 0;line-height:1.15">Verifiable impact</p>
-                <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Evidence, verification state and eventual value.</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">03</p>
+                <p class="fluid-card-title" style="color:#1c1833;margin:10px 0 0;line-height:1.15">Verifiable impact</p>
+                <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">Evidence, verification state and eventual value.</p>
               </div>
             </div>
             </div>
@@ -776,42 +797,38 @@
         <div class="cs-loop-arc" style="position:relative;height:104px">
           <div aria-hidden="true" style="position:absolute;top:0;left:34px;right:34px;height:62px;border:2px dashed rgba(143,116,255,.45);border-top:none;border-radius:0 0 52px 52px"></div>
           <div aria-hidden="true" style="position:absolute;top:-1px;left:28px;width:11px;height:11px;border-left:2px solid #8f74ff;border-top:2px solid #8f74ff;transform:rotate(45deg)"></div>
-          <p style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);margin:0;max-width:min(46ch,86%);text-align:center;background:#fffdf7;padding:0 16px;font-size:15px;line-height:1.5;color:#4d476a"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">Hypothesis &nbsp;</span>each verified outcome makes the next action worth logging</p>
+          <p style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);margin:0;max-width:min(46ch,86%);text-align:center;background:#fffdf7;padding:0 16px;font-size:15px;line-height:1.5;color:#4d476a"><span class="type-label-mono" style="text-transform:uppercase;color:#8f74ff">Hypothesis &nbsp;</span>each verified outcome makes the next action worth logging</p>
         </div>
-        <p class="cs-loop-caption" style="font-size:14px;color:#4d476a;margin:20px 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">The loop, and its retention hypothesis.</p>
+        <p class="cs-loop-caption type-caption" style="color:#4d476a;margin:20px 0 0;text-align:center">The loop, and its retention hypothesis.</p>
       </figure>
 
       <div style="margin:clamp(44px,5.5vw,72px) 0 0">
-        <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">What Phase 1 delivered</p>
+        <p class="type-eyebrow" style="color:#4d476a;margin:0">What Phase 1 delivered</p>
         <!-- Rounded bordered card per row, on the site's own card white
              (#fffdf7) with its usual soft shadow — same recipe as the
              chapter rows used to be, carried over to a light surface. -->
         <ul style="list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:clamp(10px,1.4vw,14px)">
         <li style="display:flex;align-items:center;gap:clamp(16px,2.5vw,28px);border-radius:clamp(16px,2vw,20px);background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(22px,2.8vw,32px)">
-          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:10px">
+          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center">
             <span style="width:9px;height:9px;border-radius:9999px;background:#69debe"></span>
-            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a">01</span>
           </span>
           <span class="cs-deliver-text" style="flex:1 1 auto;min-width:0;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.35;color:#1c1833;text-wrap:pretty">Turned a five-year investor vision into a four-month MVP without reducing it to another carbon tracker</span>
         </li>
         <li style="display:flex;align-items:center;gap:clamp(16px,2.5vw,28px);border-radius:clamp(16px,2vw,20px);background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(22px,2.8vw,32px)">
-          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:10px">
+          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center">
             <span style="width:9px;height:9px;border-radius:9999px;background:#7cd2f2"></span>
-            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a">02</span>
           </span>
           <span class="cs-deliver-text" style="flex:1 1 auto;min-width:0;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.35;color:#1c1833;text-wrap:pretty">Made the long-term verification journey demonstrable without presenting future capabilities as live</span>
         </li>
         <li style="display:flex;align-items:center;gap:clamp(16px,2.5vw,28px);border-radius:clamp(16px,2vw,20px);background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(22px,2.8vw,32px)">
-          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:10px">
+          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center">
             <span style="width:9px;height:9px;border-radius:9999px;background:#8f74ff"></span>
-            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a">03</span>
           </span>
           <span class="cs-deliver-text" style="flex:1 1 auto;min-width:0;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.35;color:#1c1833;text-wrap:pretty">Built a shared object, lifecycle and trust-state model that kept design and engineering anchored to one product strategy</span>
         </li>
         <li style="display:flex;align-items:center;gap:clamp(16px,2.5vw,28px);border-radius:clamp(16px,2vw,20px);background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(22px,2.8vw,32px)">
-          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:10px">
+          <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center">
             <span style="width:9px;height:9px;border-radius:9999px;background:#ff806e"></span>
-            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a">04</span>
           </span>
           <span class="cs-deliver-text" style="flex:1 1 auto;min-width:0;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.35;color:#1c1833;text-wrap:pretty">The client funded a Phase 2 engagement and continued with us</span>
         </li>
@@ -837,13 +854,13 @@
     
     <div style="position:relative;z-index:1;max-width:1232px;margin:0 auto">
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px">
-        <span class="cs-eyebrow-ink" style="color:#fff7e8;font-weight:500">Want the full story?</span>
+        <span class="type-eyebrow" style="color:#fff7e8;font-weight:500">Want the full story?</span>
         <span aria-hidden="true" style="flex:1 1 120px;height:1px;background:linear-gradient(90deg,rgba(255,253,247,.35),rgba(255,253,247,0))"></span>
-        <span class="cs-readtime-mobile" style="color:rgba(255,247,232,.6)">12 min</span>
-        <span class="cs-readtime" style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(255,247,232,.6)">6 chapters &middot; 12 min</span>
+        <span class="cs-readtime-mobile type-label-mono" style="color:rgba(255,247,232,.6)">12 min</span>
+        <span class="cs-readtime type-label-mono" style="color:rgba(255,247,232,.6)">6 chapters &middot; 12 min</span>
       </div>
 
-      <h2 style="font-size:round(clamp(26px, calc(26px + 38 * ((100vw - 320px) / 704)), 64px), 2px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.08;letter-spacing:-.02em;color:#fffdf7;margin:clamp(20px,2.6vw,32px) 0 0;max-width:19ch">How I turned an investor vision into a <em style="font-style:italic;background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">buildable</em> product system.</h2>
+      <h2 class="fluid-headline" style="color:#fffdf7;margin:clamp(20px,2.6vw,32px) 0 0;max-width:19ch">How I turned an investor vision into a <em style="font-style:italic;background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">buildable</em> product system.</h2>
 
       <!-- The same six pills as the sticky "Jump to" bar — same class,
            same dots, same colours — rather than a separate row-based index
@@ -868,7 +885,7 @@
            orientation, pointing straight down), inlined rather than
            referenced so its colour can just inherit from the text via
            currentColor. -->
-      <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:rgba(255,247,232,.6);margin:clamp(56px,7vw,88px) 0 0;display:flex;align-items:center;gap:8px">Keep reading <svg aria-hidden="true" width="28" height="28" viewBox="0 0 62 62" fill="currentColor"><path d="M 11.895 25.554 L 11.895 1.292 C 11.895 0.925 12.018 0.617 12.265 0.369 C 12.511 0.121 12.818 -0.002 13.187 0 C 13.555 0.002 13.863 0.125 14.109 0.369 C 14.355 0.614 14.479 0.921 14.479 1.292 L 14.479 25.554 L 24.156 15.877 C 24.397 15.636 24.694 15.507 25.047 15.49 C 25.397 15.472 25.709 15.602 25.985 15.877 C 26.26 16.153 26.398 16.458 26.398 16.792 C 26.398 17.126 26.26 17.431 25.985 17.706 L 14.646 29.042 C 14.23 29.46 13.743 29.67 13.187 29.67 C 12.631 29.67 12.144 29.46 11.727 29.042 L 0.389 17.706 C 0.148 17.465 0.019 17.169 0.002 16.818 C -0.016 16.466 0.113 16.153 0.389 15.877 C 0.665 15.602 0.969 15.464 1.304 15.464 C 1.638 15.464 1.942 15.602 2.218 15.877 L 11.895 25.554 Z" fill-rule="evenodd" transform="matrix(1 0 0 1 17.813 14.208)"></path></svg></p>
+      <p class="type-label-mono" style="color:rgba(255,247,232,.6);margin:clamp(56px,7vw,88px) 0 0;display:flex;align-items:center;gap:8px">Keep reading <svg aria-hidden="true" width="28" height="28" viewBox="0 0 62 62" fill="currentColor"><path d="M 11.895 25.554 L 11.895 1.292 C 11.895 0.925 12.018 0.617 12.265 0.369 C 12.511 0.121 12.818 -0.002 13.187 0 C 13.555 0.002 13.863 0.125 14.109 0.369 C 14.355 0.614 14.479 0.921 14.479 1.292 L 14.479 25.554 L 24.156 15.877 C 24.397 15.636 24.694 15.507 25.047 15.49 C 25.397 15.472 25.709 15.602 25.985 15.877 C 26.26 16.153 26.398 16.458 26.398 16.792 C 26.398 17.126 26.26 17.431 25.985 17.706 L 14.646 29.042 C 14.23 29.46 13.743 29.67 13.187 29.67 C 12.631 29.67 12.144 29.46 11.727 29.042 L 0.389 17.706 C 0.148 17.465 0.019 17.169 0.002 16.818 C -0.016 16.466 0.113 16.153 0.389 15.877 C 0.665 15.602 0.969 15.464 1.304 15.464 C 1.638 15.464 1.942 15.602 2.218 15.877 L 11.895 25.554 Z" fill-rule="evenodd" transform="matrix(1 0 0 1 17.813 14.208)"></path></svg></p>
     </div>
   </section>
 
@@ -890,7 +907,7 @@
     <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:-1px;height:2px;overflow:hidden;background:linear-gradient(90deg,rgba(105,222,190,.28),rgba(124,210,242,.28) 40%,rgba(143,116,255,.28) 70%,rgba(255,128,110,.28))"><div id="cs-progress" style="height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 40%,#8f74ff 70%,#ff806e);transform:scaleX(0);transform-origin:left center"></div></div>
     <div id="cs-nav-inner" style="max-width:1232px;display:flex;flex-wrap:nowrap;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none">
       <div id="cs-home-slot" aria-hidden="true"><span id="cs-home-rule"></span></div>
-      <span id="cs-jump-label" style="flex:0 0 auto;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;margin-right:6px;transition:color .25s ease">Jump to</span>
+      <span id="cs-jump-label" class="type-label" style="flex:0 0 auto;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;margin-right:6px;transition:color .25s ease">Jump to</span>
       <a href="#summary" class="cs-jump">Summary</a>
       <a href="#pivot" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#69debe"></span>Strategic Pivot</a>
       <a href="#system" class="cs-jump"><span aria-hidden="true" class="cs-jump-dot" style="background:#7cd2f2"></span>Product System</a>
@@ -904,49 +921,49 @@
   <section id="pivot" data-screen-label="The Strategic Pivot" class="cs-x" style="scroll-margin-top:48px;position:relative;padding-top:clamp(64px,8vw,128px);padding-bottom:clamp(64px,8vw,128px)">
     <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
         <div data-rail="1" style="flex:0 1 186px;position:sticky;top:115px;align-self:flex-start">
-          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">01</p>
-          <p style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;line-height:1.45;color:#4d476a;font-weight:500;margin:12px 0 0">The Strategic Pivot</p>
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">01</p>
+          <p class="type-eyebrow" style="line-height:1.45;color:#4d476a;margin:12px 0 0">The Strategic Pivot</p>
           <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
         </div>
         <div style="flex:1 1 620px;min-width:0">
-          <h2 style="font-size:clamp(30px,4vw,60px);letter-spacing:-.015em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:22ch">Deciding what kind of product this needed to be.</h2>
+          <h2 class="fluid-section-title" style="color:#1c1833;margin:18px 0 0;max-width:22ch">Deciding what kind of product this needed to be.</h2>
 
       <div style="max-width:1232px">
         <p class="cs-lead" style="line-height:1.5;color:#4d476a;margin:34px 0 0;text-wrap:pretty">I joined Persustain at zero-to-one: an investor deck, no product, and no team. I assembled a cross-functional team from within ISM Creative — balancing required domain expertise with available capacity — and led Phase 1 from product strategy and design through delivery. I partnered closely with engineering on technical feasibility and tech stack alignment, while they owned system architecture and implementation.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The client's five-year strategy connected individual climate action to shared projects, third-party verification, and eventual carbon-market participation. None of it existed yet as a product: no user journeys, no information architecture, no answer to the most basic question — what does someone actually <em>do</em> inside this app? And we had four months to an incubator milestone review, leaving little room for experimentation or major course corrections. So the challenge was deciding what kind of product this needed to be before a single screen could be justified.</p>
 
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">The reality check</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">The reality check</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;font-weight:500">I needed to answer a more fundamental question: were we building the right product?</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">If the goal was simply delivering the MVP on time, a carbon tracker was the obvious answer — it fit the timeline, reduced technical complexity, and followed a familiar pattern used across the industry. But it would have delivered the easiest fraction of the client's vision and none of what made it distinctive. Before committing four months to it, I needed to know whether that five-year vision addressed a real gap, or whether we'd just be building a nicer version of an app that already existed five times over.</p>
 
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">What I found</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">What I found</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">To answer that question without the budget or timeline for a dedicated research phase, I ran a rapid competitive review across five climate apps — Klima, Commons, Earth Hero, LiveGreen, JouleBug — analysing 80+ public reviews to identify recurring onboarding and retention patterns. I was trying to understand why people stopped using these products after the initial excitement wore off, not looking for interface inspiration. Since this was secondary research rather than primary validation with Persustain users, strong signals were enough to bet a hypothesis on. Two patterns stood out.</p>
       </div>
       <figure style="margin:clamp(40px,5vw,64px) 0 0">
         <div style="border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
           <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
-            <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a">Reviewed</span>
-            <span style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06);font-size:13px">Klima</span>
-            <span style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06);font-size:13px">Commons</span>
-            <span style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06);font-size:13px">Earth Hero</span>
-            <span style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06);font-size:13px">LiveGreen</span>
-            <span style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06);font-size:13px">JouleBug</span>
-            <span style="padding:6px 14px;border-radius:9999px;background:#f0e9ff;font-size:13px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">80+ public reviews</span>
+            <span class="type-eyebrow" style="color:#4d476a">Reviewed</span>
+            <span class="type-label" style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Klima</span>
+            <span class="type-label" style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Commons</span>
+            <span class="type-label" style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Earth Hero</span>
+            <span class="type-label" style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">LiveGreen</span>
+            <span class="type-label" style="padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">JouleBug</span>
+            <span class="type-label" style="padding:6px 14px;border-radius:9999px;background:#f0e9ff;box-shadow:6px 6px 22px rgba(28,24,51,.06)">80+ public reviews</span>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(20px,3vw,40px);margin-top:36px">
             <div style="border-radius:24px;background:#e8fff6;padding:clamp(24px,3vw,36px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Gap 01</p>
-              <p style="font-size:clamp(22px,2.2vw,30px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:12px 0 0">The Efficacy Gap</p>
-              <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:14px 0 0">Gamification landed fine, but it couldn't answer the question underneath it. People weren't asking “how do I log more,” they were asking “does this matter at all.” Without a visible line from personal effort to real-world impact, the habit lost its reason to exist.</p>
+              <p class="type-eyebrow" style="color:#4d476a;margin:0">Key insight</p>
+              <p class="fluid-card-title" style="color:#1c1833;margin:12px 0 0">The Efficacy Gap</p>
+              <p class="type-body" style="line-height:1.6;color:#4d476a;margin:14px 0 0">Gamification landed fine, but it couldn't answer the question underneath it. People weren't asking “how do I log more,” they were asking “does this matter at all.” Without a visible line from personal effort to real-world impact, the habit lost its reason to exist.</p>
             </div>
             <div style="border-radius:24px;background:#e6f6ff;padding:clamp(24px,3vw,36px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Gap 02</p>
-              <p style="font-size:clamp(22px,2.2vw,30px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:12px 0 0">The Trust Gap</p>
-              <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:14px 0 0">When a carbon number changed with no visible reason, people stopped trusting the number, then the app.</p>
+              <p class="type-eyebrow" style="color:#4d476a;margin:0">Key insight</p>
+              <p class="fluid-card-title" style="color:#1c1833;margin:12px 0 0">The Trust Gap</p>
+              <p class="type-body" style="line-height:1.6;color:#4d476a;margin:14px 0 0">When a carbon number changed with no visible reason, people stopped trusting the number, then the app.</p>
             </div>
           </div>
         </div>
-        <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Secondary research: two recurring concerns behind disengagement.</figcaption>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">Secondary research: two recurring concerns behind disengagement.</figcaption>
       </figure>
 
       <div style="max-width:1232px">
@@ -955,15 +972,15 @@
 
       <div style="margin:clamp(40px,5vw,64px) 0 0;border-radius:28px;padding:clamp(28px,4vw,56px);background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,3vw,48px);align-items:center">
         <div>
-          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;margin:0">The strategic shift</p>
-          <p style="font-size:17px;line-height:1.6;color:#1c1833;margin:16px 0 0">This changed the product question completely.</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:0">The strategic shift</p>
+          <p class="cs-copy" style="line-height:1.6;color:#1c1833;margin:16px 0 0">This changed the product question completely.</p>
         </div>
         <div>
-          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">From</p>
-          <p style="font-size:clamp(19px,1.9vw,24px);font-family:Georgia,'Times New Roman',serif;line-height:1.3;color:#4d476a;margin:10px 0 0;text-decoration:line-through;text-decoration-color:rgba(28,24,51,.3)">How do we build a better carbon tracker?</p>
-          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:26px 0 0">To</p>
-          <p style="font-size:clamp(21px,2.2vw,30px);font-family:Georgia,'Times New Roman',serif;line-height:1.25;color:#1c1833;font-weight:700;margin:10px 0 0">How might we help people see their individual actions as part of a larger collective outcome?</p>
-          <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:18px 0 0">That reframe became the brief for every decision that followed.</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:0">From</p>
+          <p class="fluid-card-title" style="font-weight:400;line-height:1.3;color:#4d476a;margin:10px 0 0;text-decoration:line-through;text-decoration-color:rgba(28,24,51,.3)">How do we build a better carbon tracker?</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:26px 0 0">To</p>
+          <p class="fluid-subsection-title" style="line-height:1.25;color:#1c1833;margin:10px 0 0">How might we help people see their individual actions as part of a larger collective outcome?</p>
+          <p class="cs-copy" style="line-height:1.6;color:#4d476a;margin:18px 0 0">That reframe became the brief for every decision that followed.</p>
         </div>
       </div>
       </div>
@@ -978,117 +995,117 @@
     
     <div style="max-width:1232px;margin:0 auto;position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
         <div data-rail="1" style="flex:0 1 186px;position:sticky;top:115px;align-self:flex-start">
-          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">02</p>
-          <p style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;line-height:1.45;color:#4d476a;font-weight:500;margin:12px 0 0">Defining the Product System</p>
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">02</p>
+          <p class="type-eyebrow" style="line-height:1.45;color:#4d476a;margin:12px 0 0">Defining the Product System</p>
           <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
         </div>
         <div style="flex:1 1 620px;min-width:0">
-          <h2 style="font-size:clamp(30px,4vw,60px);letter-spacing:-.015em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:22ch">Turning a hypothesis into something engineers could build.</h2>
+          <h2 class="fluid-section-title" style="color:#1c1833;margin:18px 0 0;max-width:22ch">Turning a hypothesis into something engineers could build.</h2>
 
       <div style="max-width:1232px">
         <p class="cs-lead" style="line-height:1.5;color:#4d476a;margin:34px 0 0;text-wrap:pretty">A hypothesis isn't a spec. The investor deck described concepts like community projects, verification, certificates, carbon value — none of them existed as product entities, and without a shared definition, design and engineering would each have built their own interpretation of the vision.</p>
 
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Building a Shared Product Language</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Building a Shared Product Language</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I ran an OOUX (Object-Oriented UX) workshop with the client and engineering to define the platform's core objects and how they related — <em>User, Activity, Shared Climate Project, Evidence Pack, Verification, Certificate, Value</em> — seven objects, six relationships — then synthesised it into a canonical object map that anchored every user journey, spec, and implementation conversation that followed.</p>
       </div>
       <figure style="margin:clamp(36px,5vw,56px) 0 0">
         <div style="border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
           <div style="display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between">
-            <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;margin:0">Object map</p>
-            <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0;white-space:nowrap">7 objects · 6 relationships</p>
+            <p class="type-eyebrow" style="color:#4d476a;margin:0">Object map</p>
+            <p class="type-label-mono" style="color:#4d476a;margin:0;white-space:nowrap">7 objects · 6 relationships</p>
           </div>
           <div style="margin-top:24px;padding:14px 0 4px 34px;background:linear-gradient(180deg,#69debe,#7cd2f2 32%,#8f74ff 62%,#ff806e) left top / 2px 100% no-repeat">
             <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
               <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 6px #fffdf7"></span>
-              <p style="font-size:clamp(19px,1.9vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">User</p>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">profile · baseline · location</p>
-              <span style="margin-left:auto;flex:0 0 auto;background:#e8fff6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Phase 1</span>
+              <p class="fluid-card-title" style="color:#1c1833;margin:0">User</p>
+              <p class="type-label-mono" style="color:#4d476a;margin:0">profile · baseline · location</p>
+              <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#e8fff6;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Phase 1</span>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
               <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
-              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">logs</span>
+              <span class="type-label-mono" style="text-transform:uppercase;color:#8f74ff">logs</span>
             </div>
             <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
               <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 6px #fffdf7"></span>
-              <p style="font-size:clamp(19px,1.9vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">Activity</p>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">logged action · quantity · estimate</p>
-              <span style="margin-left:auto;flex:0 0 auto;background:#e8fff6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Phase 1</span>
+              <p class="fluid-card-title" style="color:#1c1833;margin:0">Activity</p>
+              <p class="type-label-mono" style="color:#4d476a;margin:0">logged action · quantity · estimate</p>
+              <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#e8fff6;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Phase 1</span>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
               <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
-              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">aggregates into</span>
+              <span class="type-label-mono" style="text-transform:uppercase;color:#8f74ff">aggregates into</span>
             </div>
             <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
               <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 6px #fffdf7"></span>
-              <p style="font-size:clamp(19px,1.9vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">Shared Climate Project</p>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">aggregation period · participants</p>
-              <span style="margin-left:auto;flex:0 0 auto;background:#e8fff6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Phase 1</span>
+              <p class="fluid-card-title" style="color:#1c1833;margin:0">Shared Climate Project</p>
+              <p class="type-label-mono" style="color:#4d476a;margin:0">aggregation period · participants</p>
+              <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#e8fff6;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Phase 1</span>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
               <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
-              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">produces</span>
+              <span class="type-label-mono" style="text-transform:uppercase;color:#8f74ff">produces</span>
             </div>
             <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
               <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 6px #fffdf7"></span>
-              <p style="font-size:clamp(19px,1.9vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">Evidence Pack</p>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">aggregated data · methodology</p>
-              <span style="margin-left:auto;flex:0 0 auto;background:#e8fff6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Phase 1</span>
+              <p class="fluid-card-title" style="color:#1c1833;margin:0">Evidence Pack</p>
+              <p class="type-label-mono" style="color:#4d476a;margin:0">aggregated data · methodology</p>
+              <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#e8fff6;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Phase 1</span>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
               <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
-              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">is submitted for</span>
+              <span class="type-label-mono" style="text-transform:uppercase;color:#8f74ff">is submitted for</span>
             </div>
             <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
               <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ffb27a;box-shadow:0 0 0 6px #fffdf7"></span>
-              <p style="font-size:clamp(19px,1.9vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">Verification</p>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">review status · reviewer</p>
-              <span style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
+              <p class="fluid-card-title" style="color:#1c1833;margin:0">Verification</p>
+              <p class="type-label-mono" style="color:#4d476a;margin:0">review status · reviewer</p>
+              <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
               <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
-              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">yields</span>
+              <span class="type-label-mono" style="text-transform:uppercase;color:#8f74ff">yields</span>
             </div>
             <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
               <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ff9a86;box-shadow:0 0 0 6px #fffdf7"></span>
-              <p style="font-size:clamp(19px,1.9vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">Certificate</p>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">origin · registry reference</p>
-              <span style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
+              <p class="fluid-card-title" style="color:#1c1833;margin:0">Certificate</p>
+              <p class="type-label-mono" style="color:#4d476a;margin:0">origin · registry reference</p>
+              <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:0 0 2px">
               <span aria-hidden="true" style="width:18px;height:1px;background:rgba(143,116,255,.55)"></span>
-              <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">carries</span>
+              <span class="type-label-mono" style="text-transform:uppercase;color:#8f74ff">carries</span>
             </div>
             <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
               <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ff806e;box-shadow:0 0 0 6px #fffdf7"></span>
-              <p style="font-size:clamp(19px,1.9vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">Value</p>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d476a;margin:0">contribution share · estimated value</p>
-              <span style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
+              <p class="fluid-card-title" style="color:#1c1833;margin:0">Value</p>
+              <p class="type-label-mono" style="color:#4d476a;margin:0">contribution share · estimated value</p>
+              <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
             </div>
           </div>
         </div>
-        <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">The canonical object map: seven objects and their relationships.</figcaption>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">The canonical object map: seven objects and their relationships.</figcaption>
       </figure>
 
       <div style="max-width:1232px">
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">From there I modelled the full six-stage lifecycle a contribution moves through: <strong style="color:#1c1833;font-weight:500">Actions → Aggregation → Verification → Registry → Certification → Value.</strong> Phase 1 built the first two stages as real, working states. The remaining four — verification, registry, certification, market value — stayed simulated by design, giving Phase 2 a defined starting point without pretending external infrastructure existed yet.</p>
       </div>
         <figure style="margin:clamp(36px,5vw,56px) 0 0">
-          <div style="border-radius:24px;overflow:hidden;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><div style="aspect-ratio:16/9;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#f0e9ff,#e6f6ff)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div></div>
-          <figcaption style="font-size:14px;color:#4d476a;margin-top:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Six stages, one connected lifecycle.</figcaption>
+          <div style="border-radius:24px;overflow:hidden;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><div style="aspect-ratio:16/9;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#f0e9ff,#e6f6ff)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div></div>
+          <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">Six stages, one connected lifecycle.</figcaption>
         </figure>
       <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:clamp(28px,3vw,40px) 0 0">
-        <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a">Built in Phase 1</span>
-        <span style="padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Actions</span>
-        <span style="padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Aggregation</span>
-        <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin-left:12px">Simulated in Phase 1</span>
-        <span style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);font-size:14px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Verification</span>
-        <span style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);font-size:14px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Registry</span>
-        <span style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);font-size:14px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Certification</span>
-        <span style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);font-size:14px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Value</span>
+        <span class="type-eyebrow" style="color:#4d476a">Built in Phase 1</span>
+        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#e8fff6;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Actions</span>
+        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#e8fff6;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Aggregation</span>
+        <span class="type-eyebrow" style="color:#4d476a;margin-left:12px">Simulated in Phase 1</span>
+        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);box-shadow:6px 6px 22px rgba(28,24,51,.06)">Verification</span>
+        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);box-shadow:6px 6px 22px rgba(28,24,51,.06)">Registry</span>
+        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);box-shadow:6px 6px 22px rgba(28,24,51,.06)">Certification</span>
+        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);box-shadow:6px 6px 22px rgba(28,24,51,.06)">Value</span>
       </div>
 
       <div style="max-width:1232px">
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Structuring the experience</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Structuring the experience</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The next challenge was making a technically complex system understandable. Rather than exposing that machinery — evidence packs, registries, verification workflows — I organised the product's information architecture around two destinations that answer the two questions a user would have.</p>
       </div>
       <figure style="margin:clamp(40px,5vw,64px) 0 0">
@@ -1096,44 +1113,44 @@
           <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(30px,4vw,52px) 0;border-top:1px solid rgba(28,24,51,.13)">
             <div style="flex:1 1 330px;min-width:0">
               <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center">
-                <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.16em;color:#8f74ff">Destination 01</span>
-                <span style="display:inline-flex;align-items:center;gap:9px;padding:6px 14px;border-radius:9999px;background:#e8fff6;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><span aria-hidden="true" style="width:8px;height:8px;border-radius:9999px;background:#69debe"></span>Dashboard</span>
+                <span class="type-label-mono" style="color:#8f74ff">Destination</span>
+                <span class="type-label" style="display:inline-flex;align-items:center;gap:9px;padding:6px 14px;border-radius:9999px;background:#e8fff6;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><span aria-hidden="true" style="width:8px;height:8px;border-radius:9999px;background:#69debe"></span>Dashboard</span>
               </div>
-              <p style="font-size:clamp(26px,3.2vw,42px);letter-spacing:-.01em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.12;letter-spacing:-.01em;color:#1c1833;margin:20px 0 0;text-wrap:balance">“Did my actions matter?”</p>
-              <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:16px 0 0;max-width:42ch">A personal emissions summary sitting next to the shared project that activity supports.</p>
+              <p class="fluid-subsection-title" style="letter-spacing:-.01em;line-height:1.12;color:#1c1833;margin:20px 0 0;text-wrap:balance">“Did my actions matter?”</p>
+              <p class="type-body" style="line-height:1.6;color:#4d476a;margin:16px 0 0;max-width:42ch">A personal emissions summary sitting next to the shared project that activity supports.</p>
               <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:22px">
-              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">attributed contribution</span>
-              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">contribution share</span>
-              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">estimated value</span>
-              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:14px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">project progress</span>
+              <span class="type-label" style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">attributed contribution</span>
+              <span class="type-label" style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">contribution share</span>
+              <span class="type-label" style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">estimated value</span>
+              <span class="type-label" style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e8fff6;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">project progress</span>
               </div>
             </div>
             <div style="flex:0 1 300px;display:flex;justify-content:center;min-width:220px">
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(30px,4vw,52px) 0;border-top:1px solid rgba(28,24,51,.13)">
             <div style="flex:1 1 330px;min-width:0">
               <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center">
-                <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.16em;color:#8f74ff">Destination 02</span>
-                <span style="display:inline-flex;align-items:center;gap:9px;padding:6px 14px;border-radius:9999px;background:#e6f6ff;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><span aria-hidden="true" style="width:8px;height:8px;border-radius:9999px;background:#7cd2f2"></span>Project page</span>
+                <span class="type-label-mono" style="color:#8f74ff">Destination</span>
+                <span class="type-label" style="display:inline-flex;align-items:center;gap:9px;padding:6px 14px;border-radius:9999px;background:#e6f6ff;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><span aria-hidden="true" style="width:8px;height:8px;border-radius:9999px;background:#7cd2f2"></span>Project page</span>
               </div>
-              <p style="font-size:clamp(26px,3.2vw,42px);letter-spacing:-.01em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.12;letter-spacing:-.01em;color:#1c1833;margin:20px 0 0;text-wrap:balance">“Where did my contribution go?”</p>
-              <p style="font-size:17px;line-height:1.6;color:#4d476a;margin:16px 0 0;max-width:42ch">One place that shows the whole system — the project, the lifecycle it sits in, what’s verified and what isn’t yet — with methodology and assumptions visible alongside it.</p>
+              <p class="fluid-subsection-title" style="letter-spacing:-.01em;line-height:1.12;color:#1c1833;margin:20px 0 0;text-wrap:balance">“Where did my contribution go?”</p>
+              <p class="type-body" style="line-height:1.6;color:#4d476a;margin:16px 0 0;max-width:42ch">One place that shows the whole system — the project, the lifecycle it sits in, what’s verified and what isn’t yet — with methodology and assumptions visible alongside it.</p>
               <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:22px">
-              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:14px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">contribution → project impact</span>
-              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:14px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">full impact lifecycle</span>
-              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:14px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">methodology and assumptions</span>
-              <span style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:14px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Estimated · Pending · Simulated</span>
+              <span class="type-label" style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">contribution → project impact</span>
+              <span class="type-label" style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">full impact lifecycle</span>
+              <span class="type-label" style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">methodology and assumptions</span>
+              <span class="type-label" style="white-space:nowrap;padding:7px 14px;border-radius:9999px;background:#e6f6ff;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Estimated · Pending · Simulated</span>
               </div>
             </div>
             <div style="flex:0 1 400px;display:flex;justify-content:center;align-items:flex-end;gap:clamp(10px,1.6vw,20px);min-width:240px">
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
           </div>
         </div>
-        <figcaption style="font-size:14px;color:#4d476a;margin-top:18px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Two destinations, one progressive path from action to lifecycle.</figcaption>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:18px;text-align:center">Two destinations, one progressive path from action to lifecycle.</figcaption>
       </figure>
 
       <div style="max-width:1232px">
@@ -1146,119 +1163,108 @@
   <section id="trust" data-screen-label="Designing for Trust" class="cs-x" style="scroll-margin-top:48px;position:relative;padding-top:clamp(64px,8vw,128px);padding-bottom:clamp(64px,8vw,128px);border-top:1px solid rgba(28,24,51,.1)">
     <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
         <div data-rail="1" style="flex:0 1 186px;position:sticky;top:115px;align-self:flex-start">
-          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">03</p>
-          <p style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;line-height:1.45;color:#4d476a;font-weight:500;margin:12px 0 0">Designing for Trust</p>
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">03</p>
+          <p class="type-eyebrow" style="line-height:1.45;color:#4d476a;margin:12px 0 0">Designing for Trust</p>
           <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
         </div>
         <div style="flex:1 1 620px;min-width:0">
-          <h2 style="font-size:clamp(30px,4vw,60px);letter-spacing:-.015em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:24ch">Showing a five-year vision without claiming it was already live.</h2>
+          <h2 class="fluid-section-title" style="color:#1c1833;margin:18px 0 0;max-width:24ch">Showing a five-year vision without claiming it was already live.</h2>
 
       <div style="max-width:1232px">
         <p class="cs-lead" style="line-height:1.5;color:#4d476a;margin:34px 0 0;text-wrap:pretty">The client's roadmap ran from individual action all the way to verified carbon credits with market value. Cutting that from the product would have erased what made it distinctive. Showing it as already functional wouldn't have survived someone's first five minutes in the app. I needed both — the full ambition, and honesty about what was real today.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I specified two dimensions and kept them deliberately separate, so one could never be mistaken for the other.</p>
       </div>
       <figure style="margin:clamp(36px,5vw,56px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(20px,3vw,40px);align-items:start">
-        <div>
-          <div style="border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:0 clamp(24px,3vw,40px)">
-            <div style="padding:clamp(22px,3vw,32px) 0">
-              <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline">
-                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">Dimension 01</p>
-                <p style="font-size:clamp(21px,2.1vw,27px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">Lifecycle status</p>
-              </div>
-              <p style="font-size:17px;line-height:1.55;color:#4d476a;margin:12px 0 0;max-width:46ch">Where is the project actually up to?</p>
-              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px"><span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e8fff6;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><span aria-hidden="true" style="font-size:11px;color:#4d476a">✓</span>Completed</span><span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><span aria-hidden="true" style="font-size:11px;color:#4d476a">◐</span>In progress</span><span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#fff7e8;box-shadow:6px 6px 22px rgba(28,24,51,.06);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833"><span aria-hidden="true" style="font-size:11px;color:#4d476a">○</span>Awaiting action</span></div>
-              
-            </div>
-            <div style="position:relative;height:1px;background:rgba(28,24,51,.14)">
-              <span style="position:absolute;top:50%;left:0;transform:translateY(-50%);background:#fffdf7;padding-right:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff">never conflated</span>
-            </div>
-            <div style="padding:clamp(22px,3vw,32px) 0">
-              <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline">
-                <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.1em;color:#4d476a;margin:0">Dimension 02</p>
-                <p style="font-size:clamp(21px,2.1vw,27px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833;margin:0">Trust state</p>
-              </div>
-              <p style="font-size:17px;line-height:1.55;color:#4d476a;margin:12px 0 0;max-width:46ch">What can the product truthfully claim?</p>
-              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px"><div style="display:flex;flex-wrap:wrap;gap:clamp(18px,2.5vw,32px);width:100%">
-                <div style="flex:1 1 190px;min-width:0">
-                  <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#f0e9ff;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Estimated</span>
-                  <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:12px 0 0">based on data or documented assumptions.</p>
-                </div>
-                <div style="flex:1 1 190px;min-width:0">
-                  <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e6f6ff;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Pending</span>
-                  <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:12px 0 0">dependent on future evidence or approval.</p>
-                </div>
-                <div style="flex:1 1 190px;min-width:0">
-                  <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#ffe1d6;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
-                  <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:12px 0 0">a future capability, intentionally not yet operational.</p>
-                </div>
-              </div></div>
-              
-            </div>
+        <div style="border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:0 clamp(24px,3vw,40px)">
+          <div style="padding:clamp(22px,3vw,32px) 0">
+            <p class="fluid-card-title" style="color:#1c1833;margin:0">Lifecycle status</p>
+            <p class="type-body" style="line-height:1.55;color:#4d476a;margin:12px 0 0;max-width:46ch">Where is the project actually up to?</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px"><span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e8fff6;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><span aria-hidden="true" style="font-size:11px;color:#4d476a">✓</span>Completed</span><span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e6f6ff;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><span aria-hidden="true" style="font-size:11px;color:#4d476a">◐</span>In progress</span><span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#fff7e8;box-shadow:6px 6px 22px rgba(28,24,51,.06);letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833"><span aria-hidden="true" style="font-size:11px;color:#4d476a">○</span>Awaiting action</span></div>
+
           </div>
-          <figcaption style="font-size:14px;color:#4d476a;margin-top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Two dimensions, kept deliberately separate.</figcaption>
+          <div style="position:relative;height:1px;background:rgba(28,24,51,.14)">
+            <span class="type-label-mono" style="position:absolute;top:50%;left:0;transform:translateY(-50%);background:#fffdf7;padding-right:14px;text-transform:uppercase;color:#8f74ff">never conflated</span>
+          </div>
+          <div style="padding:clamp(22px,3vw,32px) 0">
+            <p class="fluid-card-title" style="color:#1c1833;margin:0">Trust state</p>
+            <p class="type-body" style="line-height:1.55;color:#4d476a;margin:12px 0 0;max-width:46ch">What can the product truthfully claim?</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px"><div style="display:flex;flex-wrap:wrap;gap:clamp(18px,2.5vw,32px);width:100%">
+              <div style="flex:1 1 190px;min-width:0">
+                <span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#f0e9ff;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Estimated</span>
+                <p class="type-body" style="line-height:1.55;color:#4d476a;margin:12px 0 0">based on data or documented assumptions.</p>
+              </div>
+              <div style="flex:1 1 190px;min-width:0">
+                <span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e6f6ff;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Pending</span>
+                <p class="type-body" style="line-height:1.55;color:#4d476a;margin:12px 0 0">dependent on future evidence or approval.</p>
+              </div>
+              <div style="flex:1 1 190px;min-width:0">
+                <span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#ffe1d6;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
+                <p class="type-body" style="line-height:1.55;color:#4d476a;margin:12px 0 0">a future capability, intentionally not yet operational.</p>
+              </div>
+            </div></div>
+
+          </div>
         </div>
-        <div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <figcaption style="font-size:14px;color:#4d476a;margin-top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Future steps labelled Pending or Simulated.</figcaption>
-        </div>
+        <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+        <figcaption class="type-caption" style="grid-column:1 / -1;color:#4d476a;margin-top:4px;text-align:center">Two dimensions, kept deliberately separate — never conflated in the interface.</figcaption>
       </figure>
 
       <div style="max-width:1232px">
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Transparency as a Product Principle</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Transparency as a Product Principle</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Every methodology and assumption behind a number stayed visible next to it. The product wasn't asking people to trust it — it was giving them what they needed to decide that for themselves.</p>
 
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Keeping AI Interpretive, Not Authoritative</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Keeping AI Interpretive, Not Authoritative</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The same principle governed how I scoped AI. Working with the AI developer, I set the boundary at <em>interpretive, not authoritative</em>: OpenAI could explain a trend in plain language, summarise an evidence pack, or help match a description to a known activity. It could not calculate or verify impact, issue credits, certify outcomes, or determine market legitimacy — those stayed tied to calculation sources, evidence, and later lifecycle stages that hadn't been built yet.</p>
       </div>
       <figure style="margin:clamp(36px,5vw,56px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,56px);align-items:center">
-        <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+        <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
         <div>
           <div>
             <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">AI guardrails</p>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8f74ff;margin:0">interpretive, not authoritative</p>
+              <p class="type-eyebrow" style="color:#4d476a;margin:0">AI guardrails</p>
+              <p class="type-eyebrow" style="color:#8f74ff;margin:0">interpretive, not authoritative</p>
             </div>
-            <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#1c1833;font-weight:500;margin:26px 0 0">Could</p>
+            <p class="type-eyebrow" style="color:#1c1833;margin:26px 0 0">Could</p>
             <ul style="list-style:none;padding:0;margin:10px 0 0">
               <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
                 <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#2f9e7d">✓</span>
-                <span style="font-size:16px;line-height:1.5;color:#1c1833">Explain a trend in plain language</span>
+                <span class="type-body" style="line-height:1.5;color:#1c1833">Explain a trend in plain language</span>
               </li>
               <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
                 <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#2f9e7d">✓</span>
-                <span style="font-size:16px;line-height:1.5;color:#1c1833">Summarise an evidence pack</span>
+                <span class="type-body" style="line-height:1.5;color:#1c1833">Summarise an evidence pack</span>
               </li>
               <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
                 <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#2f9e7d">✓</span>
-                <span style="font-size:16px;line-height:1.5;color:#1c1833">Help match a description to a known activity</span>
+                <span class="type-body" style="line-height:1.5;color:#1c1833">Help match a description to a known activity</span>
               </li>
             </ul>
-            <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#1c1833;font-weight:500;margin:28px 0 0">Could not</p>
+            <p class="type-eyebrow" style="color:#1c1833;margin:28px 0 0">Could not</p>
             <ul style="list-style:none;padding:0;margin:10px 0 0">
               <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
                 <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#d4644f">✕</span>
-                <span style="font-size:16px;line-height:1.5;color:#4d476a">Calculate or verify project impact</span>
+                <span class="type-body" style="line-height:1.5;color:#4d476a">Calculate or verify project impact</span>
               </li>
               <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
                 <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#d4644f">✕</span>
-                <span style="font-size:16px;line-height:1.5;color:#4d476a">Issue credits</span>
+                <span class="type-body" style="line-height:1.5;color:#4d476a">Issue credits</span>
               </li>
               <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
                 <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#d4644f">✕</span>
-                <span style="font-size:16px;line-height:1.5;color:#4d476a">Certify outcomes</span>
+                <span class="type-body" style="line-height:1.5;color:#4d476a">Certify outcomes</span>
               </li>
               <li style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid rgba(28,24,51,.1)">
                 <span aria-hidden="true" style="flex:0 0 auto;font-size:14px;color:#d4644f">✕</span>
-                <span style="font-size:16px;line-height:1.5;color:#4d476a">Determine market legitimacy</span>
+                <span class="type-body" style="line-height:1.5;color:#4d476a">Determine market legitimacy</span>
               </li>
             </ul>
           </div>
-          <figcaption style="font-size:14px;color:#4d476a;margin-top:24px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">Insight sits beside the data it interprets.</figcaption>
+          <figcaption class="type-caption" style="color:#4d476a;margin-top:24px;text-align:center">Insight sits beside the data it interprets.</figcaption>
         </div>
       </figure>
 
       <div style="max-width:1232px">
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Balancing MVP Constraints with Long-Term Vision</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Balancing MVP Constraints with Long-Term Vision</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Separating lifecycle status from trust states allowed us to communicate the long-term vision honestly without overpromising on current functionality. While user comprehension of these distinctions remains one of our primary Phase 2 research questions, the MVP delivered business value: the client reported that it successfully demonstrated the broader product roadmap to investors and incubator stakeholders without misrepresenting future capabilities as live.</p>
       </div>
       </div>
@@ -1272,20 +1278,20 @@
       </div>
     
     <blockquote style="position:relative;max-width:1232px;margin:0 auto;text-align:center">
-      <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#fff7e8;margin:0;opacity:.75">Looking back, one of the most important product decisions on the project</p>
-      <p style="font-size:clamp(26px,3.6vw,52px);letter-spacing:-.01em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.2;letter-spacing:-.01em;color:#fffdf7;margin:28px 0 0;text-wrap:balance">Trust isn't built by hiding uncertainty, it's built by <span style="background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">making uncertainty understandable</span>.</p>
+      <p class="type-eyebrow" style="color:#fff7e8;margin:0;opacity:.75">Looking back, one of the most important product decisions on the project</p>
+      <p style="font-size:clamp(26px,3.6vw,52px);letter-spacing:-.01em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.2;color:#fffdf7;margin:28px 0 0;text-wrap:balance">Trust isn't built by hiding uncertainty, it's built by <span style="background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:gradient-drift 7s ease-in-out infinite alternate">making uncertainty understandable</span>.</p>
     </blockquote>
   </section>
 
   <section id="delivery" data-screen-label="Leading Cross-Functional Delivery" class="cs-x" style="scroll-margin-top:48px;position:relative;padding-top:clamp(64px,8vw,128px);padding-bottom:clamp(64px,8vw,128px)">
     <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
         <div data-rail="1" style="flex:0 1 186px;position:sticky;top:115px;align-self:flex-start">
-          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">04</p>
-          <p style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;line-height:1.45;color:#4d476a;font-weight:500;margin:12px 0 0">Leading Cross-Functional Delivery</p>
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">04</p>
+          <p class="type-eyebrow" style="line-height:1.45;color:#4d476a;margin:12px 0 0">Leading Cross-Functional Delivery</p>
           <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
         </div>
         <div style="flex:1 1 620px;min-width:0">
-          <h2 style="font-size:clamp(30px,4vw,60px);letter-spacing:-.015em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:22ch">Reconciling product strategy, user friction and technical constraints.</h2>
+          <h2 class="fluid-section-title" style="color:#1c1833;margin:18px 0 0;max-width:22ch">Reconciling product strategy, user friction and technical constraints.</h2>
 
       <div style="max-width:1232px">
         <p class="cs-lead" style="line-height:1.5;color:#4d476a;margin:34px 0 0;text-wrap:pretty">Leading and delivering the product required continuous collaboration with engineering, not a single hand-off. We held weekly cross-functional meetings alongside asynchronous updates, with focused working sessions whenever a decision required more than a status check.</p>
@@ -1300,44 +1306,44 @@
         <div style="border-radius:24px;background:#e8fff6;padding:clamp(22px,2.8vw,30px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
           <div style="display:flex;align-items:center;gap:10px">
             <span aria-hidden="true" style="width:10px;height:10px;border-radius:9999px;background:#69debe"></span>
-            <span style="font-size:clamp(19px,2vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833">Me</span>
+            <span class="fluid-card-title" style="color:#1c1833">Me</span>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px">
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Product strategy</span>
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">MVP definition</span>
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">UX direction</span>
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">IA</span>
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Design leadership</span>
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Cross-functional delivery</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Product strategy</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">MVP definition</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">UX direction</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">IA</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Design leadership</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Cross-functional delivery</span>
           </div>
         </div>
         <div style="border-radius:24px;background:#e6f6ff;padding:clamp(22px,2.8vw,30px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
           <div style="display:flex;align-items:center;gap:10px">
             <span aria-hidden="true" style="width:10px;height:10px;border-radius:9999px;background:#7cd2f2"></span>
-            <span style="font-size:clamp(19px,2vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833">Technical Lead</span>
+            <span class="fluid-card-title" style="color:#1c1833">Technical Lead</span>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px">
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">System architecture</span>
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Technical feasibility</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">System architecture</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Technical feasibility</span>
           </div>
         </div>
         <div style="border-radius:24px;background:#f0e9ff;padding:clamp(22px,2.8vw,30px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
           <div style="display:flex;align-items:center;gap:10px">
             <span aria-hidden="true" style="width:10px;height:10px;border-radius:9999px;background:#8f74ff"></span>
-            <span style="font-size:clamp(19px,2vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833">Design Engineer</span>
+            <span class="fluid-card-title" style="color:#1c1833">Design Engineer</span>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px">
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Screen production in Figma</span>
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Frontend and Firestore build in FlutterFlow</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Screen production in Figma</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Frontend and Firestore build in FlutterFlow</span>
           </div>
         </div>
         <div style="border-radius:24px;background:#ffe1d6;padding:clamp(22px,2.8vw,30px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
           <div style="display:flex;align-items:center;gap:10px">
             <span aria-hidden="true" style="width:10px;height:10px;border-radius:9999px;background:#ff806e"></span>
-            <span style="font-size:clamp(19px,2vw,23px);font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#1c1833">AI Developer</span>
+            <span class="fluid-card-title" style="color:#1c1833">AI Developer</span>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px">
-            <span style="padding:6px 13px;border-radius:9999px;background:#fffdf7;font-size:13px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">AI behaviour and integrations</span>
+            <span class="type-label" style="padding:6px 13px;border-radius:9999px;background:#fffdf7;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">AI behaviour and integrations</span>
           </div>
         </div>
       </div>
@@ -1345,13 +1351,13 @@
       <div style="max-width:1232px">
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(32px,4vw,48px) 0 0;text-wrap:pretty">To bridge the gap between design and code, I built the core UX artifacts and lean design system in Figma, then set up the design system in FlutterFlow before delegating screen production to the design engineer. She designed the UI passes in Figma, and upon my review and approval, built those screens directly in FlutterFlow while I maintained oversight of critical flows and implementation specs. I guided her through regular critiques — evaluating usability, accessibility, visual fidelity, and whether the build faithfully reflected our agreed object model and lifecycle logic.</p>
 
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(48px,6vw,80px) 0 0">Key delivery decisions and trade-offs</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(48px,6vw,80px) 0 0">Key delivery decisions and trade-offs</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The frameworks we established in Phase 1 became most valuable during implementation, when product strategy, user friction and technical constraints had to be reconciled under a four-month deadline. Three decisions show how those trade-offs played out in practice.</p>
 
         <div style="margin:clamp(40px,5vw,64px) 0 0;padding-top:clamp(24px,3vw,34px);border-top:1px solid rgba(28,24,51,.13)">
-          <p class="cs-tradeoff-kicker">Trade-off 01</p>
-          <h4 style="font-size:clamp(20px,2.2vw,29px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.18;color:#1c1833;margin:12px 0 0">Activity logging</h4>
-          <p class="cs-tradeoff-sub">Balancing input friction against calculation precision and AI boundaries.</p>
+          <p class="cs-tradeoff-kicker type-eyebrow">Trade-off</p>
+          <h3 class="fluid-subsection-title" style="color:#1c1833;margin:12px 0 0">Activity logging</h3>
+          <p class="cs-tradeoff-sub type-body">Balancing input friction against calculation precision and AI boundaries.</p>
         </div>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(24px,3vw,32px) 0 0;text-wrap:pretty">One design review exposed a significant usability risk in the activity log. An early version asked for technical consumption inputs — exact kilowatt-hours, fuel burn rates, specific grid emission factors. Almost no everyday user knows these numbers precisely, and forcing them to guess introduced fatal onboarding friction.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I explored free-text logging instead (“boiled water with an electric kettle”), with the system inferring the rest, but engineering determined that reliably translating open text into every input Climatiq needed wasn't feasible in our timeline. More critically, it threatened our AI rule: letting an LLM estimate emissions would make it authoritative rather than interpretive.</p>
@@ -1359,85 +1365,82 @@
       </div>
       <figure style="margin:clamp(40px,5vw,64px) 0 0">
         <div style="display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between;padding-bottom:22px;border-bottom:1px solid rgba(28,24,51,.13)">
-          <p style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4d476a;font-weight:500;margin:0">Activity log, as built</p>
-          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#8f74ff;margin:0">people enter only what they can know</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:0">Activity log, as built</p>
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">people enter only what they can know</p>
         </div>
         <div style="position:relative;margin-top:30px">
           <div aria-hidden="true" style="position:absolute;top:8px;left:26px;right:26px;height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 50%,#8f74ff)"></div>
           <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:clamp(20px,3vw,44px)">
             <div style="display:flex;flex-direction:column">
               <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 01</p>
-              <p style="font-size:clamp(19px,1.9vw,24px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">Choose a known activity</p>
-              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">A searchable catalogue of familiar activities, instead of technical consumption values.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <p class="fluid-card-title" style="line-height:1.2;color:#1c1833;margin:22px 0 0">Choose a known activity</p>
+              <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">A searchable catalogue of familiar activities, instead of technical consumption values.</p>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
             <div style="display:flex;flex-direction:column">
               <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 02</p>
-              <p style="font-size:clamp(19px,1.9vw,24px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">Enter only what you know</p>
-              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">Frequency, duration, distance or amount — nothing a person would have to look up.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <p class="fluid-card-title" style="line-height:1.2;color:#1c1833;margin:22px 0 0">Enter only what you know</p>
+              <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">Frequency, duration, distance or amount — nothing a person would have to look up.</p>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
             <div style="display:flex;flex-direction:column">
               <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.14em;color:#4d476a;margin:22px 0 0">Step 03</p>
-              <p style="font-size:clamp(19px,1.9vw,24px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.2;color:#1c1833;margin:10px 0 0">See how the number was made</p>
-              <p style="font-size:15px;line-height:1.55;color:#4d476a;margin:10px 0 0">The result is presented as Estimated, with methodology and assumptions available.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              <p class="fluid-card-title" style="line-height:1.2;color:#1c1833;margin:22px 0 0">See how the number was made</p>
+              <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">The result is presented as Estimated, with methodology and assumptions available.</p>
+              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
             </div>
           </div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-top:clamp(28px,3.5vw,44px);padding-top:26px;border-top:1px solid rgba(28,24,51,.13)">
             <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Person</p>
-              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">confirms the activity and one quantity</p>
+              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">Person</p>
+              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">confirms the activity and one quantity</p>
             </div>
             <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
             <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#f0e9ff;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">OpenAI</p>
-              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">enriches or matches the description</p>
+              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">OpenAI</p>
+              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">enriches or matches the description</p>
             </div>
             <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
             <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#e6f6ff;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Structured data</p>
-              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">activity type, quantity, date</p>
+              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">Structured data</p>
+              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">activity type, quantity, date</p>
             </div>
             <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
             <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#e8fff6;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Climatiq</p>
-              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">calculates the emissions estimate</p>
+              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">Climatiq</p>
+              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">calculates the emissions estimate</p>
             </div>
             <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
             <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#ffe1d6;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">Result</p>
-              <p style="font-size:15px;line-height:1.45;color:#1c1833;margin:8px 0 0">shown as Estimated, methodology attached</p>
+              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">Result</p>
+              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">shown as Estimated, methodology attached</p>
             </div>
         </div>
-        <figcaption style="font-size:14px;color:#4d476a;margin-top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center">The compromise in the build: a catalogue plus one known quantity.</figcaption>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:20px;text-align:center">The compromise in the build: a catalogue plus one known quantity.</figcaption>
       </figure>
 
       <div style="max-width:1232px">
         <div style="margin:clamp(48px,6vw,80px) 0 0;padding-top:clamp(24px,3vw,34px);border-top:1px solid rgba(28,24,51,.13)">
-          <p class="cs-tradeoff-kicker">Trade-off 02</p>
-          <h4 style="font-size:clamp(20px,2.2vw,29px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.18;color:#1c1833;margin:12px 0 0">Correcting interface drift</h4>
-          <p class="cs-tradeoff-sub">Balancing speed of production against architectural integrity.</p>
+          <p class="cs-tradeoff-kicker type-eyebrow">Trade-off</p>
+          <h3 class="fluid-subsection-title" style="color:#1c1833;margin:12px 0 0">Correcting interface drift</h3>
+          <p class="cs-tradeoff-sub type-body">Balancing speed of production against architectural integrity.</p>
         </div>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(24px,3vw,32px) 0 0;text-wrap:pretty">I reviewed each engineering pass against standard heuristics — usability, accessibility, visual fidelity — but also against a deeper criterion: did the build still honour our agreed object model and lifecycle logic?</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">During one review, I noticed the interface had drifted back toward a conventional carbon tracker. The shared-project logic that made Persustain distinctive had fallen out of the screens. I traced the drift back to our object map and used that shared language — not a design opinion — to show what had disappeared and why it mattered. We rebuilt the flow so personal tracking remained connected to the shared project. The object map became the reference point whenever implementation started drifting toward the familiar.</p>
 
         <div style="margin:clamp(48px,6vw,80px) 0 0;padding-top:clamp(24px,3vw,34px);border-top:1px solid rgba(28,24,51,.13)">
-          <p class="cs-tradeoff-kicker">Trade-off 03</p>
-          <h4 style="font-size:clamp(20px,2.2vw,29px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.18;color:#1c1833;margin:12px 0 0">Protecting the core loop from scope creep</h4>
-          <p class="cs-tradeoff-sub">Balancing stakeholder momentum against research legibility.</p>
+          <p class="cs-tradeoff-kicker type-eyebrow">Trade-off</p>
+          <h3 class="fluid-subsection-title" style="color:#1c1833;margin:12px 0 0">Protecting the core loop from scope creep</h3>
+          <p class="cs-tradeoff-sub type-body">Balancing stakeholder momentum against research legibility.</p>
         </div>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(24px,3vw,32px) 0 0;text-wrap:pretty">The client's broader roadmap was full of viable ideas — gamification layers, financial rewards, personalisation, social mechanics. Midway through Phase 1, stakeholder momentum built around introducing a rewards and incentives mechanism into the MVP.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The temptation was high, but layering in external incentives too early would lose the signal we were actually testing for. I set one filter for what made it into the four-month build.</p>
       </div>
 
       <div style="margin:clamp(36px,4vw,56px) 0 0;border-radius:28px;background:#f0e9ff;padding:clamp(28px,4vw,48px);max-width:860px;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-        <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:0">The scope filter I set</p>
-        <p style="font-size:clamp(22px,2.6vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.25;color:#1c1833;margin:16px 0 0">Does this strengthen the core participation loop, or make it impossible to evaluate on its own?</p>
+        <p class="type-eyebrow" style="color:#4d476a;margin:0">The scope filter I set</p>
+        <p class="fluid-subsection-title" style="line-height:1.25;color:#1c1833;margin:16px 0 0">Does this strengthen the core participation loop, or make it impossible to evaluate on its own?</p>
       </div>
 
       <div style="max-width:1232px">
@@ -1450,46 +1453,46 @@
   <section id="outcomes" data-screen-label="Outcomes &amp; What's Next" class="cs-x" style="scroll-margin-top:48px;position:relative;padding-top:clamp(64px,8vw,128px);padding-bottom:clamp(64px,8vw,128px);border-top:1px solid rgba(28,24,51,.1)">
     <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
         <div data-rail="1" style="flex:0 1 186px;position:sticky;top:115px;align-self:flex-start">
-          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">05</p>
-          <p style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;line-height:1.45;color:#4d476a;font-weight:500;margin:12px 0 0">Outcomes &amp; What's Next</p>
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">05</p>
+          <p class="type-eyebrow" style="line-height:1.45;color:#4d476a;margin:12px 0 0">Outcomes &amp; What's Next</p>
           <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
         </div>
         <div style="flex:1 1 620px;min-width:0">
-          <h2 style="font-size:clamp(30px,4vw,60px);letter-spacing:-.015em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:24ch">What Phase 1 established, and what I still don't know.</h2>
+          <h2 class="fluid-section-title" style="color:#1c1833;margin:18px 0 0;max-width:24ch">What Phase 1 established, and what I still don't know.</h2>
 
       <div style="max-width:1232px">
         <p class="cs-lead" style="line-height:1.5;color:#4d476a;margin:34px 0 0;text-wrap:pretty">Phase 1 shipped on the agreed four-month timeline for the incubator milestone. It turned an investor deck into something stakeholders could actually use, and the client funded Phase 2 to continue — real evidence of delivery and client confidence.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Internal testing confirmed that our core data flows, calculations and lifecycle progression held up under team use. What we haven't tested yet is public adoption. Because Phase 1 delivered as an incubator MVP rather than an open consumer release, long-term activation and behavioural validation are still ahead of us.</p>
 
-        <h3 style="font-size:clamp(22px,2.4vw,34px);font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.15;color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">What Phase 2 will test first</h3>
+        <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">What Phase 2 will test first</h3>
       </div>
       <ul style="list-style:none;padding:0;margin:clamp(28px,3vw,40px) 0 0;display:flex;flex-wrap:wrap;gap:clamp(12px,1.6vw,20px);align-items:stretch">
         <li style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#e8fff6;padding:clamp(22px,2.6vw,30px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
           <div style="display:flex;align-items:center;gap:10px">
             <span aria-hidden="true" style="width:9px;height:9px;border-radius:9999px;background:#69debe"></span>
-            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#4d476a">Q01</span>
+            <span class="type-label-mono" style="color:#4d476a">Research question</span>
             <span aria-hidden="true" style="margin-left:auto;font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;line-height:.7;color:rgba(28,24,51,.16)">?</span>
           </div>
-          <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether users understand how their individual activity contributes to a shared project</p>
-          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:auto 0 0;padding-top:24px">Comprehension</p>
+          <p class="type-body" style="line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether users understand how their individual activity contributes to a shared project</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:auto 0 0;padding-top:24px">Comprehension</p>
         </li>
         <li style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#e6f6ff;padding:clamp(22px,2.6vw,30px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
           <div style="display:flex;align-items:center;gap:10px">
             <span aria-hidden="true" style="width:9px;height:9px;border-radius:9999px;background:#7cd2f2"></span>
-            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#4d476a">Q02</span>
+            <span class="type-label-mono" style="color:#4d476a">Research question</span>
             <span aria-hidden="true" style="margin-left:auto;font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;line-height:.7;color:rgba(28,24,51,.16)">?</span>
           </div>
-          <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether <em>Estimated</em>, <em>Pending</em> and <em>Simulated</em> build credibility or just add friction and confusion</p>
-          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:auto 0 0;padding-top:24px">Trust</p>
+          <p class="type-body" style="line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether <em>Estimated</em>, <em>Pending</em> and <em>Simulated</em> build credibility or just add friction and confusion</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:auto 0 0;padding-top:24px">Trust</p>
         </li>
         <li style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#f0e9ff;padding:clamp(22px,2.6vw,30px);box-shadow:6px 6px 22px rgba(28,24,51,.06)">
           <div style="display:flex;align-items:center;gap:10px">
             <span aria-hidden="true" style="width:9px;height:9px;border-radius:9999px;background:#8f74ff"></span>
-            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#4d476a">Q03</span>
+            <span class="type-label-mono" style="color:#4d476a">Research question</span>
             <span aria-hidden="true" style="margin-left:auto;font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;line-height:.7;color:rgba(28,24,51,.16)">?</span>
           </div>
-          <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether the shared project page gives people a stronger reason to return than standalone personal tracking</p>
-          <p style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#4d476a;margin:auto 0 0;padding-top:24px">Retention</p>
+          <p class="type-body" style="line-height:1.45;color:#1c1833;margin:20px 0 0;text-wrap:pretty">Whether the shared project page gives people a stronger reason to return than standalone personal tracking</p>
+          <p class="type-eyebrow" style="color:#4d476a;margin:auto 0 0;padding-top:24px">Retention</p>
         </li>
       </ul>
 
@@ -1504,17 +1507,17 @@
   <section id="reflection" data-screen-label="Reflection" class="cs-x" style="scroll-margin-top:48px;position:relative;padding-top:clamp(64px,8vw,128px);padding-bottom:clamp(64px,8vw,128px);border-top:1px solid rgba(28,24,51,.1)">
     <div style="max-width:1232px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,56px);align-items:flex-start">
         <div data-rail="1" style="flex:0 1 186px;position:sticky;top:115px;align-self:flex-start">
-          <p style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;letter-spacing:.16em;color:#8f74ff;margin:0">06</p>
-          <p style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;line-height:1.45;color:#4d476a;font-weight:500;margin:12px 0 0">Reflection</p>
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">06</p>
+          <p class="type-eyebrow" style="line-height:1.45;color:#4d476a;margin:12px 0 0">Reflection</p>
           <div aria-hidden="true" style="height:2px;width:46px;margin-top:18px;background:linear-gradient(90deg,#69debe,#8f74ff)"></div>
         </div>
         <div style="flex:1 1 620px;min-width:0">
-          <h2 style="font-size:clamp(30px,4vw,60px);letter-spacing:-.015em;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.06;letter-spacing:-.015em;color:#1c1833;margin:18px 0 0;max-width:24ch">An investor deck and a product spec are written in two different languages.</h2>
+          <h2 class="fluid-section-title" style="color:#1c1833;margin:18px 0 0;max-width:24ch">An investor deck and a product spec are written in two different languages.</h2>
       <div style="max-width:1232px">
         <p class="cs-lead" style="line-height:1.5;color:#4d476a;margin:34px 0 0;text-wrap:pretty">What stayed with me most was that the hardest product work happened before interface design. The challenge wasn't simply turning a vision into screens, but creating enough structure — objects, relationships and rules — for a team to make consistent decisions together.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I also learned that a well-defined system only matters if it survives execution. Keeping the product aligned required ongoing judgment and a shared language across business, design and engineering.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The trust-state pattern (Estimated, Pending, Simulated) is the decision I'm proudest of, and the one I still consider a hypothesis. We designed it to make uncertainty understandable; whether users actually experience it as trustworthy is something Phase 2 will need to prove.</p>
-        <p style="font-size:clamp(22px,2.4vw,32px);font-family:Georgia,'Times New Roman',serif;line-height:1.3;color:#1c1833;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">Product design isn't always about removing complexity. Sometimes it's about organising complexity so people can understand what is true, what comes next, and what they can confidently do.</p>
+        <p class="cs-lead" style="line-height:1.3;color:#1c1833;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">Product design isn't always about removing complexity. Sometimes it's about organising complexity so people can understand what is true, what comes next, and what they can confidently do.</p>
       </div>
       </div>
     </div>
@@ -1539,25 +1542,25 @@
     
     <section aria-labelledby="next-projects" class="cs-x" style="position:relative;padding-top:clamp(64px,8vw,120px);padding-bottom:clamp(40px,5vw,72px)">
       <div style="position:relative;max-width:1232px;margin:0 auto">
-        <p class="cs-eyebrow-section" style="color:#fff7e8;font-weight:500;margin:0">More work</p>
-        <h2 id="next-projects" style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(30px,4vw,60px);line-height:1.06;letter-spacing:-.015em;color:#fffdf7;margin:12px 0 0">Next projects.</h2>
+        <p class="type-eyebrow" style="color:#fff7e8;font-weight:500;margin:0">More work</p>
+        <h2 id="next-projects" class="fluid-section-title" style="color:#fffdf7;margin:12px 0 0">Next projects.</h2>
         <p class="cs-copy" style="line-height:1.6;color:#fff7e8;margin:12px 0 0;max-width:72ch">Explore the case studies and strategic thinking behind each key decision.</p>
 
         <div class="cs-proj-grid" style="margin-top:clamp(36px,4vw,56px)">
           <div>
             <a class="cs-proj" href="https://marva-a.github.io/Portfolio/#projects" style="height:clamp(220px,26vw,380px)" aria-label="02. Project Name — see it on the portfolio home">
               <span aria-hidden="true" class="cs-proj-mesh"><span class="cs-proj-orbit"><div class="cs-proj-blob" style="top:50%;left:50%;width:494px;height:494px;opacity:0.55;background:radial-gradient(circle,#70F2CF 0%,transparent 70%);transform:translate(calc(-50% + -156px),calc(-50% + -145px))"></div><div class="cs-proj-blob" style="top:50%;left:50%;width:312px;height:312px;opacity:0.3;background:radial-gradient(circle,#70F2CF 0%,transparent 70%);transform:translate(calc(-50% + 145px),calc(-50% + 156px))"></div></span></span>
-              <span style="position:absolute;right:20px;top:20px;z-index:1;padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;font-size:12px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">SaaS</span>
+              <span class="type-label" style="position:absolute;right:20px;top:20px;z-index:1;padding:6px 14px;border-radius:9999px;background:#ffe1d6;color:#1c1833;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">SaaS</span>
             </a>
-            <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:round(clamp(18px, calc(18px + 14 * ((100vw - 320px) / 704)), 32px), 2px);line-height:1.15;color:#fffdf7;margin:24px 0 0">02. Project Name</h3>
+            <h3 class="fluid-card-title" style="line-height:1.15;color:#fffdf7;margin:24px 0 0">02. Project Name</h3>
             <p class="cs-copy" style="line-height:1.5;color:#fff7e8;margin:8px 0 0">Explore the case studies, strategic thinking behind each key decision and the business outcome.</p>
           </div>
           <div>
             <a class="cs-proj" href="https://marva-a.github.io/Portfolio/#projects" style="height:clamp(220px,26vw,380px)" aria-label="03. Project Name — see it on the portfolio home">
               <span aria-hidden="true" class="cs-proj-mesh"><span class="cs-proj-orbit"><div class="cs-proj-blob" style="top:50%;left:50%;width:468px;height:468px;opacity:0.5;background:radial-gradient(circle,#8F74FF 0%,transparent 70%);transform:translate(calc(-50% + 156px),calc(-50% + -130px))"></div><div class="cs-proj-blob" style="top:50%;left:50%;width:338px;height:338px;opacity:0.3;background:radial-gradient(circle,#8F74FF 0%,transparent 70%);transform:translate(calc(-50% + -145px),calc(-50% + 145px))"></div></span></span>
-              <span style="position:absolute;right:20px;top:20px;z-index:1;padding:6px 14px;border-radius:9999px;background:#f0e9ff;color:#1c1833;font-size:12px;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">B2B2C</span>
+              <span class="type-label" style="position:absolute;right:20px;top:20px;z-index:1;padding:6px 14px;border-radius:9999px;background:#f0e9ff;color:#1c1833;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06)">B2B2C</span>
             </a>
-            <h3 style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:round(clamp(18px, calc(18px + 14 * ((100vw - 320px) / 704)), 32px), 2px);line-height:1.15;color:#fffdf7;margin:24px 0 0">03. Project Name</h3>
+            <h3 class="fluid-card-title" style="line-height:1.15;color:#fffdf7;margin:24px 0 0">03. Project Name</h3>
             <p class="cs-copy" style="line-height:1.5;color:#fff7e8;margin:8px 0 0">Explore the case studies, strategic thinking behind each key decision and the business outcome.</p>
           </div>
         </div>
@@ -1572,7 +1575,7 @@
              above these — no top margin of their own. -->
         <div class="cs-colophon" style="font-size:14px;line-height:1.625;color:#fff7e8">
           <span>&copy; 2026 Marva Abouei</span>
-          <span>Designed and built by me &middot; Quality-checked by Pepper</span>
+          <span>Designed and built by me &middot; Quality-checked by Pepper<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-left:6px;display:inline-block;height:14px;width:14px;vertical-align:-2px"><ellipse cx="7" cy="8.5" rx="2.2" ry="2.9"/><ellipse cx="12" cy="6.6" rx="2.3" ry="3.1"/><ellipse cx="17" cy="8.5" rx="2.2" ry="2.9"/><path d="M12 12.4c2.6 0 5.4 2.2 5.4 4.6 0 1.7-1.3 2.7-3 2.7-1 0-1.7-.4-2.4-.4s-1.4.4-2.4.4c-1.7 0-3-1-3-2.7 0-2.4 2.8-4.6 5.4-4.6Z"/></svg></span>
         </div>
       </div>
     </footer>

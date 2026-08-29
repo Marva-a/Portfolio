@@ -24,7 +24,7 @@ export default function SectionHeading({
     <div className={className}>
       <p
         id={id}
-        className="scroll-mt-8 text-[12px] font-medium uppercase tracking-[0.15em] md:scroll-mt-10 md:text-[14px] md:tracking-[0.2em]"
+        className="type-eyebrow scroll-mt-8 md:scroll-mt-10"
         style={{ color: eyebrowColor }}
       >
         {eyebrow}
@@ -37,7 +37,7 @@ export default function SectionHeading({
       </h2>
       {description && (
         <p
-          className={`mt-3 max-w-[72ch] text-[17px] md:text-[20px] xl:max-w-none ${descriptionClassName}`.trim()}
+          className={`type-body mt-3 max-w-[72ch] xl:max-w-none ${descriptionClassName}`.trim()}
           style={{ color: descriptionColor }}
         >
           {description}

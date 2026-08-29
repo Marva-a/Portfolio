@@ -366,7 +366,7 @@ export default function About() {
                 wrapper is wider than the card to leave room for the fanned
                 cards behind it, so centring on it would sit visibly off. */}
             <p
-              className="mt-4 text-center text-sm font-medium"
+              className="type-label mt-4 text-center font-medium"
               style={{ color: MUTED, width: `calc(${CARD_W} + ${CARD_PADDING * 2}px)` }}
             >
               Swipe or tap to see more
@@ -375,7 +375,7 @@ export default function About() {
 
           <div className="relative">
             <div
-              className={`max-w-[70ch] space-y-6 text-left text-[17px] leading-relaxed transition-[max-height] duration-300 xl:max-w-none xl:max-h-none! xl:overflow-visible xl:text-justify md:text-[20px] ${
+              className={`type-body max-w-[70ch] space-y-6 text-left leading-relaxed transition-[max-height] duration-300 xl:max-w-none xl:max-h-none! xl:overflow-visible xl:text-justify ${
                 bioExpanded ? "overflow-visible" : "overflow-hidden"
               }`}
               style={{
@@ -424,7 +424,7 @@ export default function About() {
               type="button"
               onClick={() => setBioExpanded((v) => !v)}
               aria-expanded={bioExpanded}
-              className="relative mt-3 text-[15px] font-semibold underline underline-offset-2 xl:hidden"
+              className="type-label relative mt-3 font-semibold underline underline-offset-2 xl:hidden"
               style={{ color: DARK }}
             >
               {bioExpanded ? "Read less" : "Read more"}
@@ -461,7 +461,7 @@ export default function About() {
             >
               Kind words.
             </h3>
-            <p className="mt-3 max-w-[72ch] text-[17px] md:text-[20px] xl:max-w-none" style={{ color: MUTED }}>
+            <p className="type-body mt-3 max-w-[72ch] xl:max-w-none" style={{ color: MUTED }}>
               Feedback from the cross-functional leaders and stakeholders
               I've collaborated with along the way.
             </p>
@@ -516,7 +516,7 @@ export default function About() {
                 the row of faces does, so they read as one control rather
                 than a caption stranded from the thing it describes. */}
             <div className="mt-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
-              <p className="text-sm font-medium" style={{ color: MUTED }}>
+              <p className="type-label font-medium" style={{ color: MUTED }}>
                 Swipe or tap a photo to read another
               </p>
               {/* The row holds only the testimonials you're NOT reading —

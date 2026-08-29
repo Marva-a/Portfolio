@@ -175,7 +175,7 @@ export default function Contact() {
       <div className="content-container relative z-10">
         <p
           id="contact"
-          className="scroll-mt-8 text-[12px] font-medium uppercase tracking-[0.15em] md:scroll-mt-10 md:text-[14px] md:tracking-[0.2em]"
+          className="type-eyebrow scroll-mt-8 md:scroll-mt-10"
           style={{ color: MUTED_LIGHT }}
         >
           Contact
@@ -195,7 +195,7 @@ export default function Contact() {
                 beside the form. Below xl the two stack, so the copy runs the
                 same width as the fields under it rather than stopping short
                 of them. */}
-            <div className="mt-6 max-w-full space-y-4 text-[17px] leading-relaxed md:text-[20px] xl:max-w-[420px]" style={{ color: MUTED_LIGHT }}>
+            <div className="type-body mt-6 max-w-full space-y-4 xl:max-w-[420px]" style={{ color: MUTED_LIGHT }}>
               <p>
                 Looking to tackle your complex product and 0-to-1 design
                 challenges?

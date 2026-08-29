@@ -286,10 +286,7 @@ function BulletIcon({ emoji, className }) {
 function ChapterCard({ chapter }) {
   return (
     <div className="tag-shadow rounded-3xl bg-[var(--color-surface)] p-6 md:p-8">
-        <p
-          className="text-[14px] font-medium uppercase tracking-[0.2em]"
-          style={{ color: MUTED }}
-        >
+        <p className="type-eyebrow" style={{ color: MUTED }}>
           {chapter.eyebrow}
         </p>
         {/* Card title, so .fluid-card-title — this was on
@@ -324,7 +321,7 @@ function ChapterCard({ chapter }) {
           {chapter.bullets.map((bullet) => (
             <li
               key={bullet.strong}
-              className="flex items-start gap-3 text-[18px]"
+              className="type-body flex items-start gap-3"
               style={{ color: MUTED }}
             >
               <span aria-hidden="true">{bullet.icon}</span>
@@ -471,7 +468,7 @@ export default function Expertise() {
       <div className="content-container relative z-10">
         <p
           id="expertise"
-          className="scroll-mt-8 text-[12px] font-medium uppercase tracking-[0.15em] md:scroll-mt-10 md:text-[14px] md:tracking-[0.2em]"
+          className="type-eyebrow scroll-mt-8 md:scroll-mt-10"
           style={{ color: MUTED }}
         >
           Expertise
@@ -491,7 +488,7 @@ export default function Expertise() {
         >
           What I do.
         </h2>
-        <p className="mt-3 max-w-[72ch] text-[17px] md:text-[20px] xl:max-w-none" style={{ color: MUTED }}>
+        <p className="type-body mt-3 max-w-[72ch] xl:max-w-none" style={{ color: MUTED }}>
           Shaped by 6+ years of experience across creative agencies, design
           consultancies, startups, established organizations, and in-house
           product teams.
@@ -550,7 +547,7 @@ export default function Expertise() {
           {activeSkill.pill}
         </Pill>
         <p
-          className="mt-4 hidden text-[17px] md:text-[20px] xl:block"
+          className="type-body mt-4 hidden xl:block"
           style={{ color: MUTED }}
         >
           {activeSkill.description}
@@ -613,10 +610,7 @@ export default function Expertise() {
                         className="focus-ring-brand relative flex w-full items-center justify-between gap-4 px-6 pb-4 pt-5 text-left"
                       >
                         <span className="flex items-baseline gap-3">
-                          <span
-                            className="text-[11px] font-medium"
-                            style={{ color: MUTED }}
-                          >
+                          <span className="type-label font-medium" style={{ color: MUTED }}>
                             {number}
                           </span>
                           <span
@@ -651,7 +645,7 @@ export default function Expertise() {
                         >
                           {skill.pill}
                         </Pill>
-                        <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
+                        <p className="type-body mt-3" style={{ color: MUTED }}>
                           {skill.description}
                         </p>
                       </div>
@@ -673,10 +667,7 @@ export default function Expertise() {
                 style={{ borderColor: color.borderSubtle }}
               >
                 <span className="flex items-baseline gap-3">
-                  <span
-                    className="text-[11px] font-medium"
-                    style={{ color: MUTED }}
-                  >
+                  <span className="type-label font-medium" style={{ color: MUTED }}>
                     {number}
                   </span>
                   <span
@@ -708,12 +699,12 @@ export default function Expertise() {
           <h3 className="font-georgia fluid-subsection-title font-bold" style={{ color: DARK }}>
             My career journey in four chapters.
           </h3>
-          <p className="mt-3 hidden text-[20px] xl:block" style={{ color: MUTED }}>
+          <p className="type-body mt-3 hidden xl:block" style={{ color: MUTED }}>
             Click a chapter to explore my journey and the strengths it gave
             me, a multidisciplinary arc bridging fine arts, strategy, and
             complex systems.
           </p>
-          <p className="mt-3 max-w-[72ch] text-[17px] xl:hidden" style={{ color: MUTED }}>
+          <p className="type-body mt-3 max-w-[72ch] xl:hidden" style={{ color: MUTED }}>
             Explore my journey and the strengths each chapter gave me, a
             multidisciplinary arc bridging fine arts, strategy, and complex
             systems.
@@ -722,7 +713,7 @@ export default function Expertise() {
           {!isDesktop ? (
             <div className="mt-10">
               <div className="flex items-center justify-between">
-                <p className="text-[13px] font-medium" style={{ color: MUTED }}>
+                <p className="type-label font-medium" style={{ color: MUTED }}>
                   Swipe through the chapters
                 </p>
                 <SlideCounter current={active + 1} total={chapters.length} />
@@ -832,10 +823,7 @@ export default function Expertise() {
                             ))}
                           </div>
                           <div className="relative flex flex-1 flex-col px-6 pb-6 pt-7">
-                            <p
-                              className="text-[12px] font-medium uppercase tracking-[0.2em]"
-                              style={{ color: MUTED }}
-                            >
+                            <p className="type-eyebrow" style={{ color: MUTED }}>
                               {c.eyebrow} · {c.year}
                             </p>
                             <h4
@@ -853,7 +841,7 @@ export default function Expertise() {
                               // headings so it still reads as supporting copy.
                               // No md: variant needed: this whole card only
                               // renders under the non-desktop branch.
-                              className="mt-[9px] text-[16px] leading-snug"
+                              className="type-body mt-[9px] leading-snug"
                               style={{ color: MUTED_STRONG }}
                             >
                               {c.heading}
@@ -866,7 +854,7 @@ export default function Expertise() {
                                   bg={PILL_COLORS[ti % PILL_COLORS.length]}
                                   color={DARK}
                                   shadow={false}
-                                  className="text-[12px] font-medium"
+                                  className="type-label font-medium"
                                 >
                                   {tag}
                                 </Pill>
@@ -887,14 +875,14 @@ export default function Expertise() {
                                   />
                                   <span className="min-w-0" style={{ color: MUTED }}>
                                     <span
-                                      className="block text-[16px] font-semibold md:text-[18px]"
+                                      className="type-body block font-semibold"
                                       style={{ color: DARK }}
                                     >
                                       {bullet.strong}
                                     </span>
                                     {bullet.text && (
                                       <span
-                                        className="mt-[8px] block text-[14px] md:text-[16px]"
+                                        className="type-label mt-[8px] block font-medium"
                                         style={{ color: MUTED_STRONG }}
                                       >
                                         {bullet.text}
@@ -988,7 +976,7 @@ export default function Expertise() {
                     className="flex w-full flex-col gap-1 py-4 text-left transition"
                   >
                     <span
-                      className="text-[14px] font-medium"
+                      className="type-label font-medium"
                       style={{ color: MUTED, paddingLeft: DOT_SIZE + 16 }}
                     >
                       {c.year}

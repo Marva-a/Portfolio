@@ -53,11 +53,54 @@ Categories covered, with semantic names (`--color-text-primary`, not
 | Category | Where |
 |---|---|
 | Brand gradient, surfaces, text, borders, status, focus, pill palette, decorative mesh | `tokens.css` `:root` / `tokens.js` `color` |
-| Typography families & weights | `tokens.css`. **Sizes are not here** — the fluid type scale (`.fluid-headline`, `.fluid-section-title`, `.fluid-subsection-title`, `.fluid-card-title`, `.fluid-body`, `.fluid-quote`) already lived in `index.css` as classes, because each clamps between a phone and a desktop value; a single custom property can't carry that curve. Use the classes. |
+| Typography families & weights | `tokens.css`. **Sizes are not here** — the full type hierarchy (`.type-eyebrow`, `.fluid-headline`, `.fluid-section-title`, `.fluid-subsection-title`, `.fluid-card-title`, `.type-body`, `.fluid-quote`, `.type-caption`, `.type-label`/`.type-label-mono`) lives in `index.css` as classes, because most clamp between a phone and a desktop value; a single custom property can't carry that curve. Use the classes — see "Typography" below. |
 | Spacing (section rhythm), border widths, radii, shadows/glows, container widths | `tokens.css` |
 | Breakpoints | **Deliberately not redefined.** The site is built around exactly two — Tailwind's stock `md` (768px) and `xl` (1280px) — which every responsive class *and* `useMediaQuery`'s `MOBILE_QUERY`/`DESKTOP_QUERY` already key off. Reintroducing them as Tailwind theme variables would risk regenerating those utilities under a different value. |
 | Layering (z-index) | Already just Tailwind's default scale (0/10/50) — documented in a `tokens.css` comment, not reimplemented. |
 | Motion duration & easing | `tokens.css` / `tokens.js` (`--ease-brand`, `--motion-*`). **Catalogued, not enforced** — see Motion rules below. |
+
+## Typography
+
+One hierarchy, used on the homepage **and** every case study (including the
+static `public/case-studies/*/index.html` pages, which don't run
+Tailwind/PostCSS — see below for how they share it). Seven reusable styles,
+each a named class in `src/index.css`:
+
+| Role | Class | Size |
+|---|---|---|
+| Eyebrow / metadata | `.type-eyebrow` | 12px → 14px (md), uppercase, medium, tracking 0.15em → 0.2em |
+| H1 — large editorial statement | `.fluid-headline` | 26px → 96px (tablet band 46–88px), Georgia bold |
+| H2 — major section heading | `.fluid-section-title` | 24px → 64px, Georgia bold |
+| H3 — subsection / decision heading | `.fluid-subsection-title` | 20px → 40px, Georgia bold |
+| H3 (item/card title, the sibling scale for a single item inside a subsection — project cards, chapter cards) | `.fluid-card-title` | 18px → 32px, Georgia bold |
+| Body | `.type-body` | 17px → 20px (md) |
+| Quote | `.fluid-quote` | 20px → 28px, Georgia medium italic |
+| Caption (screenshots, diagrams) | `.type-caption` | 14px, monospace |
+| Labels (tags, states, pills, counters) | `.type-label` / `.type-label-mono` | 13px |
+
+No new font families — Georgia (headings/quotes), DM Sans (body/UI, set on
+`<body>`), and the existing `ui-monospace` stack (numeric/mono metadata)
+are all that's ever used.
+
+**`.type-label`/`.type-eyebrow` deliberately don't set `font-weight`** in
+`index.css` (`.type-eyebrow` is the one exception — every eyebrow really is
+medium, no call site needs to override it). `index.css` is unlayered, so
+setting a weight there would beat Tailwind's layered `font-semibold`
+utility regardless of class order, silently dropping any caller's
+override. Pair `.type-label` with an explicit `font-medium` (the default)
+or `font-semibold` at the call site.
+
+**The static case-study pages can't `@import` `index.css`** — they run no
+build step. Their own `<style>` block repeats the same class names and the
+exact same `clamp()` formulas, kept in sync by hand — the same convention
+`tokens.css`/`tokens.js` already established. If a homepage curve changes,
+update both.
+
+**Nav's 10px bottom-tab labels are a deliberate exception**, not a gap:
+five icon captions in a fixed-width pill bar, the one place on the site
+genuinely too space-constrained for the 13px Labels scale — the same kind
+of exception "What stays unique" below already covers for load-bearing
+layout math.
 
 ## Component organization
 

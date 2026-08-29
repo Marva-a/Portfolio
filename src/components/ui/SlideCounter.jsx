@@ -8,7 +8,7 @@ export default function SlideCounter({ current, total, tone = "light", className
   return (
     <p
       aria-live="polite"
-      className={`text-[13px] font-semibold tabular-nums ${className}`.trim()}
+      className={`type-label font-semibold tabular-nums ${className}`.trim()}
       style={{ color: textColor }}
     >
       {String(current).padStart(2, "0")} / {String(total).padStart(2, "0")}

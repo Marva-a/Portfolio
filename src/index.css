@@ -267,6 +267,71 @@ button:not(:disabled),
   }
 }
 
+/* ==========================================================================
+   Canonical type hierarchy
+   ==========================================================================
+   The one set of reusable text styles used on the homepage AND every case
+   study — see DESIGN_SYSTEM.md "Typography". Headings reuse the fluid
+   curves already defined above rather than inventing new ones:
+
+     Eyebrow / metadata  → .type-eyebrow
+     H1  Large editorial statement   → .fluid-headline        (26px→96px)
+     H2  Major section heading       → .fluid-section-title   (24px→64px)
+     H3  Subsection / decision heading → .fluid-subsection-title (20px→40px)
+         — item/card titles (project cards, chapter cards, decision
+           statements) use .fluid-card-title (18px→32px), H3's established
+           sibling scale for a single item inside a subsection, not a new
+           tier.
+     Body                → .type-body    (17px→20px)
+     Caption              → .type-caption (14px mono, for screenshots/diagrams)
+     Labels               → .type-label / .type-label-mono (13px, for tags,
+                             states, pills, counters) */
+
+.type-eyebrow {
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+}
+
+@media (min-width: 768px) {
+  .type-eyebrow {
+    font-size: 14px;
+    letter-spacing: 0.2em;
+  }
+}
+
+.type-body {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .type-body {
+    font-size: 20px;
+  }
+}
+
+.type-caption {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+/* No font-weight here on purpose — this file is unlayered, so a weight set
+   here would beat Tailwind's layered font-semibold/font-bold utilities
+   regardless of class order, silently dropping any caller's override. Pair
+   with font-medium (the default) or font-semibold at the call site. */
+.type-label {
+  font-size: 13px;
+}
+
+.type-label-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
 .text-gradient-brand {
   background-image: var(--gradient-brand);
   background-size: 200% 100%;

@@ -217,7 +217,7 @@ export default function Hero() {
         className="relative z-10 mx-auto md:-mt-[60px]"
         style={{ width: 965, maxWidth: "100%" }}
       >
-        <p className="text-center text-[12px] font-medium uppercase tracking-[0.15em] text-[#4d476a] md:text-[13px] md:tracking-[0.2em] xl:text-[14px]">
+        <p className="type-eyebrow text-center text-[#4d476a]">
           Lead Product Designer
           <span className="hidden md:inline"> . </span>
           {/* A block span rather than a <br>: the two stacked lines need
@@ -310,7 +310,7 @@ export default function Hero() {
               key={pill.label}
               bg={pill.bg}
               color={color.textPrimary}
-              className="text-[11px] font-medium md:text-[12px] xl:text-sm"
+              className="type-label font-medium"
             >
               {pill.label}
             </Pill>

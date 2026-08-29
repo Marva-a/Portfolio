@@ -159,7 +159,7 @@ function ProjectCarousel() {
   return (
     <div className="xl:hidden">
       <div className="mt-8 flex items-end justify-between gap-4">
-        <p className="text-[13px] font-medium" style={{ color: "#FFF7E8" }}>
+        <p className="type-label font-medium" style={{ color: "#FFF7E8" }}>
           Swipe through selected work
         </p>
         <SlideCounter
@@ -205,7 +205,7 @@ function ProjectCarousel() {
                     key={t.label}
                     bg={t.bg}
                     color={color.textPrimary}
-                    className="text-[11px] font-medium"
+                    className="type-label font-medium"
                   >
                     {t.label}
                   </Pill>
@@ -216,11 +216,11 @@ function ProjectCarousel() {
             <h3 className="font-georgia fluid-card-title mt-5 font-bold" style={{ color: "#FFFDF7" }}>
               {project.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-relaxed" style={{ color: "#FFF7E8" }}>
+            <p className="type-body mt-2 leading-relaxed" style={{ color: "#FFF7E8" }}>
               {project.description || DESCRIPTION}
             </p>
             <span
-              className="mt-3 inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold"
+              className="type-label mt-3 inline-flex min-h-[44px] items-center gap-2 font-semibold"
               style={{ color: "#FFFDF7" }}
             >
               View case study
@@ -296,7 +296,7 @@ export default function SelectedWork() {
                 key={tag.label}
                 bg={tag.bg}
                 color={color.textPrimary}
-                className="text-xs font-medium"
+                className="type-label font-medium"
               >
                 {tag.label}
               </Pill>
@@ -309,7 +309,7 @@ export default function SelectedWork() {
           <h3 className="font-georgia fluid-card-title font-bold" style={{ color: "#FFFDF7" }}>
             {featured.title}
           </h3>
-          <p className="mt-2 text-[17px] md:text-[20px]" style={{ color: "#FFF7E8" }}>
+          <p className="type-body mt-2" style={{ color: "#FFF7E8" }}>
             {featured.description || DESCRIPTION}
           </p>
         </a>
@@ -331,7 +331,7 @@ export default function SelectedWork() {
                 <Pill
                   bg={project.tagBg}
                   color={color.textPrimary}
-                  className="absolute right-6 top-6 z-10 text-xs font-medium"
+                  className="type-label absolute right-6 top-6 z-10 font-medium"
                 >
                   {project.tag}
                 </Pill>
@@ -343,7 +343,7 @@ export default function SelectedWork() {
               >
                 {project.title}
               </h3>
-              <p className="mt-2 text-left text-[17px] md:text-[20px]" style={{ color: "#FFF7E8" }}>
+              <p className="type-body mt-2 text-left" style={{ color: "#FFF7E8" }}>
                 Explore the case studies, strategic thinking behind each key
                 decision and the business outcome.
               </p>
