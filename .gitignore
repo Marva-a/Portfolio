@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Expo nests the embedded prototype's vendored assets (Raleway, expo-router
+# icons) under a literal "assets/node_modules/" path inside its build output.
+# Those are shipped files, not dependencies — without this the deployed
+# prototype silently falls back to a system font.
+!public/case-studies/*/prototype/assets/node_modules/

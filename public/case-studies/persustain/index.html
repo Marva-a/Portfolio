@@ -539,39 +539,6 @@
   .cs-proj-grid { display:grid; grid-template-columns:1fr; gap:clamp(24px,3vw,40px) }
   @media (min-width:768px) { .cs-proj-grid { grid-template-columns:3fr 2fr; align-items:start } }
 
-  /* "What shipped in four months" — four placeholder shots that stacked
-     into one ~1300px column on a phone, making the 2-minute summary read
-     as the longest section on the page. Below 768px this becomes the same
-     horizontally swipeable, snap-scrolling track as the homepage's project
-     carousel (SelectedWork.jsx's ProjectCarousel) instead of one more long
-     column; the grid comes back once there's room to lay two-plus out side
-     by side. Bleeds to the screen edge the same way that carousel does
-     (negative margin + matching padding), so the first card still lines up
-     with the section's own text but the track itself can scroll flush.
-     overflow-x:auto forces the cross axis to clip too, which was cutting
-     the cards' own box-shadow (6px 6px 22px) off at the top and bottom —
-     same fix as #cs-nav-inner below: pad the reach the shadow actually
-     needs (22-6=16px above, 6+22=28px below) and hand it straight back
-     with a matching negative margin, so the track's footprint in the
-     page is unchanged. */
-  #cs-shots-track { display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-left:24px; -webkit-overflow-scrolling:touch; scrollbar-width:none; -ms-overflow-style:none; margin:-16px -24px -28px; padding:16px 24px 28px }
-  #cs-shots-track::-webkit-scrollbar { display:none }
-  #cs-shots-track > * { flex:0 0 78%; scroll-snap-align:center }
-  @media (min-width:768px) {
-    #cs-shots-track { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); overflow:visible; margin:0; padding:0; gap:clamp(16px,2vw,28px) }
-    #cs-shots-track > * { flex:initial }
-  }
-
-  /* Swipe hint + "01 / 04" readout — the same pair as the homepage's
-     project carousel (SelectedWork.jsx's "Swipe through selected work" +
-     SlideCounter), shown only while the track above is actually a
-     swipeable carousel. */
-  .cs-shots-hint { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin:0 0 16px }
-  @media (min-width:768px) { .cs-shots-hint { display:none } }
-  /* Typography now comes from .type-label-mono at the call site — this rule
-     only carries color. */
-  .cs-shots-counter { color:rgba(28,24,51,.45); margin:0 }
-
   /* "At a glance · 2 min" and "6 chapters · 12 min" — the full read-time
      line from 768px up. Below that it shortens to just "2 min"/"12 min",
      still after the hairline (which stays put at every width — it's the
@@ -605,6 +572,61 @@
      filled rather than outlined, which is what makes it hold at this size.
      Ink text: the stops are light enough that it stays readable across the
      whole 7s sweep, including the purple. */
+
+  /* Interactive prototype. The real Expo build is exported to
+     ./prototype/ and framed here at its 393x852 design viewport. It is
+     click-to-load: the bundle is a few MB, so it must never cost a reader
+     who only scrolls past. Until then this is a poster image and a button. */
+  .cs-proto-stage {
+    position: relative;
+    width: 393px;
+    height: 852px;
+    transform: scale(var(--proto-scale, 1));
+    transform-origin: top left;
+    border-radius: 34px;
+    overflow: hidden;
+    background: #f8f9fb;
+    box-shadow: 0 0 0 1px rgba(28, 24, 51, .07), 6px 6px 22px rgba(28, 24, 51, .1);
+  }
+  /* Collapses the wrapper to the scaled height so it does not reserve 852px. */
+  .cs-proto-wrap {
+    height: calc(852px * var(--proto-scale, 1));
+    max-width: 393px;
+    margin: 0 auto;
+  }
+  .cs-proto-stage iframe,
+  .cs-proto-stage img { display: block; width: 100%; height: 100%; border: 0; }
+  .cs-proto-stage img { object-fit: cover; }
+  .cs-proto-launch {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    border: 0;
+    cursor: pointer;
+    /* Enough scrim to carry white text over a light screenshot. */
+    background: rgba(28, 24, 51, .42);
+    font: inherit;
+    color: #fffdf7;
+  }
+  .cs-proto-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 9999px;
+    background: #fffdf7;
+    color: #1c1833;
+    box-shadow: 0 6px 18px rgba(28, 24, 51, .28);
+  }
+  .cs-proto-launch:focus-visible { outline: 3px solid #8f74ff; outline-offset: -3px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .cs-proto-cta { transition: transform .18s ease; }
+    .cs-proto-launch:hover .cs-proto-cta { transform: translateY(-2px); }
+  }
 </style>
 </head>
 <body>
@@ -757,18 +779,22 @@
     </div>
 
     <div style="max-width:1232px;margin:clamp(56px,7vw,104px) auto 0">
-      <figure style="margin:0 0 clamp(56px,7vw,104px)">
-        <div class="cs-shots-hint">
-          <p class="type-label" style="font-weight:500;color:#4d476a;margin:0">Swipe to see all four</p>
-          <p class="cs-shots-counter type-label-mono" id="cs-shots-counter" aria-live="polite">01 / 04</p>
+      <figure style="margin:0 0 clamp(56px,7vw,104px);border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
+        <p class="type-eyebrow" style="color:#4d476a;margin:0 0 6px">Try it yourself</p>
+        <p class="type-body" style="color:#4d476a;line-height:1.55;margin:0 0 clamp(24px,3vw,36px);max-width:52ch">The Phase&nbsp;1 build, running live. Log an activity, open a project, or step through onboarding — the same React&nbsp;Native app that ships to iOS, exported to the web.</p>
+        <div class="cs-proto-wrap" id="cs-proto-wrap">
+          <div class="cs-proto-stage">
+            <img src="assets/19-prototype-poster.webp" alt="Persustain dashboard: Current Period 182 kg CO2, 13% below baseline" width="786" height="1704" loading="lazy" decoding="async">
+            <button type="button" class="cs-proto-launch" id="cs-proto-launch">
+              <span class="cs-proto-cta type-label" style="font-weight:500">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg>
+                Launch prototype
+              </span>
+              <span class="type-caption" style="color:#fffdf7;text-shadow:0 1px 3px rgba(28,24,51,.5)">Loads a few MB &middot; best on desktop</span>
+            </button>
+          </div>
         </div>
-        <div id="cs-shots-track">
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-          <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-        </div>
-        <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">What shipped in four months: onboarding to evidence pack.</figcaption>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">Interactive build &mdash; not a clickable mockup. State persists as you move between tabs.</figcaption>
       </figure>
       <figure class="cs-loop-figure" style="margin:0;position:relative;overflow:hidden;border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
         <p class="cs-loop-title type-eyebrow" style="color:#4d476a;margin:0">The loop the product had to make visible</p>
@@ -1861,27 +1887,6 @@
   }
 })();
 
-// "01 / 04" readout for the "What shipped" swipe track — same idea as
-// SlideCounter on the homepage's project carousel, derived from scroll
-// position rather than an observer since scroll is the one event a real
-// swipe is guaranteed to fire.
-(function () {
-  var track = document.getElementById('cs-shots-track');
-  var counter = document.getElementById('cs-shots-counter');
-  if (!track || !counter) return;
-  var total = track.children.length;
-  function paint() {
-    var first = track.firstElementChild;
-    if (!first) return;
-    var step = first.getBoundingClientRect().width + 16; // matches the track's gap
-    var i = Math.round(track.scrollLeft / step);
-    i = Math.min(total - 1, Math.max(0, i));
-    counter.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
-  }
-  track.addEventListener('scroll', paint, { passive: true });
-  paint();
-})();
-
 // Summary metadata Read more/Read less — same toggle as the homepage's
 // About bio, just without React state: a class swap drives the clamp,
 // the fade and the button label together.
@@ -1893,6 +1898,33 @@
     var expanded = wrap.classList.toggle('expanded');
     toggle.textContent = expanded ? 'Read less' : 'Read more';
     toggle.setAttribute('aria-expanded', String(expanded));
+  });
+})();
+
+(function () {
+  var wrap = document.getElementById('cs-proto-wrap');
+  var launch = document.getElementById('cs-proto-launch');
+  if (!wrap || !launch) return;
+
+  // The stage is a fixed 393x852 so the app renders at the viewport it was
+  // designed for; scale it down to whatever width the column actually has.
+  function fit() {
+    var scale = Math.min(1, wrap.clientWidth / 393);
+    wrap.style.setProperty('--proto-scale', scale.toFixed(4));
+  }
+  fit();
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap);
+  else window.addEventListener('resize', fit);
+
+  launch.addEventListener('click', function () {
+    var frame = document.createElement('iframe');
+    // Explicit index.html, not the bare directory: Vite's dev server answers a
+    // directory request under public/ with the SPA fallback instead of this file.
+    frame.src = 'prototype/index.html';
+    frame.title = 'Persustain interactive prototype';
+    frame.allow = 'clipboard-write';
+    launch.previousElementSibling.remove();
+    launch.replaceWith(frame);
   });
 })();
 </script>
