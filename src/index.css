@@ -663,3 +663,33 @@ button:not(:disabled),
     animation: none;
   }
 }
+
+/* Sizing for the Persustain app mock (src/components/persustain/).
+   The mock is drawn once at its intrinsic size and scaled as a whole;
+   .pp-box is the footprint that scaled size actually occupies in layout, so
+   the flex row it sits in measures it correctly. --pp-w, --pp-h and --pp-s
+   are all set from JS (see the component). */
+.pp-box {
+  width: calc(var(--pp-w) * var(--pp-s, 1));
+  height: calc(var(--pp-h) * var(--pp-s, 1));
+  flex-shrink: 0;
+}
+
+.pp-stage {
+  width: var(--pp-w);
+  height: var(--pp-h);
+  transform: scale(var(--pp-s, 1));
+  transform-origin: top left;
+}
+
+/* The showcase's progress segments. A CSS animation rather than a JS-driven
+   value so that pausing the loop on hover pauses the sweep in place, exactly
+   in step with the timer, instead of the two drifting apart. */
+@keyframes pp-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 import Pill from "./ui/Pill";
+import PersustainShowcase from "./persustain/PersustainShowcase";
 import SectionHeading from "./ui/SectionHeading";
 import SlideCounter from "./ui/SlideCounter";
 import useMediaQuery, { TOUCH_QUERY } from "../hooks/useMediaQuery";
@@ -78,7 +79,7 @@ const featured = {
   title: "01. Persustain",
   href: `${import.meta.env.BASE_URL}case-studies/persustain/`,
   description:
-    "Designing a path from individual climate action to shared, verifiable impact.",
+    "Turning individual climate action into shared, verifiable impact.",
   tags: [
     { label: "0-to-1", bg: pillPalette[0] },
     { label: "Systems Thinking", bg: pillPalette[1] },
@@ -196,27 +197,36 @@ function ProjectCarousel() {
             <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10 bg-[#24174A]">
               <CardMesh size={620} color={project.meshColor} blobs={project.meshBlobs} />
 
-              {/* One inline row, flush right. justify-end keeps the group
-                  pinned to the right margin, and wrapping only kicks in if a
-                  card ever carries more pills than the width allows. */}
-              <div className="absolute left-4 right-4 top-4 z-10 flex flex-wrap justify-end gap-1.5">
-                {project.tags.map((t) => (
-                  <Pill
-                    key={t.label}
-                    bg={t.bg}
-                    color={color.textPrimary}
-                    className="type-label font-medium"
-                  >
-                    {t.label}
-                  </Pill>
-                ))}
-              </div>
+              {/* Same loop as the desktop hero card. A square slide has no
+                  room for the system field beside the phone, so there the
+                  phone carries all four beats on its own screen. */}
+              {project.id === featured.id && <PersustainShowcase variant="compact" />}
             </div>
 
             <h3 className="font-georgia fluid-card-title mt-5 font-bold" style={{ color: "#FFFDF7" }}>
               {project.title}
             </h3>
-            <p className="type-body mt-2 leading-relaxed" style={{ color: "#FFF7E8" }}>
+
+            {/* Pills used to float over the visual (top-right, like the
+                desktop hero card's). On the Persustain slide that visual is
+                now a detailed screen rather than a plain mesh, and the pills
+                read as clutter competing with it — so here they sit inline
+                under the title instead, the same placement the hero section
+                gives its own pills under the headline. */}
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {project.tags.map((t) => (
+                <Pill
+                  key={t.label}
+                  bg={t.bg}
+                  color={color.textPrimary}
+                  className="type-label font-medium"
+                >
+                  {t.label}
+                </Pill>
+              ))}
+            </div>
+
+            <p className="type-body mt-3 leading-relaxed" style={{ color: "#FFF7E8" }}>
               {project.description || DESCRIPTION}
             </p>
             <span
@@ -289,6 +299,12 @@ export default function SelectedWork() {
             color={FEATURED_MESH_COLOR}
             blobs={FEATURED_MESH_BLOBS}
           />
+
+          {/* The one card with a real product system behind it shows that
+              system, rather than only a mesh. Decorative and inert: the card
+              is a single link with its own cursor, so this must never take a
+              pointer event or a screen reader stop. */}
+          <PersustainShowcase variant="featured" />
 
           <div className="absolute right-6 top-6 z-10 flex gap-2 md:right-10 md:top-10">
             {featured.tags.map((tag) => (
