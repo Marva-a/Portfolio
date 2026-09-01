@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Persustain — Interactive Prototype</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="../../favicon-ink.svg">
+<style>
+  html, body { margin:0; height:100%; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif }
+  /* Same ink used for every other dark band on the site (the "Trust
+     principle" quote, the closing "Next projects" section) — this page
+     should read as part of the same portfolio, not a generic dev tool. */
+  body { margin:0; background:#24174a; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative }
+
+  /* The same drifting blurred-mesh blobs used behind every dark section on
+     the site (see #trust's "Trust principle" quote band in index.html) —
+     identical colours, sizes and keyframes, so this page reads as the same
+     system rather than a plain dark backdrop. */
+  .mesh { position:fixed; inset:0; pointer-events:none; z-index:0 }
+  .mesh div { position:absolute; border-radius:9999px; filter:blur(110px); will-change:transform }
+  .blob-1 { top:-30%; left:10%; width:640px; height:640px; opacity:.4; animation:blob-b 30s ease-in-out -5s infinite alternate; background:radial-gradient(circle,#8f74ff 0%,rgba(143,116,255,0) 70%) }
+  .blob-2 { bottom:-35%; right:8%; width:600px; height:600px; opacity:.35; animation:blob-a 38s ease-in-out -9s infinite alternate; background:radial-gradient(circle,#70f2cf 0%,rgba(112,242,207,0) 70%) }
+  @keyframes blob-a { 0% { transform:translate3d(0,0,0) scale(1) } 50% { transform:translate3d(7vw,4vh,0) scale(1.18) } 100% { transform:translate3d(-3vw,-3vh,0) scale(.94) } }
+  @keyframes blob-b { 0% { transform:translate3d(0,0,0) scale(1.06) } 50% { transform:translate3d(-8vw,5vh,0) scale(.9) } 100% { transform:translate3d(4vw,-4vh,0) scale(1.14) } }
+  @media (prefers-reduced-motion:reduce) { .mesh div { animation:none !important } }
+
+  /* The app's own screen, shown as the same soft rounded-corner card the
+     rest of the case study uses for every other screenshot — no fake phone
+     bezel/notch drawn around it, since that never reads as a real device.
+     Scaled by JS (not a width/height breakpoint) whenever the window is
+     too small to fit it at native size. */
+  .stage { position:relative; z-index:1; width:393px; height:852px; border-radius:34px; overflow:hidden; background:#f8f9fb; box-shadow:0 40px 90px rgba(8,4,22,.5); transform:scale(var(--scale,1)) }
+  iframe { display:block; width:100%; height:100%; border:0 }
+
+  .back { position:fixed; top:22px; left:24px; color:#fffdf7; opacity:.6; font-size:14px; text-decoration:none; z-index:3 }
+  .back:hover { opacity:1 }
+
+  /* The reset button — the site's one recurring "colourful" treatment
+     (same drifting brand gradient as the MA badge ring and the hero's
+     italic word), reused here so restarting the demo reads as the same
+     kind of accent moment rather than a plain grey utility button. */
+  .reset { position:fixed; top:22px; right:24px; z-index:3; border:0; cursor:pointer; padding:10px 20px; border-radius:9999px; font:inherit; font-weight:600; font-size:14px; color:#1c1833; background-image:linear-gradient(90deg,#69debe 28%,#7cd2f2 44%,#8f74ff 60%,#ff806e 75%); background-size:200% 100%; animation:gradient-drift 7s ease-in-out infinite alternate; box-shadow:0 14px 34px rgba(8,4,22,.4); transition:transform .18s ease }
+  .reset:hover { transform:translateY(-1px) }
+  .reset:focus-visible { outline:3px solid #fffdf7; outline-offset:2px }
+  @keyframes gradient-drift { 0% { background-position:0% 50% } 100% { background-position:100% 50% } }
+  @media (prefers-reduced-motion:reduce) { .reset { animation:none } }
+
+  /* On an actual phone visiting this tab, the card-on-dark-background
+     treatment is unnecessary — the device itself already frames the app.
+     Go edge-to-edge instead. Gated on pointer:coarse so a short-but-wide
+     desktop window is never mistaken for a phone; that case is handled by
+     the JS scaling above instead. */
+  @media (max-width:460px) and (pointer:coarse) {
+    .stage { width:100vw; height:100vh; border-radius:0; box-shadow:none; transform:none }
+  }
+</style>
+</head>
+<body>
+<div class="mesh" aria-hidden="true">
+  <div class="blob-1"></div>
+  <div class="blob-2"></div>
+</div>
+<a class="back" href="index.html#summary">&larr; Back to case study</a>
+<button type="button" class="reset" id="resetBtn">Restart demo</button>
+<div class="stage" id="stage">
+  <iframe id="app" title="Persustain interactive prototype" allow="clipboard-write"></iframe>
+</div>
+<script>
+  var start = new URLSearchParams(window.location.search).get('start');
+  var app = document.getElementById('app');
+  app.src = 'prototype/index.html' + (start ? '?start=' + encodeURIComponent(start) : '');
+
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    app.src = 'prototype/index.html?start=' + encodeURIComponent('/(onboarding)/splash');
+  });
+
+  var stage = document.getElementById('stage');
+  function fit() {
+    var scale = Math.min(1, (window.innerWidth - 32) / 393, (window.innerHeight - 32) / 852);
+    stage.style.setProperty('--scale', Math.max(0.4, scale).toFixed(4));
+  }
+  fit();
+  window.addEventListener('resize', fit);
+</script>
+</body>
+</html>

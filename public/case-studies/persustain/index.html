@@ -531,6 +531,14 @@
   .cs-tradeoff-kicker { color:#8f74ff; margin:0 }
   .cs-tradeoff-sub { color:#4d476a; margin:10px 0 0; font-style:italic }
 
+  /* "Open the live demo" — a real link (opens the prototype in a new tab),
+     styled as an ink pill button. Text colour pinned on hover/visited for
+     the same reason .cs-jump pins its own: the page's global
+     `a:hover { color:#8f74ff }` would otherwise tint the cream label purple
+     against the dark fill, and a visited link would default to a muted
+     purple too. */
+  .cs-demo-link, .cs-demo-link:hover, .cs-demo-link:visited { color:#fffdf7 }
+
   /* Next-projects grid. One card is the emphasis, one is the follow-up —
      stacked and equal-width on a phone (there's no room to justify a
      size difference there), splitting 3:2 and filling the section's own
@@ -868,8 +876,7 @@
               data-tag="~1&ndash;2 min" data-title="The shared system" data-desc="Dashboard, personal impact and shared project, connected.">Shared system</button>
             <button type="button" class="cs-journey-pill" data-journey="trustStates" data-start="/(tabs)/projects"
               data-tag="~1 min" data-title="Designing for trust" data-desc="Estimated, Pending and Simulated &mdash; in context, not explained.">Designing for trust</button>
-            <button type="button" class="cs-journey-pill" data-journey="explore"
-              data-tag="" data-title="Explore freely" data-desc="Move through the connected demo at your own pace.">Explore freely</button>
+            <a href="demo.html?start=%2F(onboarding)%2Fsplash" target="_blank" rel="noopener" class="cs-journey-pill">Explore freely &#8599;</a>
           </div>
         </div>
       </figure>
@@ -1122,15 +1129,11 @@
         <p class="cs-lead" style="line-height:1.5;color:#4d476a;margin:34px 0 0;text-wrap:pretty">A hypothesis isn't a spec. The investor deck described concepts like community projects, verification, certificates, carbon value — none of them existed as product entities, and without a shared definition, design and engineering would each have built their own interpretation of the vision.</p>
 
         <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Building a Shared Product Language</h3>
-        <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I ran an OOUX (Object-Oriented UX) workshop with the client and engineering to define the platform's core objects and how they related — <em>User, Activity, Shared Climate Project, Evidence Pack, Verification, Certificate, Value</em> — seven objects, six relationships — then synthesised it into a canonical object map that anchored every user journey, spec, and implementation conversation that followed.</p>
+        <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I ran an OOUX (Object-Oriented UX) workshop with the client and engineering to define the platform's core objects and how they related, then synthesised it into a canonical object map that anchored every user journey, spec, and implementation conversation that followed.</p>
       </div>
       <figure style="margin:clamp(36px,5vw,56px) 0 0">
         <div style="border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
-          <div style="display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between">
-            <p class="type-eyebrow" style="color:#4d476a;margin:0">Object map</p>
-            <p class="type-label-mono" style="color:#4d476a;margin:0;white-space:nowrap">7 objects · 6 relationships</p>
-          </div>
-          <div style="margin-top:24px;padding:14px 0 4px 34px;background:linear-gradient(180deg,#69debe,#7cd2f2 32%,#8f74ff 62%,#ff806e) left top / 2px 100% no-repeat">
+          <div style="padding:14px 0 4px 34px;background:linear-gradient(180deg,#69debe,#7cd2f2 32%,#8f74ff 62%,#ff806e) left top / 2px 100% no-repeat">
             <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
               <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 6px #fffdf7"></span>
               <p class="fluid-card-title" style="color:#1c1833;margin:0">User</p>
@@ -1199,26 +1202,65 @@
             </div>
           </div>
         </div>
-        <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">The canonical object map: seven objects and their relationships.</figcaption>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">Object map — 7 objects · 6 relationships.</figcaption>
       </figure>
 
       <div style="max-width:1232px">
-        <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">From there I modelled the full six-stage lifecycle a contribution moves through: <strong style="color:#1c1833;font-weight:500">Actions → Aggregation → Verification → Registry → Certification → Value.</strong> Phase 1 built the first two stages as real, working states. The remaining four — verification, registry, certification, market value — stayed simulated by design, giving Phase 2 a defined starting point without pretending external infrastructure existed yet.</p>
+        <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(36px,4vw,56px) 0 0;text-wrap:pretty">From there I modelled the full six-stage lifecycle. Phase 1 built the first two stages as real, working states. The remaining four stayed simulated by design, giving Phase 2 a defined starting point without pretending external infrastructure existed yet.</p>
       </div>
         <figure style="margin:clamp(36px,5vw,56px) 0 0">
-          <div style="border-radius:24px;overflow:hidden;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06)"><div style="aspect-ratio:16/9;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#f0e9ff,#e6f6ff)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div></div>
-          <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">Six stages, one connected lifecycle.</figcaption>
+          <div style="border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
+            <div style="padding:14px 0 4px 34px;background:linear-gradient(180deg,#69debe,#7cd2f2 24%,#8f74ff 48%,#ffb27a 68%,#ff9a86 84%,#ff806e) left top / 2px 100% no-repeat">
+              <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+                <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 6px #fffdf7"></span>
+                <p class="fluid-card-title" style="color:#1c1833;margin:0">Actions</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">daily activity, logged</p>
+                <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#e8fff6;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Built</span>
+              </div>
+              <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+                <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 6px #fffdf7"></span>
+                <p class="fluid-card-title" style="color:#1c1833;margin:0">Aggregation</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">combined into shared projects</p>
+                <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#e8fff6;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Built</span>
+              </div>
+              <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+                <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 6px #fffdf7"></span>
+                <p class="fluid-card-title" style="color:#1c1833;margin:0">Verification</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">reviewed and validated</p>
+                <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
+              </div>
+              <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+                <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ffb27a;box-shadow:0 0 0 6px #fffdf7"></span>
+                <p class="fluid-card-title" style="color:#1c1833;margin:0">Registry</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">submitted to carbon registries</p>
+                <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
+              </div>
+              <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+                <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ff9a86;box-shadow:0 0 0 6px #fffdf7"></span>
+                <p class="fluid-card-title" style="color:#1c1833;margin:0">Certification</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">approved and certified</p>
+                <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
+              </div>
+              <div style="position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:16px 0">
+                <span aria-hidden="true" style="position:absolute;left:-40px;top:22px;width:13px;height:13px;border-radius:9999px;background:#ff806e;box-shadow:0 0 0 6px #fffdf7"></span>
+                <p class="fluid-card-title" style="color:#1c1833;margin:0">Value</p>
+                <p class="type-label-mono" style="color:#4d476a;margin:0">real, measurable outcome</p>
+                <span class="type-label" style="margin-left:auto;flex:0 0 auto;background:#fff7e8;border:1px dashed rgba(28,24,51,.3);letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:9999px;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Simulated</span>
+              </div>
+            </div>
+
+            <div style="margin-top:clamp(28px,3.5vw,40px);padding-top:clamp(24px,3vw,32px);border-top:1px solid rgba(28,24,51,.13);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px">
+              <div style="flex:1 1 320px;min-width:0">
+                <p class="type-eyebrow" style="color:#4d476a;margin:0">See it live, not slides</p>
+                <p class="type-body" style="color:#1c1833;margin:8px 0 0;max-width:48ch">These stages aren't mockups — try the real Project page, where lifecycle status and trust state (Estimated / Pending / Simulated) are shown side by side, exactly as built.</p>
+              </div>
+              <a href="demo.html?start=%2F(tabs)%2Fprojects" target="_blank" rel="noopener" class="type-label cs-demo-link" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:9999px;background:#1c1833;font-weight:500;box-shadow:6px 6px 22px rgba(28,24,51,.06);border:0;cursor:pointer;font-family:inherit">
+                Open the live demo <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+          <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">Impact lifecycle — 6 stages · 2 built.</figcaption>
         </figure>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:clamp(28px,3vw,40px) 0 0">
-        <span class="type-eyebrow" style="color:#4d476a">Built in Phase 1</span>
-        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#e8fff6;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Actions</span>
-        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#e8fff6;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Aggregation</span>
-        <span class="type-eyebrow" style="color:#4d476a;margin-left:12px">Simulated in Phase 1</span>
-        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);box-shadow:6px 6px 22px rgba(28,24,51,.06)">Verification</span>
-        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);box-shadow:6px 6px 22px rgba(28,24,51,.06)">Registry</span>
-        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);box-shadow:6px 6px 22px rgba(28,24,51,.06)">Certification</span>
-        <span class="type-label" style="padding:7px 14px;border-radius:9999px;background:#fff7e8;border:1px dashed rgba(28,24,51,.25);box-shadow:6px 6px 22px rgba(28,24,51,.06)">Value</span>
-      </div>
 
       <div style="max-width:1232px">
         <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Structuring the experience</h3>
@@ -2065,18 +2107,22 @@
 
   // The core loop loads itself the moment the card is actually on screen —
   // no click required, and no cost to a reader who never scrolls this far.
+  // Guarded on !frame: a reader can reach this point already having a
+  // journey loaded (the six-stage figure's "Open the live demo" CTA loads
+  // one and scrolls here before the card is ever technically on-screen),
+  // and the auto-load must not stomp that back to the default core loop.
   if (hero) {
     if (window.IntersectionObserver) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            openJourney(hero, false);
+            if (!frame) openJourney(hero, false);
             io.disconnect();
           }
         });
       }, { rootMargin: '200px' });
       io.observe(shot);
-    } else {
+    } else if (!frame) {
       openJourney(hero, false);
     }
   }
