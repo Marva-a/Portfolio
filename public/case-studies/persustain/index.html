@@ -574,59 +574,120 @@
      whole 7s sweep, including the purple. */
 
   /* Interactive prototype. The real Expo build is exported to
-     ./prototype/ and framed here at its 393x852 design viewport. It is
-     click-to-load: the bundle is a few MB, so it must never cost a reader
-     who only scrolls past. Until then this is a poster image and a button. */
+     ./prototype/ and framed here at its 393x852 design viewport, scaled
+     down via transform (not a narrower iframe) so the app always renders
+     at the viewport it was designed for. It is click-to-load: the bundle
+     is a few MB, so it must never cost a reader who only scrolls past. */
   .cs-proto-stage {
     position: relative;
     width: 393px;
     height: 852px;
     transform: scale(var(--proto-scale, 1));
     transform-origin: top left;
+    background: #f8f9fb;
+  }
+  .cs-proto-stage iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+  /* Journey picker — one connected app, six entry points. A reader
+     skimming needs to grasp "this is a real, connected product" in under
+     a second, which six same-weight text cards never gave them — so a
+     single large card carries a real screenshot and the recommended path,
+     and the other five drop into a low-key pill row underneath for
+     whoever wants to go deeper. The pill row still orders them the way
+     the product itself unfolds (onboarding → quiz → …→ free exploration). */
+  .cs-journey-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(20px, 2.6vw, 28px);
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    border-radius: 26px;
+    padding: clamp(26px, 3.4vw, 42px);
+    background: linear-gradient(135deg, #e8fff6, #f0e9ff);
+  }
+  @media (min-width: 860px) { .cs-journey-hero { grid-template-columns: 1.3fr auto; } }
+  .cs-journey-hero-tag { color: #8f74ff; }
+  .cs-journey-hero-title { color: #1c1833; margin: 10px 0 0; line-height: 1.12; }
+  .cs-journey-hero-desc { color: #4d476a; line-height: 1.55; margin: 10px 0 0; max-width: 42ch; }
+  /* The demo loads itself as soon as the card scrolls into view — no
+     click, no static screenshot standing in for it. The slot holds the
+     app's own 393x852 aspect ratio from the very first paint so nothing
+     jumps when the iframe actually mounts; once live, .is-live switches
+     it to the exact scaled-height math the transform-scaled stage needs
+     (a scaled child can't size its own parent). */
+  .cs-journey-hero-shot {
+    position: relative;
+    width: min(260px, 62vw);
+    aspect-ratio: 393 / 852;
+    margin: 0 auto;
     border-radius: 34px;
     overflow: hidden;
     background: #f8f9fb;
-    box-shadow: 0 0 0 1px rgba(28, 24, 51, .07), 6px 6px 22px rgba(28, 24, 51, .1);
+    box-shadow: 0 24px 54px rgba(28, 24, 51, .22), 6px 6px 22px rgba(28, 24, 51, .1);
   }
-  /* Collapses the wrapper to the scaled height so it does not reserve 852px. */
-  .cs-proto-wrap {
-    height: calc(852px * var(--proto-scale, 1));
-    max-width: 393px;
-    margin: 0 auto;
-  }
-  .cs-proto-stage iframe,
-  .cs-proto-stage img { display: block; width: 100%; height: 100%; border: 0; }
-  .cs-proto-stage img { object-fit: cover; }
-  .cs-proto-launch {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
+  /* Flex-centers the loading label only — once live, the transform-scaled
+     stage needs plain block flow so its scale-from-top-left math lines up
+     with the container it's actually sized against. */
+  .cs-journey-hero-shot:not(.is-live) { display: flex; align-items: center; justify-content: center; }
+  .cs-journey-hero-shot.is-live { height: calc(852px * var(--proto-scale, 1)); }
+  @media (min-width: 860px) { .cs-journey-hero-shot { margin: 0; justify-self: end; } }
+  .cs-journey-hero-loading { color: #4d476a; }
+  .cs-journey-hero:focus-visible { outline: 3px solid #8f74ff; outline-offset: 3px; }
+
+  .cs-journey-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(20px, 2.4vw, 26px); }
+  /* Same shape, colour and hover language as the case study's own jump
+     pills (.cs-jump, further down this file) — background stays put, a
+     brand-gradient shine sweeps through on hover/focus instead, so these
+     read as the same kind of control, not a different component. */
+  .cs-journey-pill {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 7px;
     border: 0;
     cursor: pointer;
-    /* Enough scrim to carry white text over a light screenshot. */
-    background: rgba(28, 24, 51, .42);
     font: inherit;
-    color: #fffdf7;
-  }
-  .cs-proto-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 22px;
-    border-radius: 9999px;
-    background: #fffdf7;
     color: #1c1833;
-    box-shadow: 0 6px 18px rgba(28, 24, 51, .28);
+    font-weight: 500;
+    font-size: 13px;
+    border-radius: 9999px;
+    padding: 7px 13px;
+    background: #fffdf7;
+    box-shadow: 6px 6px 22px rgba(28, 24, 51, .06);
+    transition: background .18s ease, color .18s ease;
   }
-  .cs-proto-launch:focus-visible { outline: 3px solid #8f74ff; outline-offset: -3px; }
+  .cs-journey-pill:hover { color: #1c1833; }
+  .cs-journey-pill:focus-visible { outline: 3px solid #8f74ff; outline-offset: -3px; }
+  /* Selected state — identical treatment to the case study's own jump
+     pills (.cs-jump.on): the pill for whichever journey is currently
+     loaded goes solid ink instead of relying on the shine alone. */
+  .cs-journey-pill.on { background: #1c1833; color: #fffdf7; }
+  .cs-journey-pill.on:hover { color: #fffdf7; }
+  .cs-journey-pill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 28%, rgba(105,222,190,.5) 40%, rgba(124,210,242,.5) 48%, rgba(143,116,255,.5) 56%, rgba(255,128,110,.5) 64%, transparent 76%);
+    transform: translateX(-120%);
+  }
   @media (prefers-reduced-motion: no-preference) {
-    .cs-proto-cta { transition: transform .18s ease; }
-    .cs-proto-launch:hover .cs-proto-cta { transform: translateY(-2px); }
+    .cs-journey-pill:not(.on):hover::after, .cs-journey-pill:not(.on):focus-visible::after { transform: translateX(120%); transition: transform .75s cubic-bezier(.22,1,.36,1); }
+    .cs-journey-hero { transition: transform .18s ease; }
+    /* Once the app is live inside it, the card no longer lifts on hover —
+       that would jiggle the interface while someone's trying to use it. */
+    .cs-journey-hero:not(.is-live):hover { transform: translateY(-2px); }
   }
+  @media (prefers-reduced-motion: reduce) { .cs-journey-pill::after { display: none; } }
+
 </style>
 </head>
 <body>
@@ -780,21 +841,37 @@
 
     <div style="max-width:1232px;margin:clamp(56px,7vw,104px) auto 0">
       <figure style="margin:0 0 clamp(56px,7vw,104px);border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
-        <p class="type-eyebrow" style="color:#4d476a;margin:0 0 6px">Try the prototype</p>
-        <p class="type-body" style="color:#4d476a;line-height:1.55;margin:0 0 clamp(24px,3vw,36px);max-width:52ch">An interactive web demo of the Phase&nbsp;1 flows. Log an activity, open a project, or step through onboarding.</p>
-        <div class="cs-proto-wrap" id="cs-proto-wrap">
-          <div class="cs-proto-stage">
-            <img src="assets/19-prototype-poster.webp" alt="Persustain dashboard: Current Period 182 kg CO2, 13% below baseline" width="786" height="1704" loading="lazy" decoding="async">
-            <button type="button" class="cs-proto-launch" id="cs-proto-launch">
-              <span class="cs-proto-cta type-label" style="font-weight:500">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg>
-                Launch prototype
-              </span>
-              <span class="type-caption" style="color:#fffdf7;text-shadow:0 1px 3px rgba(28,24,51,.5)">Loads a few MB &middot; best on desktop</span>
-            </button>
+        <p class="type-eyebrow" style="color:#4d476a;margin:0 0 6px">The demo in action</p>
+        <p class="type-body" style="color:#4d476a;line-height:1.55;margin:0 0 clamp(22px,2.8vw,30px)">An interactive demo recreated for this portfolio, not the original build &mdash; state persists as you navigate.</p>
+
+        <div id="cs-journey-picker">
+          <button type="button" class="cs-journey-hero" id="cs-journey-hero" data-journey="coreLoop" data-start="/add-activity"
+            data-tag="Recommended &middot; ~2 min" data-title="The core loop" data-desc="Log an activity, see the impact, and watch it reach a shared climate project." data-recommended>
+            <div>
+              <p class="type-label-mono cs-journey-hero-tag" id="cs-journey-hero-tag" style="margin:0">Recommended &middot; ~2 min</p>
+              <p class="fluid-card-title cs-journey-hero-title" id="cs-journey-hero-title">The core loop</p>
+              <p class="type-body cs-journey-hero-desc" id="cs-journey-hero-desc">Log an activity, see the impact, and watch it reach a shared climate project.</p>
+            </div>
+            <div class="cs-journey-hero-shot" id="cs-journey-hero-shot">
+              <p class="cs-journey-hero-loading type-caption">Loading demo&hellip;</p>
+            </div>
+          </button>
+
+          <div class="cs-journey-pills">
+            <button type="button" class="cs-journey-pill" data-journey="coreLoop" data-start="/add-activity"
+              data-tag="~2 min" data-title="The core loop" data-desc="Log an activity, see the impact, and watch it reach a shared climate project.">Core loop</button>
+            <button type="button" class="cs-journey-pill" data-journey="onboarding" data-start="/(onboarding)/splash"
+              data-tag="~1 min" data-title="Onboarding" data-desc="A first-time welcome to the product's premise.">Onboarding</button>
+            <button type="button" class="cs-journey-pill" data-journey="quiz" data-start="/(onboarding)/quiz/1"
+              data-tag="~1 min" data-title="The quiz" data-desc="Builds a first impact profile before any tracking starts.">Quiz</button>
+            <button type="button" class="cs-journey-pill" data-journey="sharedImpact" data-start="/(tabs)/dashboard"
+              data-tag="~1&ndash;2 min" data-title="The shared system" data-desc="Dashboard, personal impact and shared project, connected.">Shared system</button>
+            <button type="button" class="cs-journey-pill" data-journey="trustStates" data-start="/(tabs)/projects"
+              data-tag="~1 min" data-title="Designing for trust" data-desc="Estimated, Pending and Simulated &mdash; in context, not explained.">Designing for trust</button>
+            <button type="button" class="cs-journey-pill" data-journey="explore"
+              data-tag="" data-title="Explore freely" data-desc="Move through the connected demo at your own pace.">Explore freely</button>
           </div>
         </div>
-        <figcaption class="type-caption" style="color:#4d476a;margin-top:16px;text-align:center">Interactive demo prototype &mdash; state persists as you navigate.</figcaption>
       </figure>
       <figure class="cs-loop-figure" style="margin:0;position:relative;overflow:hidden;border-radius:28px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(28px,4vw,56px)">
         <p class="cs-loop-title type-eyebrow" style="color:#4d476a;margin:0">The loop the product had to make visible</p>
@@ -863,7 +940,7 @@
           <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center">
             <span style="width:9px;height:9px;border-radius:9999px;background:#8f74ff"></span>
           </span>
-          <span class="cs-deliver-text" style="flex:1 1 auto;min-width:0;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.35;color:#1c1833;text-wrap:pretty">Built a shared object, lifecycle and trust-state model that kept design and engineering anchored to one product strategy</span>
+          <span class="cs-deliver-text" style="flex:1 1 auto;min-width:0;font-family:Georgia,'Times New Roman',serif;font-weight:700;line-height:1.35;color:#1c1833;text-wrap:pretty">Built a shared object, lifecycle, and trust-state model, aligning design and engineering to one product strategy</span>
         </li>
         <li style="display:flex;align-items:center;gap:clamp(16px,2.5vw,28px);border-radius:clamp(16px,2vw,20px);background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06);padding:clamp(22px,2.8vw,32px)">
           <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center">
@@ -1902,30 +1979,107 @@
 })();
 
 (function () {
-  var wrap = document.getElementById('cs-proto-wrap');
-  var launch = document.getElementById('cs-proto-launch');
-  if (!wrap || !launch) return;
+  var hero = document.getElementById('cs-journey-hero');
+  var heroTag = document.getElementById('cs-journey-hero-tag');
+  var heroTitle = document.getElementById('cs-journey-hero-title');
+  var heroDesc = document.getElementById('cs-journey-hero-desc');
+  var shot = document.getElementById('cs-journey-hero-shot');
+  var picker = document.getElementById('cs-journey-picker');
+  if (!shot || !picker) return;
 
   // The stage is a fixed 393x852 so the app renders at the viewport it was
-  // designed for; scale it down to whatever width the column actually has.
+  // designed for; scale it down to whatever width the hero's image slot
+  // actually has.
   function fit() {
-    var scale = Math.min(1, wrap.clientWidth / 393);
-    wrap.style.setProperty('--proto-scale', scale.toFixed(4));
+    var stage = shot.querySelector('.cs-proto-stage');
+    if (!stage) return;
+    var scale = Math.min(1, shot.clientWidth / 393);
+    shot.style.setProperty('--proto-scale', scale.toFixed(4));
   }
-  fit();
-  if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(shot);
   else window.addEventListener('resize', fit);
 
-  launch.addEventListener('click', function () {
-    var frame = document.createElement('iframe');
-    // Explicit index.html, not the bare directory: Vite's dev server answers a
-    // directory request under public/ with the SPA fallback instead of this file.
-    frame.src = 'prototype/index.html';
-    frame.title = 'Persustain interactive prototype';
-    frame.allow = 'clipboard-write';
-    launch.previousElementSibling.remove();
-    launch.replaceWith(frame);
+  var frame = null;
+
+  // All six cards share one iframe/app instance, mounted directly into the
+  // hero card's image slot in place of the poster — a journey only changes
+  // where that instance starts and what the strip below it says, never
+  // spins up a second copy of the demo. The hero's own copy describes
+  // whatever journey is currently loaded in its image slot — a pill click
+  // swaps the text along with the frame, so the card never goes on
+  // describing "the core loop" while showing the quiz.
+  function updateHeroCopy(card) {
+    if (!heroTag || !heroTitle || !heroDesc) return;
+    var tag = card.getAttribute('data-tag') || '';
+    heroTag.textContent = tag;
+    heroTag.style.display = tag ? '' : 'none';
+    heroTitle.textContent = card.getAttribute('data-title') || '';
+    heroDesc.textContent = card.getAttribute('data-desc') || '';
+  }
+
+  // Same "on" state the case study's own jump pills use for whichever
+  // section is currently in view — here it's whichever journey is
+  // currently loaded, not scroll position.
+  function markSelectedPill(card) {
+    var journey = card.getAttribute('data-journey');
+    var pills = picker.querySelectorAll('.cs-journey-pill');
+    for (var i = 0; i < pills.length; i++) {
+      pills[i].classList.toggle('on', pills[i].getAttribute('data-journey') === journey);
+    }
+  }
+
+  function openJourney(card, scrollTo) {
+    var start = card.getAttribute('data-start');
+
+    updateHeroCopy(card);
+    markSelectedPill(card);
+
+    if (!frame) {
+      shot.innerHTML = '';
+      shot.classList.add('is-live');
+      if (hero) hero.classList.add('is-live');
+      var stage = document.createElement('div');
+      stage.className = 'cs-proto-stage';
+      frame = document.createElement('iframe');
+      // Explicit index.html, not the bare directory: Vite's dev server answers a
+      // directory request under public/ with the SPA fallback instead of this file.
+      frame.src = 'prototype/index.html' + (start ? '?start=' + encodeURIComponent(start) : '');
+      frame.title = 'Persustain interactive prototype';
+      frame.allow = 'clipboard-write';
+      stage.appendChild(frame);
+      shot.appendChild(stage);
+      fit();
+    } else if (start) {
+      // Re-entering a guided path after free exploration: hand the running
+      // app a fresh start param rather than opening a second frame.
+      frame.src = 'prototype/index.html?start=' + encodeURIComponent(start);
+    }
+
+    if (scrollTo) shot.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  picker.addEventListener('click', function (e) {
+    var card = e.target.closest('[data-journey]');
+    if (card) openJourney(card, true);
   });
+
+  // The core loop loads itself the moment the card is actually on screen —
+  // no click required, and no cost to a reader who never scrolls this far.
+  if (hero) {
+    if (window.IntersectionObserver) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            openJourney(hero, false);
+            io.disconnect();
+          }
+        });
+      }, { rootMargin: '200px' });
+      io.observe(shot);
+    } else {
+      openJourney(hero, false);
+    }
+  }
 })();
 </script>
 </body>
