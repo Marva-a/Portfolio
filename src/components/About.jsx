@@ -40,11 +40,12 @@ const testimonials = [
       "Marva wrangles and decodes abstract ideas, rapidly streamlines them through design thinking, and then makes the solutions relevant to a client's businesses in an analytical and practical way, far beyond just waiting for instructions. She is sharp at articulating and communicating connections between design and business for clients based on research, and adapting to clients' preferences.",
   },
   {
-    id: "slot-2",
-    name: "Add a name",
-    role: "Role @ Company",
+    id: "chris",
+    name: "Chris Jung",
+    role: "Tech Lead @ ISM Creative",
     photo: null,
-    quote: "This slot is empty — add the testimonial text here.",
+    quote:
+      "Marva has demonstrated proficiency in cloud development environments such as Flutter, Firebase, and Google Cloud Platform, as well as a strong foundation in API integration and a consistent commitment to applying accessible UX principles throughout her design process. … On our most recent project, Marva was able to deliver an MVP application that required novel API integrations for a feature-rich application.",
   },
   {
     id: "slot-3",
