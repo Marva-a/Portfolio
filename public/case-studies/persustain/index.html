@@ -171,7 +171,8 @@
   .pu-opt-s { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); font-weight:500; color:#595a5b; }
   .pu-radio { flex:0 0 auto; width:calc(24 * var(--u)); height:calc(24 * var(--u)); border-radius:9999px; background:#fff; border:calc(2 * var(--u)) solid #e8eaf9; }
 
-  .pu-learn { display:flex; align-items:center; justify-content:center; gap:calc(4 * var(--u)); }
+  .pu-learn { display:flex; align-items:center; justify-content:flex-start; gap:calc(4 * var(--u)); }
+  .pu-learn--center { justify-content:center; }
   .pu-learn img { flex:0 0 auto; width:calc(14 * var(--u)); height:calc(14 * var(--u)); }
   .pu-learn span { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); font-weight:500; }
   .pu-learn--start { align-items:flex-start; justify-content:flex-start; }
@@ -220,7 +221,7 @@
 
   /* methodology sheet */
   .pu-scrim { position:absolute; inset:0; background:rgba(26,27,28,.45); opacity:0; transition:opacity .42s ease; }
-  .pu-sheet { position:absolute; left:0; right:0; top:calc(178 * var(--u)); bottom:0; display:flex; flex-direction:column; align-items:center; gap:calc(24 * var(--u)); padding:calc(24 * var(--u)) calc(20 * var(--u)); background:#fff; border-radius:calc(16 * var(--u)) calc(16 * var(--u)) 0 0; box-shadow:0 calc(8 * var(--u)) calc(40 * var(--u)) rgba(84,105,212,.18); transform:translateY(101%); transition:transform .6s cubic-bezier(.22,1,.36,1); }
+  .pu-sheet { position:absolute; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; gap:calc(24 * var(--u)); padding:calc(24 * var(--u)) calc(20 * var(--u)); background:#fff; border-radius:calc(16 * var(--u)) calc(16 * var(--u)) 0 0; box-shadow:0 calc(8 * var(--u)) calc(40 * var(--u)) rgba(84,105,212,.18); transform:translateY(101%); transition:transform .6s cubic-bezier(.22,1,.36,1); }
   .pu-sheet-top { display:flex; align-items:center; justify-content:space-between; width:calc(353 * var(--u)); height:calc(44 * var(--u)); }
   .pu-sheet-top img.pu-x { width:calc(26 * var(--u)); height:calc(26 * var(--u)); }
   .pu-sheet-h { font-size:calc(20 * var(--u)); line-height:calc(30 * var(--u)); font-weight:700; }
@@ -1993,7 +1994,7 @@
                   </div>
                   <span class="pu-card-foot">
                     <span class="pu-rule"></span>
-                    <span class="pu-learn"><img src="assets/ui/help-circle.svg" alt=""><span class="pu-grad">How this number is calculated?</span></span>
+                    <span class="pu-learn pu-learn--center"><img src="assets/ui/help-circle.svg" alt=""><span class="pu-grad">How this number is calculated?</span></span>
                   </span>
                 </div>
                 <span class="pu-save">Save</span>
@@ -2027,7 +2028,8 @@
           </div>
 
           <div>
-            <ol class="cs-demo-steps">
+            <span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e8fff6;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">As built</span>
+            <ol class="cs-demo-steps" style="margin-top:20px">
               <li><button type="button" class="cs-demo-step" style="--c:#69debe" aria-pressed="true">
                 <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
                 <span class="cs-demo-txt">
