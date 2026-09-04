@@ -53,20 +53,6 @@ const testimonials = [
     photo: null,
     quote: "This slot is empty — add the testimonial text here.",
   },
-  {
-    id: "slot-4",
-    name: "Add a name",
-    role: "Role @ Company",
-    photo: null,
-    quote: "This slot is empty — add the testimonial text here.",
-  },
-  {
-    id: "slot-5",
-    name: "Add a name",
-    role: "Role @ Company",
-    photo: null,
-    quote: "This slot is empty — add the testimonial text here.",
-  },
 ];
 
 const SWIPE_MIN = 60; // px of horizontal drag before it counts as a swipe
