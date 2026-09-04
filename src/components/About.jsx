@@ -45,7 +45,7 @@ const testimonials = [
     role: "Tech Lead @ ISM Creative",
     photo: null,
     quote:
-      "Marva has demonstrated proficiency in cloud development environments such as Flutter, Firebase, and Google Cloud Platform, as well as a strong foundation in API integration and a consistent commitment to applying accessible UX principles throughout her design process. … On our most recent project, Marva was able to deliver an MVP application that required novel API integrations for a feature-rich application.",
+      "Marva was the Lead Product Designer for Proof of Concept and Minimum Viable Product applications across multiple platforms. … Marva was able to negotiate between the resources and time constraints afforded to the development team while managing the expectations of the client to produce an engaging application that demonstrated unique and innovative core features.",
   },
   {
     id: "slot-3",
