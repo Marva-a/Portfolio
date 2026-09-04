@@ -1284,7 +1284,7 @@
               </div>
             </div>
             <div style="flex:0 1 300px;display:flex;justify-content:center;min-width:220px">
-              <img src="assets/20-dashboard-impact.webp" alt="Persustain dashboard, My Impact so far: 12 kg CO2e logged, 12.5% contribution share, estimated value pending verification, 62% aggregation in progress" style="display:block;width:100%;height:auto;aspect-ratio:381/507;object-fit:contain">
+              <img src="assets/20-dashboard-impact.png" alt="Persustain dashboard, My Impact so far: 12 kg CO2e logged, 12.5% contribution share, estimated value pending verification, 62% aggregation in progress" style="display:block;width:100%;height:auto;aspect-ratio:381/507;object-fit:contain">
             </div>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(30px,4vw,52px) 0;border-top:1px solid rgba(28,24,51,.13)">
@@ -1303,8 +1303,8 @@
               </div>
             </div>
             <div style="flex:1 1 480px;display:flex;justify-content:center;align-items:flex-end;gap:clamp(10px,1.6vw,20px);min-width:320px">
-              <img src="assets/21-project-attributed-contribution.webp" alt="Persustain project page, Attributed Contribution: 12 kg CO2e contributed to the Community Micro-Greening and Carbon Sequestration Initiative, labelled Estimated" style="display:block;flex:1 1 0;min-width:0;width:auto;height:auto;aspect-ratio:381/398;object-fit:contain">
-              <img src="assets/22-project-impact-lifecycle.webp" alt="Persustain project page, Impact Lifecycle: February evidence pack 62% complete, with verification, registry approval, certification and credit value each marked pending and simulated" style="display:block;flex:1 1 0;min-width:0;width:auto;height:auto;aspect-ratio:318/290;object-fit:contain;align-self:flex-end">
+              <img src="assets/21-project-attributed-contribution.png" alt="Persustain project page, Attributed Contribution: 12 kg CO2e contributed to the Community Micro-Greening and Carbon Sequestration Initiative, labelled Estimated, with Project Impact, Impact Lifecycle and Methodology &amp; Assumptions as collapsed sections below" style="display:block;flex:1 1 0;min-width:0;width:auto;height:auto;aspect-ratio:1143/1647;object-fit:contain">
+              <img src="assets/22-project-impact-lifecycle.png" alt="Persustain project page, Impact Lifecycle: evidence pack 62% complete, with verification, registry approval, certification and credit value each marked pending and simulated" style="display:block;flex:1 1 0;min-width:0;width:auto;height:auto;aspect-ratio:318/290;object-fit:contain;align-self:flex-end">
             </div>
           </div>
         </div>
@@ -1405,19 +1405,31 @@
 
           </div>
         </div>
-        <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+        <img src="assets/22-project-impact-lifecycle.png" alt="Persustain project page, Impact Lifecycle evidence pack: Data collection open (completed) and Aggregation in progress shown as lifecycle stages, with Verification, Registry approval, Certificate issued and Credit value created each marked pending and Simulated as a separate trust state" style="display:block;width:100%;height:auto;aspect-ratio:318/290;object-fit:contain">
         <figcaption class="type-caption" style="grid-column:1 / -1;color:#4d476a;margin-top:4px;text-align:center">Two dimensions, kept deliberately separate — never conflated in the interface.</figcaption>
       </figure>
 
       <div style="max-width:1232px">
         <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Transparency as a Product Principle</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">Every methodology and assumption behind a number stayed visible next to it. The product wasn't asking people to trust it — it was giving them what they needed to decide that for themselves.</p>
+      </div>
+      <figure style="margin:clamp(32px,4vw,48px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(20px,3vw,40px);align-items:start">
+        <div>
+          <img src="assets/23-certificate-of-origin.png" alt="Persustain project detail, Certificate of Origin card: Project, Verification Status (In Review), Partner Association, and Contribution Period listed as separate fields" style="display:block;width:100%;height:auto;aspect-ratio:381/426;object-fit:contain">
+          <p class="type-body" style="line-height:1.55;color:#4d476a;margin:16px 0 0">A receipt-like card — project, status, partner, period — that gives an invisible contribution a proof-like structure.</p>
+        </div>
+        <div>
+          <img src="assets/25-alignment-references.png" alt="Persustain project detail, Alignment References card listing IPCC emissions accounting principles, Environment and Climate Change Canada factors, Canadian National Inventory Report, and Verra VCS structural compatibility" style="display:block;width:100%;height:auto;aspect-ratio:381/276;object-fit:contain">
+          <p class="type-body" style="line-height:1.55;color:#4d476a;margin:16px 0 0">Surfacing the methodology instead of burying it turns a black-box number into something you can interrogate.</p>
+        </div>
+      </figure>
 
+      <div style="max-width:1232px">
         <h3 class="fluid-subsection-title" style="color:#1c1833;margin:clamp(40px,5vw,64px) 0 0">Keeping AI Interpretive, Not Authoritative</h3>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The same principle governed how I scoped AI. Working with the AI developer, I set the boundary at <em>interpretive, not authoritative</em>: OpenAI could explain a trend in plain language, summarise an evidence pack, or help match a description to a known activity. It could not calculate or verify impact, issue credits, certify outcomes, or determine market legitimacy — those stayed tied to calculation sources, evidence, and later lifecycle stages that hadn't been built yet.</p>
       </div>
       <figure style="margin:clamp(36px,5vw,56px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,56px);align-items:center">
-        <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+        <img src="assets/24-footprint-movement-ai-insight.png" alt="Persustain dashboard, Footprint Movement chart with an AI Insight below it reading: 13% reduction compared to last month, your transport behaviour is currently your highest impact lever" style="display:block;width:100%;height:auto;aspect-ratio:376/468;object-fit:contain">
         <div>
           <div>
             <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline">
