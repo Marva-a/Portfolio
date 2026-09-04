@@ -758,13 +758,11 @@
      purple too. */
   .cs-demo-link, .cs-demo-link:hover, .cs-demo-link:visited { color:#fffdf7 }
 
-  /* Next-projects grid. One card is the emphasis, one is the follow-up —
-     stacked and equal-width on a phone (there's no room to justify a
-     size difference there), splitting 3:2 and filling the section's own
-     1232px column from tablet up, same as every other two-up layout on
-     this page. */
+  /* Next-projects grid. Two equal cards — stacked on a phone, side by
+     side and evenly split from tablet up, filling the section's own
+     1232px column. */
   .cs-proj-grid { display:grid; grid-template-columns:1fr; gap:clamp(24px,3vw,40px) }
-  @media (min-width:768px) { .cs-proj-grid { grid-template-columns:3fr 2fr; align-items:start } }
+  @media (min-width:768px) { .cs-proj-grid { grid-template-columns:1fr 1fr; align-items:start } }
 
   /* "At a glance · 2 min" and "6 chapters · 12 min" — the full read-time
      line from 768px up. Below that it shortens to just "2 min"/"12 min",
