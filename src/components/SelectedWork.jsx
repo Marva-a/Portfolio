@@ -30,6 +30,12 @@ const projects = [
       { dx: -0.28, dy: 0.28, scale: 0.65, opacity: 0.3 },
     ],
   },
+  // 04 and 05 are hidden for now (kept here, unused, so they're easy to
+  // bring back later) until those case studies are ready to show.
+];
+
+// eslint-disable-next-line no-unused-vars
+const hiddenProjects = [
   {
     id: "04",
     title: "04. Project Name",
