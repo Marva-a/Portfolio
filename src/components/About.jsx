@@ -45,7 +45,7 @@ const testimonials = [
     role: "Tech Lead @ ISM Creative",
     photo: null,
     quote:
-      "Marva was the Lead Product Designer for Proof of Concept and Minimum Viable Product applications across multiple platforms. … Marva was able to negotiate between the resources and time constraints afforded to the development team while managing the expectations of the client to produce an engaging application that demonstrated unique and innovative core features.",
+      "On our most recent project, Marva successfully balanced development resources and time constraints with client expectations to deliver an engaging MVP with innovative core features. Her technical fluency across Flutter, Firebase, Google Cloud Platform, and API integrations enabled her to collaborate effectively with engineering while maintaining a consistent commitment to accessible UX principles.",
   },
   {
     id: "slot-3",
