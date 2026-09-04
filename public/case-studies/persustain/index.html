@@ -318,6 +318,26 @@
   #cs-early[data-act="3"] .pu-foot { animation:pu-mark 1.8s ease-in-out 1.2s 1; }
   #cs-early[data-act="3"] .pu-save { animation:pu-glow 1.4s ease-in-out 2.2s 1; }
 
+  /* The build's data path. Grid rather than flex-wrap: five equal cards in
+     fixed arrow gutters can't orphan a card or strand an arrow at the end of
+     a row. The two steps that carry the AI boundary say so on the card —
+     that boundary is the only reason the diagram is here. */
+  .cs-flow { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr); gap:8px; align-items:stretch; margin-top:clamp(28px,3.5vw,44px); padding-top:26px; border-top:1px solid rgba(28,24,51,.13); }
+  .cs-flow-card { display:flex; flex-direction:column; gap:8px; padding:15px 16px 16px; border-radius:16px; background:var(--bg); box-shadow:6px 6px 22px rgba(28,24,51,.06); }
+  /* Two lines reserved so "Structured data" wrapping doesn't drop that one
+     card's body text below the rest of the row. */
+  .cs-flow-name { display:flex; align-items:flex-start; gap:7px; min-height:34px; font-size:12px; line-height:1.3; letter-spacing:.04em; text-transform:uppercase; color:#4d476a; margin:0 !important; }
+  .cs-flow-name::before { content:""; flex:0 0 auto; width:8px; height:8px; margin-top:4px; border-radius:9999px; background:var(--dot); }
+  .cs-flow-what { font-size:15px; line-height:1.42; color:#1c1833; margin:0 !important; text-wrap:pretty; }
+  .cs-flow-rule { margin:auto 0 0 !important; padding-top:10px; border-top:1px solid rgba(28,24,51,.12); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:1.35; letter-spacing:.05em; text-transform:uppercase; color:var(--rule); }
+  .cs-flow-arrow { align-self:center; width:20px; height:10px; color:rgba(28,24,51,.32); }
+  @media (max-width:980px) {
+    .cs-flow { grid-template-columns:minmax(0,1fr); gap:8px; }
+    .cs-flow-arrow { transform:rotate(90deg); justify-self:center; }
+    /* Full-width cards never wrap their label, so the reserved second line
+       would just be a hole between the label and the text. */
+    .cs-flow-name { min-height:0; }
+  }
   @media (prefers-reduced-motion:reduce) {
     .cs-demo .pu-screen, .pu-sheet, .pu-scrim, .cs-demo-fill, .cs-demo-dot, .cs-demo-txt, .pu-cat, .pu-usage { transition:none !important; }
   }
@@ -2054,31 +2074,33 @@
             <p class="type-label-mono cs-demo-hint">Pick a step to jump to it</p>
           </div>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-top:clamp(28px,3.5vw,44px);padding-top:26px;border-top:1px solid rgba(28,24,51,.13)">
-            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#fffdf7;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">Person</p>
-              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">confirms the activity and one quantity</p>
-            </div>
-            <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
-            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#f0e9ff;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">OpenAI</p>
-              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">enriches or matches the description</p>
-            </div>
-            <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
-            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#e6f6ff;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">Structured data</p>
-              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">activity type, quantity, date</p>
-            </div>
-            <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
-            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#e8fff6;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">Climatiq</p>
-              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">calculates the emissions estimate</p>
-            </div>
-            <div aria-hidden="true" style="flex:0 0 auto;align-self:center;color:#8f74ff;font-size:18px">→</div>
-            <div style="flex:1 1 150px;min-width:0;padding:16px 18px;border-radius:16px;background:#ffe1d6;box-shadow:6px 6px 22px rgba(28,24,51,.06)">
-              <p class="type-label-mono" style="text-transform:uppercase;color:#4d476a;margin:0">Result</p>
-              <p class="type-body" style="line-height:1.45;color:#1c1833;margin:8px 0 0">shown as Estimated, methodology attached</p>
-            </div>
+        <div class="cs-flow">
+          <div class="cs-flow-card" style="--bg:#fffdf7;--dot:#ffd166">
+            <p class="type-label-mono cs-flow-name">Person</p>
+            <p class="type-body cs-flow-what">confirms the activity and one quantity</p>
+          </div>
+          <svg class="cs-flow-arrow" viewBox="0 0 24 10" fill="none" aria-hidden="true"><path d="M.75 5h20.5M17.5 1.25 21.25 5l-3.75 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="cs-flow-card" style="--bg:#f0e9ff;--dot:#8f74ff">
+            <p class="type-label-mono cs-flow-name">OpenAI</p>
+            <p class="type-body cs-flow-what">enriches or matches the description</p>
+            <p class="cs-flow-rule" style="--rule:#5b3fc4">never produces the number</p>
+          </div>
+          <svg class="cs-flow-arrow" viewBox="0 0 24 10" fill="none" aria-hidden="true"><path d="M.75 5h20.5M17.5 1.25 21.25 5l-3.75 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="cs-flow-card" style="--bg:#e6f6ff;--dot:#7cd2f2">
+            <p class="type-label-mono cs-flow-name">Structured data</p>
+            <p class="type-body cs-flow-what">activity type, quantity, date</p>
+          </div>
+          <svg class="cs-flow-arrow" viewBox="0 0 24 10" fill="none" aria-hidden="true"><path d="M.75 5h20.5M17.5 1.25 21.25 5l-3.75 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="cs-flow-card" style="--bg:#e8fff6;--dot:#69debe">
+            <p class="type-label-mono cs-flow-name">Climatiq</p>
+            <p class="type-body cs-flow-what">calculates the emissions estimate</p>
+            <p class="cs-flow-rule" style="--rule:#217a64">the only source of the number</p>
+          </div>
+          <svg class="cs-flow-arrow" viewBox="0 0 24 10" fill="none" aria-hidden="true"><path d="M.75 5h20.5M17.5 1.25 21.25 5l-3.75 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="cs-flow-card" style="--bg:#ffe1d6;--dot:#ff806e">
+            <p class="type-label-mono cs-flow-name">Result</p>
+            <p class="type-body cs-flow-what">shown as Estimated, methodology attached</p>
+          </div>
         </div>
         <figcaption class="type-caption" style="color:#4d476a;margin-top:20px;text-align:center">The compromise in the build: a catalogue plus one known quantity.</figcaption>
       </figure>
