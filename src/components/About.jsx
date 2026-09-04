@@ -45,7 +45,7 @@ const testimonials = [
     role: "Tech Lead @ ISM Creative",
     photo: null,
     quote:
-      "Marva served as the Lead Product Designer for POC and MVP applications across multiple platforms. She established clear milestones while effectively bridging communication between the development team and client. On our most recent project, Marva successfully balanced development resources and time constraints with client expectations to deliver an engaging MVP with innovative core features, demonstrating strong technical fluency and a consistent commitment to accessible UX.",
+      "Marva served as the Lead Product Designer for PoC and MVP applications across multiple platforms. She brought clarity to complex product challenges and effectively aligned design, development, and client needs throughout the process. On our most recent project, Marva successfully navigated technical and delivery constraints while managing stakeholder expectations to deliver an engaging MVP with innovative core features, demonstrating strong technical fluency and a consistent commitment to accessible UX.",
   },
   {
     id: "slot-3",
