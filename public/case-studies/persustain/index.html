@@ -318,31 +318,15 @@
   #cs-early[data-act="3"] .pu-foot { animation:pu-mark 1.8s ease-in-out 1.2s 1; }
   #cs-early[data-act="3"] .pu-save { animation:pu-glow 1.4s ease-in-out 2.2s 1; }
 
-  /* The build's data path — an alternating vertical chain, dot-and-rail
-     built the same way as the step lists above it (flex:1 line stretched
-     to the grid row's height via default grid stretch, so the connector
-     reads as one continuous line rather than five separate ticks). */
-  .cs-chain { margin-top:clamp(28px,3.5vw,44px); padding-top:26px; border-top:1px solid rgba(28,24,51,.13); }
-  .cs-chain-eyebrow { display:block; margin:0 0 clamp(28px,4vw,44px) !important; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#4d476a; }
-  .cs-chain-row { display:grid; grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr); column-gap:20px; }
-  .cs-chain-rail { grid-column:2; grid-row:1; display:flex; flex-direction:column; align-items:center; }
-  .cs-chain-dot { flex:0 0 auto; width:14px; height:14px; margin-top:2px; border-radius:9999px; background:var(--c); box-shadow:0 0 0 6px #fff7e8; }
-  .cs-chain-line { flex:1 1 auto; width:2px; min-height:12px; margin-top:6px; border-radius:2px; background:rgba(28,24,51,.13); }
-  .cs-chain-row:last-child .cs-chain-line { display:none; }
-  .cs-chain-txt { padding-bottom:clamp(28px,4vw,40px); }
-  .cs-chain-row:last-child .cs-chain-txt { padding-bottom:0; }
-  .cs-chain-a { grid-column:1; grid-row:1; text-align:right; }
-  .cs-chain-b { grid-column:3; grid-row:1; text-align:left; }
-  .cs-chain-h { color:#1c1833; margin:0 !important; line-height:1.1; }
-  .cs-chain-p { color:#4d476a; margin:10px 0 0 !important; line-height:1.5; }
-  .cs-chain-a .cs-chain-p { margin-left:auto; }
-  .cs-chain-note { display:inline-flex; margin-top:12px; padding:6px 13px; border-radius:9999px; background:var(--nbg); box-shadow:6px 6px 22px rgba(28,24,51,.06); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--nc); }
-  .cs-chain-cap { display:block; margin-top:clamp(28px,3.5vw,40px); padding-top:26px; border-top:1px solid rgba(28,24,51,.13); text-align:center; color:#4d476a; }
-  @media (max-width:620px) {
-    .cs-chain-row { grid-template-columns:28px minmax(0,1fr); column-gap:16px; }
-    .cs-chain-rail { grid-column:1; }
-    .cs-chain-a, .cs-chain-b { grid-column:2; text-align:left; }
-    .cs-chain-a .cs-chain-p { margin-left:0; }
+  /* The build's data path, styled as the same left-rail step list used
+     for the phone-demo captions (.cs-demo-rail/.cs-demo-dot/.cs-demo-line/
+     .cs-demo-t/.cs-demo-b) so the two read as one system, minus the
+     button semantics — this list isn't interactive. */
+  .cs-chain-list { list-style:none; margin:0; padding:0; }
+  .cs-chain-row { display:grid; grid-template-columns:1.6rem minmax(0,1fr); column-gap:1rem; padding:0 0 clamp(20px,2.4vw,28px); }
+  .cs-chain-list li:last-child .cs-chain-row { padding-bottom:0; }
+  .cs-chain-list li:last-child .cs-demo-line { display:none; }
+  .cs-chain-note { display:inline-flex; margin-top:10px; padding:5px 12px; border-radius:9999px; background:var(--nbg); box-shadow:6px 6px 22px rgba(28,24,51,.06); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--nc); }
   }
   }
   @media (prefers-reduced-motion:reduce) {
@@ -2081,47 +2065,47 @@
             <p class="type-label-mono cs-demo-hint">Pick a step to jump to it</p>
           </div>
         </div>
-        <div class="cs-chain">
-          <span class="cs-chain-eyebrow">The build's data path</span>
-          <div class="cs-chain-row">
-            <div class="cs-chain-txt cs-chain-a">
-              <p class="fluid-subsection-title cs-chain-h">Person</p>
-              <p class="type-body cs-chain-p">confirms the activity and one quantity</p>
-            </div>
-            <div class="cs-chain-rail" aria-hidden="true"><span class="cs-chain-dot" style="--c:#ffd166"></span><span class="cs-chain-line"></span></div>
-          </div>
-          <div class="cs-chain-row">
-            <div class="cs-chain-rail" aria-hidden="true"><span class="cs-chain-dot" style="--c:#8f74ff"></span><span class="cs-chain-line"></span></div>
-            <div class="cs-chain-txt cs-chain-b">
-              <p class="fluid-subsection-title cs-chain-h">OpenAI</p>
-              <p class="type-body cs-chain-p">enriches or matches the description</p>
+        <span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#f0e9ff;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">The build's data path</span>
+        <ol class="cs-chain-list" style="margin-top:20px">
+          <li><div class="cs-chain-row">
+            <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot" style="--c:#ffd166"></span><span class="cs-demo-line"></span></span>
+            <span class="cs-demo-txt">
+              <span class="type-body cs-demo-t" style="font-weight:600">Person</span>
+              <span class="type-body cs-demo-b" style="margin-top:5px !important">confirms the activity and one quantity</span>
+            </span>
+          </div></li>
+          <li><div class="cs-chain-row">
+            <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot" style="--c:#8f74ff"></span><span class="cs-demo-line"></span></span>
+            <span class="cs-demo-txt">
+              <span class="type-body cs-demo-t" style="font-weight:600">OpenAI</span>
+              <span class="type-body cs-demo-b" style="margin-top:5px !important">enriches or matches the description</span>
               <span class="cs-chain-note" style="--nc:#5b3fc4;--nbg:#f0e9ff">Never produces the number</span>
-            </div>
-          </div>
-          <div class="cs-chain-row">
-            <div class="cs-chain-txt cs-chain-a">
-              <p class="fluid-subsection-title cs-chain-h">Structured data</p>
-              <p class="type-body cs-chain-p">activity type, quantity, date</p>
-            </div>
-            <div class="cs-chain-rail" aria-hidden="true"><span class="cs-chain-dot" style="--c:#7cd2f2"></span><span class="cs-chain-line"></span></div>
-          </div>
-          <div class="cs-chain-row">
-            <div class="cs-chain-rail" aria-hidden="true"><span class="cs-chain-dot" style="--c:#69debe"></span><span class="cs-chain-line"></span></div>
-            <div class="cs-chain-txt cs-chain-b">
-              <p class="fluid-subsection-title cs-chain-h">Climatiq</p>
-              <p class="type-body cs-chain-p">calculates the emissions estimate</p>
+            </span>
+          </div></li>
+          <li><div class="cs-chain-row">
+            <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot" style="--c:#7cd2f2"></span><span class="cs-demo-line"></span></span>
+            <span class="cs-demo-txt">
+              <span class="type-body cs-demo-t" style="font-weight:600">Structured data</span>
+              <span class="type-body cs-demo-b" style="margin-top:5px !important">activity type, quantity, date</span>
+            </span>
+          </div></li>
+          <li><div class="cs-chain-row">
+            <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot" style="--c:#69debe"></span><span class="cs-demo-line"></span></span>
+            <span class="cs-demo-txt">
+              <span class="type-body cs-demo-t" style="font-weight:600">Climatiq</span>
+              <span class="type-body cs-demo-b" style="margin-top:5px !important">calculates the emissions estimate</span>
               <span class="cs-chain-note" style="--nc:#217a64;--nbg:#e8fff6">The only source of the number</span>
-            </div>
-          </div>
-          <div class="cs-chain-row">
-            <div class="cs-chain-txt cs-chain-a">
-              <p class="fluid-subsection-title cs-chain-h">Result</p>
-              <p class="type-body cs-chain-p">shown as Estimated, methodology attached</p>
-            </div>
-            <div class="cs-chain-rail" aria-hidden="true"><span class="cs-chain-dot" style="--c:#ff806e"></span><span class="cs-chain-line"></span></div>
-          </div>
-        </div>
-        <figcaption class="fluid-quote cs-chain-cap">"The compromise in the build: a catalogue plus one known quantity."</figcaption>
+            </span>
+          </div></li>
+          <li><div class="cs-chain-row">
+            <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot" style="--c:#ff806e"></span><span class="cs-demo-line"></span></span>
+            <span class="cs-demo-txt">
+              <span class="type-body cs-demo-t" style="font-weight:600">Result</span>
+              <span class="type-body cs-demo-b" style="margin-top:5px !important">shown as Estimated, methodology attached</span>
+            </span>
+          </div></li>
+        </ol>
+        <figcaption class="fluid-quote" style="display:block;margin-top:clamp(28px,3.5vw,40px);padding-top:26px;border-top:1px solid rgba(28,24,51,.13);text-align:center;color:#4d476a">"The compromise in the build: a catalogue plus one known quantity."</figcaption>
       </figure>
 
       <div style="max-width:1232px">
