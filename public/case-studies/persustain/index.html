@@ -102,6 +102,225 @@
   src: url("assets/dm-sans-latin.woff2") format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
+
+  /* ===== Persustain screens, rebuilt from Figma ==========================
+     Every value below is the design px from the Figma file (Sf14iAq3vZ…),
+     expressed through --u so the whole screen scales as one piece:
+     1 design px = 100cqw / 393. Icons are the exported SVGs, not redraws. */
+  @font-face {
+    font-family: 'Raleway'; font-style: normal; font-weight: 400 800; font-display: swap;
+    src: url("assets/raleway-latin.woff2") format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Raleway'; font-style: normal; font-weight: 400 800; font-display: swap;
+    src: url("assets/raleway-latin-ext.woff2") format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+
+  .pu-stage { container-type:inline-size; width:100%; max-width:393px; margin:0 auto; }
+  .pu-phone {
+    --u: 0.2544529cqw;
+    position:relative; width:100%; aspect-ratio:393/852; overflow:hidden;
+    border-radius:calc(30 * var(--u)); background:#f8f9fb; color:#1a1b1c;
+    font-family:'Raleway',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    box-shadow:0 calc(22 * var(--u)) calc(48 * var(--u)) rgba(28,24,51,.16), 6px 6px 22px rgba(28,24,51,.06);
+  }
+  .pu-phone p { margin:0; }
+  .pu-phone img, .pu-phone svg { display:block; }
+
+  .pu-screen { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; gap:calc(24 * var(--u)); background:#f8f9fb; }
+
+  /* header — white, 124 tall, 48/24/20 padding, shadow-xsmall */
+  .pu-hdr { width:100%; flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; height:calc(124 * var(--u)); padding:calc(48 * var(--u)) calc(20 * var(--u)) calc(24 * var(--u)); background:#fff; box-shadow:0 calc(4 * var(--u)) calc(2 * var(--u)) rgba(57,57,59,.02); }
+  .pu-hdr-col { display:flex; flex-direction:column; gap:calc(4 * var(--u)); }
+  .pu-eyebrow { font-size:calc(14 * var(--u)); line-height:calc(20 * var(--u)); font-weight:400; color:#595a5b; }
+  .pu-h5 { font-size:calc(20 * var(--u)); line-height:calc(28 * var(--u)); font-weight:700; color:#1a1b1c; }
+  .pu-h5--l { font-size:calc(18 * var(--u)); }
+  .pu-h4 { font-size:calc(24 * var(--u)); line-height:calc(32 * var(--u)); font-weight:700; color:#1a1b1c; }
+  .pu-logo { width:calc(52 * var(--u)); height:calc(52 * var(--u)); flex:0 0 auto; }
+  .pu-round { display:grid; place-items:center; width:calc(32 * var(--u)); height:calc(32 * var(--u)); border-radius:9999px; color:#1a1b1c; }
+  .pu-round svg { width:calc(16 * var(--u)); height:calc(16 * var(--u)); }
+  .pu-hdr--tall { flex-direction:column; align-items:stretch; justify-content:flex-start; gap:calc(16 * var(--u)); height:auto; min-height:calc(241 * var(--u)); }
+  .pu-hdr-row { display:flex; align-items:center; justify-content:space-between; }
+  .pu-hdr--tall .pu-learn { height:calc(14 * var(--u)); }
+  .pu-card-foot { display:flex; flex-direction:column; gap:calc(16 * var(--u)); width:calc(313 * var(--u)); align-self:center; }
+
+  .pu-col { display:flex; flex-direction:column; gap:calc(16 * var(--u)); width:calc(353 * var(--u)); }
+  .pu-label { font-size:calc(12 * var(--u)); line-height:calc(15 * var(--u)); font-weight:600; letter-spacing:calc(1.1172 * var(--u)); text-transform:uppercase; color:#595a5b; }
+
+  /* Gradient/Royal Blue, used as text fill throughout the app */
+  .pu-grad { background-image:linear-gradient(170deg,#2a46c1 0%,#6366f1 93.99%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  .pu-search { display:flex; align-items:center; gap:calc(8 * var(--u)); width:calc(353 * var(--u)); padding:calc(12 * var(--u)) calc(16 * var(--u)) calc(12 * var(--u)) calc(12 * var(--u)); background:#fff; border:calc(1.5 * var(--u)) solid #5469d4; border-radius:calc(20 * var(--u)); }
+  .pu-search > svg, .pu-search > img { width:calc(16 * var(--u)); height:calc(16 * var(--u)); flex:0 0 auto; }
+  .pu-q { flex:1 1 0; min-width:0; display:flex; align-items:center; font-size:calc(14 * var(--u)); line-height:calc(20 * var(--u)); color:#1a1b1c; white-space:nowrap; }
+  .pu-q-ph { color:#8f9096; }
+  .pu-caret { width:calc(1.4 * var(--u)); height:calc(17 * var(--u)); background:#5469d4; opacity:0; }
+  .is-typing .pu-caret { animation:pu-blink .92s steps(1) infinite; }
+  .pu-clear { flex:0 0 auto; font-size:calc(14 * var(--u)); line-height:calc(20 * var(--u)); color:#1a1b1c; }
+
+  /* list row / suggested match — 68 tall, 1px #e8eaf9, radius 16 */
+  .pu-opt { display:flex; align-items:center; gap:calc(16 * var(--u)); height:calc(68 * var(--u)); padding:calc(13 * var(--u)) calc(17 * var(--u)); background:#fff; border:calc(1 * var(--u)) solid #e8eaf9; border-radius:calc(16 * var(--u)); }
+  .pu-ico { flex:0 0 auto; display:grid; place-items:center; width:calc(40 * var(--u)); height:calc(40 * var(--u)); border-radius:calc(12 * var(--u)); background-image:linear-gradient(132.24deg,#ed821c 0%,#f2a92c 93.99%); }
+  .pu-ico--teal { background-image:linear-gradient(132.24deg,#00b1d4 0%,#2cd4f2 93.99%); }
+  .pu-ico img { width:calc(22 * var(--u)); height:calc(22 * var(--u)); }
+  .pu-opt-txt { flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:calc(2 * var(--u)); }
+  .pu-opt-t { font-size:calc(14 * var(--u)); line-height:calc(20 * var(--u)); font-weight:700; color:#1a1b1c; }
+  .pu-opt-s { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); font-weight:500; color:#595a5b; }
+  .pu-radio { flex:0 0 auto; width:calc(24 * var(--u)); height:calc(24 * var(--u)); border-radius:9999px; background:#fff; border:calc(2 * var(--u)) solid #e8eaf9; }
+
+  .pu-learn { display:flex; align-items:center; justify-content:center; gap:calc(4 * var(--u)); }
+  .pu-learn img { flex:0 0 auto; width:calc(14 * var(--u)); height:calc(14 * var(--u)); }
+  .pu-learn span { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); font-weight:500; }
+  .pu-learn--start { align-items:flex-start; justify-content:flex-start; }
+  .pu-learn--start img { margin-top:calc(3 * var(--u)); }
+
+  /* bottom nav + add button */
+  .pu-nav { position:absolute; left:0; top:calc(779 * var(--u)); width:100%; height:calc(73 * var(--u)); display:flex; justify-content:center; gap:calc(16 * var(--u)); padding-top:calc(1 * var(--u)); background:#fff; border-top:calc(1 * var(--u)) solid #f3f4f8; }
+  .pu-tab { display:flex; flex-direction:column; align-items:center; gap:calc(4 * var(--u)); width:calc(54 * var(--u)); padding-top:calc(11 * var(--u)); }
+  .pu-tab img { width:calc(24 * var(--u)); height:calc(24 * var(--u)); }
+  .pu-tab span { font-size:calc(10 * var(--u)); line-height:calc(16 * var(--u)); font-weight:500; color:#595a5b; text-align:center; }
+  .pu-fab-slot { width:calc(54 * var(--u)); display:flex; justify-content:center; }
+  .pu-fab { display:grid; place-items:center; width:calc(52 * var(--u)); height:calc(52 * var(--u)); margin-top:calc(-22 * var(--u)); border-radius:9999px; background-image:linear-gradient(132.24deg,#2a46c1 0%,#6366f1 93.99%); box-shadow:0 calc(4 * var(--u)) calc(18 * var(--u)) rgba(79,70,229,.45), 0 calc(1 * var(--u)) calc(4 * var(--u)) rgba(0,0,0,.1); }
+  .pu-fab img { width:calc(22 * var(--u)); height:calc(22 * var(--u)); }
+
+  /* chips — Cards shadow, radius 16, 12/20 bold (14/20 on the early screens) */
+  .pu-chips { display:flex; flex-wrap:wrap; gap:calc(16 * var(--u)); }
+  .pu-chip { display:flex; align-items:center; gap:calc(8 * var(--u)); padding:calc(16 * var(--u)); background:#fff; border:calc(1 * var(--u)) solid transparent; border-radius:calc(16 * var(--u)); font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); font-weight:700; color:#1a1b1c; white-space:nowrap; box-shadow:0 calc(4 * var(--u)) calc(7 * var(--u)) rgba(0,0,0,.04), 0 calc(2 * var(--u)) calc(3.5 * var(--u)) rgba(0,0,0,.05); }
+  .pu-chip img { width:calc(22 * var(--u)); height:calc(22 * var(--u)); }
+  .pu-chip.is-sel { border-color:#2a46c1; }
+  .pu-chip.is-sel > span { background-image:linear-gradient(155deg,#2a46c1 0%,#6366f1 93.99%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  /* number input with a unit gutter */
+  .pu-input { display:flex; align-items:center; height:calc(57 * var(--u)); background:#fff; border-radius:calc(16 * var(--u)); overflow:hidden; box-shadow:0 calc(4 * var(--u)) calc(14 * var(--u)) rgba(0,0,0,.04), 0 calc(2 * var(--u)) calc(7 * var(--u)) rgba(0,0,0,.05); }
+  .pu-input-f { flex:1 1 0; min-width:0; display:flex; align-items:center; padding:calc(16 * var(--u)); font-size:calc(14 * var(--u)); line-height:calc(20 * var(--u)); color:#595a5b; }
+  .pu-input-u { flex:0 0 auto; height:calc(21 * var(--u)); padding-left:calc(16 * var(--u)); padding-right:calc(16 * var(--u)); border-left:calc(1 * var(--u)) solid #e8eaf9; font-size:calc(14 * var(--u)); line-height:calc(20 * var(--u)); font-weight:700; color:#595a5b; }
+
+  /* footprint card */
+  .pu-card { display:flex; flex-direction:column; gap:calc(24 * var(--u)); width:calc(353 * var(--u)); padding:calc(24 * var(--u)) calc(20 * var(--u)); background:#fff; border-radius:calc(24 * var(--u)); box-shadow:0 calc(4 * var(--u)) calc(14 * var(--u)) rgba(0,0,0,.04), 0 calc(2 * var(--u)) calc(7 * var(--u)) rgba(0,0,0,.05); }
+  .pu-card-row { display:flex; gap:calc(16 * var(--u)); }
+  .pu-bar { flex:0 0 auto; width:calc(4 * var(--u)); border-radius:9999px; background-image:linear-gradient(#1e3cb5,#6366f1); }
+  .pu-card-main { flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:calc(16 * var(--u)); }
+  .pu-card-top { display:flex; align-items:center; justify-content:space-between; height:calc(23 * var(--u)); }
+  .pu-card-t { font-size:calc(14 * var(--u)); line-height:calc(20 * var(--u)); font-weight:700; }
+  .pu-est { padding:calc(4 * var(--u)) calc(8 * var(--u)); border:calc(1 * var(--u)) solid #2a46c1; border-radius:9999px; font-size:calc(10 * var(--u)); line-height:calc(13.5 * var(--u)); font-weight:600; letter-spacing:calc(.797 * var(--u)); }
+  .pu-fig { display:flex; align-items:baseline; gap:calc(4 * var(--u)); height:calc(28 * var(--u)); }
+  .pu-num { height:calc(28 * var(--u)); overflow:hidden; font-size:calc(20 * var(--u)); font-weight:800; color:#1a1b1c; }
+  .pu-num span { display:block; height:calc(28 * var(--u)); line-height:calc(28 * var(--u)); }
+  .pu-strip { display:block; transform:translateY(calc(-140 * var(--u))); }
+  .pu-unit { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); color:#595a5b; }
+  .pu-rule { height:calc(1 * var(--u)); background:#e8eaf9; }
+  .pu-save { position:absolute; left:50%; top:calc(755 * var(--u)); transform:translateX(-50%); display:grid; place-items:center; width:calc(353 * var(--u)); height:calc(49 * var(--u)); border-radius:calc(16 * var(--u)); background-image:linear-gradient(171.31deg,#2a46c1 0%,#6366f1 93.99%); font-size:calc(16 * var(--u)); line-height:calc(24 * var(--u)); font-weight:700; color:#fff; }
+
+  /* tag + matched-from line on the detail screen */
+  .pu-tag { align-self:flex-start; display:flex; align-items:center; gap:calc(4 * var(--u)); height:calc(20.5 * var(--u)); padding:calc(5 * var(--u)) calc(9 * var(--u)); border:calc(1 * var(--u)) solid #ee861e; border-radius:calc(20 * var(--u)); font-size:calc(10 * var(--u)); line-height:calc(16.5 * var(--u)); font-weight:600; letter-spacing:calc(.0645 * var(--u)); color:#ee861e; }
+  .pu-tag img { width:calc(11 * var(--u)); height:calc(11 * var(--u)); }
+
+  /* methodology sheet */
+  .pu-scrim { position:absolute; inset:0; background:rgba(26,27,28,.45); opacity:0; transition:opacity .42s ease; }
+  .pu-sheet { position:absolute; left:0; right:0; top:calc(178 * var(--u)); bottom:0; display:flex; flex-direction:column; align-items:center; gap:calc(24 * var(--u)); padding:calc(24 * var(--u)) calc(20 * var(--u)); background:#fff; border-radius:calc(16 * var(--u)) calc(16 * var(--u)) 0 0; box-shadow:0 calc(8 * var(--u)) calc(40 * var(--u)) rgba(84,105,212,.18); transform:translateY(101%); transition:transform .6s cubic-bezier(.22,1,.36,1); }
+  .pu-sheet-top { display:flex; align-items:center; justify-content:space-between; width:calc(353 * var(--u)); height:calc(44 * var(--u)); }
+  .pu-sheet-top img.pu-x { width:calc(26 * var(--u)); height:calc(26 * var(--u)); }
+  .pu-sheet-h { font-size:calc(20 * var(--u)); line-height:calc(30 * var(--u)); font-weight:700; }
+  .pu-sheet-p { font-family:Inter,system-ui,-apple-system,sans-serif; font-size:calc(13 * var(--u)); line-height:calc(21.125 * var(--u)); color:#6b7280; }
+  .pu-rows { display:flex; flex-direction:column; gap:calc(16 * var(--u)); width:calc(353 * var(--u)); }
+  .pu-row { display:flex; flex-direction:column; gap:calc(3 * var(--u)); height:calc(43 * var(--u)); border-radius:calc(6 * var(--u)); }
+  .pu-row dt { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); font-weight:400; color:#595a5b; }
+  .pu-row dd { margin:0; font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); font-weight:500; color:#1a1b1c; }
+
+  /* ---- the early, rejected version -------------------------------------- */
+  .pu-cat { display:flex; align-items:center; gap:calc(16 * var(--u)); padding:calc(16 * var(--u)); background:#fff; border-radius:calc(16 * var(--u)); box-shadow:0 calc(4 * var(--u)) calc(7 * var(--u)) rgba(0,0,0,.04), 0 calc(2 * var(--u)) calc(3.5 * var(--u)) rgba(0,0,0,.05); transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease; }
+  .pu-cat-txt { flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:calc(2 * var(--u)); }
+  .pu-cat-t { font-size:calc(16 * var(--u)); line-height:calc(24 * var(--u)); font-weight:700; }
+  .pu-cat-s { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); color:#595a5b; }
+  .pu-chev { flex:0 0 auto; width:calc(18 * var(--u)); height:calc(18 * var(--u)); transform:rotate(-90deg); }
+  .pu-chip--lg { padding:calc(16 * var(--u)); height:calc(46 * var(--u)); font-size:calc(14 * var(--u)); }
+  .pu-chip--lg img { width:calc(16 * var(--u)); height:calc(16 * var(--u)); }
+  .pu-chips--wrap { gap:calc(12 * var(--u)) calc(8 * var(--u)); }
+  .pu-dates { display:flex; gap:calc(8 * var(--u)); }
+  .pu-dates .pu-chip { flex:1 1 0; justify-content:center; height:calc(46 * var(--u)); font-size:calc(14 * var(--u)); }
+  .pu-usage { display:flex; align-items:center; height:calc(59.5 * var(--u)); background:#fff; border-radius:calc(16 * var(--u)); overflow:hidden; box-shadow:0 calc(4 * var(--u)) calc(14 * var(--u)) rgba(0,0,0,.04), 0 calc(2 * var(--u)) calc(7 * var(--u)) rgba(0,0,0,.05); }
+  .pu-usage-f { flex:1 1 0; min-width:0; display:flex; align-items:center; gap:calc(2 * var(--u)); padding:calc(16 * var(--u)); font-size:calc(18 * var(--u)); line-height:calc(28 * var(--u)); font-weight:700; color:#595a5b; }
+  .pu-usage .pu-caret { height:calc(24 * var(--u)); }
+  .pu-foot { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); color:#595a5b; border-radius:calc(6 * var(--u)); }
+
+  /* ===== the two animated figures ======================================
+     Same engine both times: a phone that plays the flow, captions beside
+     it that light up in step and double as controls. */
+  .cs-demo, .cs-demo *, .cs-demo *::before, .cs-demo *::after { box-sizing:border-box; }
+  .cs-demo { display:grid; grid-template-columns:minmax(0,346px) minmax(0,1fr); gap:clamp(30px,4.5vw,72px); align-items:center; }
+  @media (max-width:860px) { .cs-demo { grid-template-columns:minmax(0,1fr); gap:clamp(30px,5vw,44px); } }
+  @media (max-width:620px) { .cs-demo .pu-stage { max-width:272px; } }
+
+  .cs-demo .pu-screen { opacity:0; transform:translateX(3%); transition:opacity .36s ease, transform .5s cubic-bezier(.22,1,.36,1); }
+  .cs-demo .pu-screen.is-past { transform:translateX(-3%); }
+  .cs-demo .pu-screen.is-on { opacity:1; transform:none; }
+  .cs-demo:not(.is-ready) .pu-screen:first-of-type { opacity:1; transform:none; }
+  .cs-demo[data-act="3"] .pu-scrim { opacity:1; }
+  .cs-demo[data-act="3"] .pu-sheet { transform:none; }
+
+  .cs-demo-steps { list-style:none; margin:0; padding:0; }
+  .cs-demo-step { display:grid; grid-template-columns:1.6rem minmax(0,1fr); column-gap:1rem; width:100%; padding:0 0 clamp(20px,2.4vw,28px); border:0; background:none; text-align:left; font:inherit; color:inherit; cursor:pointer; -webkit-appearance:none; appearance:none; }
+  .cs-demo-steps li:last-child .cs-demo-step { padding-bottom:0; }
+  .cs-demo-rail { display:flex; flex-direction:column; align-items:center; }
+  .cs-demo-dot { flex:0 0 auto; width:14px; height:14px; margin-top:6px; border-radius:9999px; background:var(--c); box-shadow:0 0 0 6px #fff7e8; transition:transform .4s cubic-bezier(.22,1,.36,1), background-color .4s ease; }
+  .cs-demo-line { flex:1 1 auto; width:2px; min-height:12px; margin-top:6px; border-radius:2px; background:rgba(28,24,51,.13); overflow:hidden; }
+  .cs-demo-steps li:last-child .cs-demo-line { display:none; }
+  .cs-demo-fill { display:block; width:100%; height:100%; background:var(--c); transition:height .4s linear; }
+  .cs-demo-t { display:block; color:#1c1833; margin:0 !important; line-height:1.2; }
+  .cs-demo-b { display:block; color:#4d476a; margin:9px 0 0 !important; line-height:1.55; max-width:44ch; }
+  .cs-demo-txt { transition:opacity .4s ease; }
+  .cs-demo.is-ready .cs-demo-step:not(.is-on) .cs-demo-txt { opacity:.4; }
+  .cs-demo.is-ready .cs-demo-step:not(.is-on):not(.is-done) .cs-demo-dot { background:rgba(28,24,51,.2); transform:scale(.72); }
+  .cs-demo.is-ready .cs-demo-step.is-done .cs-demo-dot { transform:scale(.82); }
+  .cs-demo-step:focus-visible { outline:2px solid #8f74ff; outline-offset:6px; border-radius:8px; }
+  .cs-demo-hint { font-size:12px; letter-spacing:.09em; text-transform:uppercase; color:#4d476a; opacity:.7; margin:clamp(20px,2.4vw,28px) 0 0 !important; padding-left:2.6rem; }
+  .cs-demo:not(.is-ready) .cs-demo-hint { display:none; }
+
+  @keyframes pu-blink { 0%,49% { opacity:1 } 50%,100% { opacity:0 } }
+  @keyframes pu-rise { from { opacity:0; transform:translateY(calc(11 * var(--u))) } }
+  @keyframes pu-pick { 0% { border-color:transparent } 55% { transform:scale(1.06) } }
+  @keyframes pu-pop { from { opacity:0; transform:scale(.78) } }
+  @keyframes pu-glow { 0%,100% { box-shadow:none } 45% { box-shadow:0 0 0 calc(3 * var(--u)) rgba(84,105,212,.28) } }
+  @keyframes pu-count { 0% { transform:translateY(0) } 18% { transform:translateY(calc(-28 * var(--u))) } 36% { transform:translateY(calc(-56 * var(--u))) } 54% { transform:translateY(calc(-84 * var(--u))) } 76% { transform:translateY(calc(-112 * var(--u))) } }
+  @keyframes pu-mark { 0%,100% { background-color:transparent } 30%,62% { background-color:rgba(84,105,212,.1) } }
+  @keyframes pu-tap { 0%,100% { transform:none } 40% { transform:scale(.975) } 70% { box-shadow:0 0 0 calc(3 * var(--u)) rgba(238,134,30,.32), 0 calc(4 * var(--u)) calc(7 * var(--u)) rgba(0,0,0,.04) } }
+  /* explicit `to`: the callouts rest at opacity 0, so an implicit end
+     keyframe would fade them straight back out again. */
+  @keyframes pu-warn { from { opacity:0; transform:translateY(calc(6 * var(--u))) } to { opacity:1; transform:none } }
+  @keyframes pu-nudge { 0%,100% { box-shadow:0 calc(4 * var(--u)) calc(14 * var(--u)) rgba(0,0,0,.04), 0 calc(2 * var(--u)) calc(7 * var(--u)) rgba(0,0,0,.05) } 50% { box-shadow:0 0 0 calc(2 * var(--u)) rgba(255,128,110,.55), 0 calc(4 * var(--u)) calc(14 * var(--u)) rgba(0,0,0,.04) } }
+
+  /* act beats — "as built" */
+  #cs-log[data-act="1"] .pu-lbl-match { animation:pu-rise .5s cubic-bezier(.22,1,.36,1) 2.3s both; }
+  #cs-log[data-act="1"] .pu-opt { animation:pu-rise .55s cubic-bezier(.22,1,.36,1) 2.45s both, pu-glow 1.3s ease-in-out 3.6s 1; }
+  #cs-log[data-act="1"] .pu-learn-match { animation:pu-rise .5s cubic-bezier(.22,1,.36,1) 2.95s both; }
+  #cs-log[data-act="2"] .pu-pick-1 { animation:pu-pick .5s cubic-bezier(.22,1,.36,1) .95s both; }
+  #cs-log[data-act="2"] .pu-pick-2 { animation:pu-pick .5s cubic-bezier(.22,1,.36,1) 1.65s both; }
+  #cs-log[data-act="2"] .pu-card { animation:pu-rise .55s cubic-bezier(.22,1,.36,1) 2.25s both; }
+  #cs-log[data-act="2"] .pu-strip { animation:pu-count 1.15s steps(1,end) 2.7s both; }
+  #cs-log[data-act="2"] .pu-est { animation:pu-pop .45s cubic-bezier(.22,1,.36,1) 3.75s both; }
+  #cs-log[data-act="3"] .pu-row { animation:pu-rise .45s cubic-bezier(.22,1,.36,1) both; animation-delay:calc(.72s + var(--i) * .12s); }
+  #cs-log[data-act="3"] .pu-row--calc { animation:pu-rise .45s cubic-bezier(.22,1,.36,1) calc(.72s + var(--i) * .12s) both, pu-mark 1.6s ease-in-out 1.9s 1; }
+  #cs-log[data-act="3"] .pu-sheet .pu-learn { animation:pu-rise .45s cubic-bezier(.22,1,.36,1) 1.55s both; }
+
+  /* act beats — the early version */
+  #cs-early[data-act="1"] .pu-cat--energy { animation:pu-tap 1s cubic-bezier(.22,1,.36,1) 2.4s 1; }
+  #cs-early[data-act="2"] .pu-pick-1 { animation:pu-pick .5s cubic-bezier(.22,1,.36,1) .9s both; }
+  #cs-early .pu-usage { transition:box-shadow .35s ease; }
+  #cs-early[data-act="2"] .pu-usage { animation:pu-nudge 2.4s ease-in-out 1.4s infinite; }
+  #cs-early .pu-guess { position:absolute; left:calc(20 * var(--u)); top:calc(406 * var(--u)); max-width:calc(313 * var(--u)); display:flex; align-items:center; gap:calc(6 * var(--u)); padding:calc(8 * var(--u)) calc(12 * var(--u)); border-radius:calc(12 * var(--u)); background:#1c1833; color:#fff7e8; font-size:calc(12 * var(--u)); line-height:calc(16 * var(--u)); font-weight:600; box-shadow:0 calc(8 * var(--u)) calc(20 * var(--u)) rgba(28,24,51,.28); opacity:0; }
+  #cs-early .pu-guess::before { content:""; position:absolute; left:calc(28 * var(--u)); top:calc(-5 * var(--u)); width:calc(10 * var(--u)); height:calc(10 * var(--u)); background:#1c1833; transform:rotate(45deg); }
+  #cs-early[data-act="2"] .pu-guess--q { animation:pu-warn .45s cubic-bezier(.22,1,.36,1) 4.4s both; }
+  #cs-early[data-act="3"] .pu-guess--a { animation:pu-warn .45s cubic-bezier(.22,1,.36,1) .5s both; }
+  #cs-early[data-act="3"] .pu-usage { box-shadow:0 0 0 calc(2 * var(--u)) rgba(255,128,110,.7), 0 calc(4 * var(--u)) calc(14 * var(--u)) rgba(0,0,0,.04); }
+  #cs-early[data-act="3"] .pu-foot { animation:pu-mark 1.8s ease-in-out 1.2s 1; }
+  #cs-early[data-act="3"] .pu-save { animation:pu-glow 1.4s ease-in-out 2.2s 1; }
+
+  @media (prefers-reduced-motion:reduce) {
+    .cs-demo .pu-screen, .pu-sheet, .pu-scrim, .cs-demo-fill, .cs-demo-dot, .cs-demo-txt, .pu-cat, .pu-usage { transition:none !important; }
+  }
 </style>
 <style>
   body { margin:0; background:#fff7e8; font-family:"DM Sans", system-ui, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing:antialiased; }
@@ -695,6 +914,7 @@
     .cs-journey-hero:not(.is-live):hover { transform: translateY(-2px); }
   }
   @media (prefers-reduced-motion: reduce) { .cs-journey-pill::after { display: none; } }
+
 
 </style>
 </head>
@@ -1572,35 +1792,265 @@
           <p class="cs-tradeoff-sub type-body">Balancing input friction against calculation precision and AI boundaries.</p>
         </div>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(24px,3vw,32px) 0 0;text-wrap:pretty">One design review exposed a significant usability risk in the activity log. An early version asked for technical consumption inputs — exact kilowatt-hours, fuel burn rates, specific grid emission factors. Almost no everyday user knows these numbers precisely, and forcing them to guess introduced fatal onboarding friction.</p>
-        <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I explored free-text logging instead (“boiled water with an electric kettle”), with the system inferring the rest, but engineering determined that reliably translating open text into every input Climatiq needed wasn't feasible in our timeline. More critically, it threatened our AI rule: letting an LLM estimate emissions would make it authoritative rather than interpretive.</p>
+      </div>
+      <figure style="margin:clamp(32px,4vw,48px) 0 0">
+        <div class="cs-demo" id="cs-early" data-act="1">
+          <div class="pu-stage">
+            <div class="pu-phone" role="img" aria-label="The rejected early version: a Log screen offering only two categories, Transport and Home Energy; choosing Home Energy opens a form asking for an energy source and a Usage figure in kilowatt-hours, with the note that emissions will be estimated from a baseline profile the person never sees.">
+
+              <div class="pu-screen" data-acts="1">
+                <div class="pu-hdr">
+                  <span class="pu-hdr-col">
+                    <span class="pu-eyebrow">ADD ACTIVTIES</span>
+                    <span class="pu-h5">What would you like to log?</span>
+                  </span>
+                  <img class="pu-logo" src="assets/ui/logo.png" alt="">
+                </div>
+                <div class="pu-col">
+                  <div class="pu-cat">
+                    <span class="pu-ico pu-ico--teal"><img src="assets/ui/cat-transport.svg" alt=""></span>
+                    <span class="pu-cat-txt">
+                      <span class="pu-cat-t">Transport</span>
+                      <span class="pu-cat-s">Log trips or mobility choices</span>
+                    </span>
+                    <img class="pu-chev" src="assets/ui/chevron.svg" alt="">
+                  </div>
+                  <div class="pu-cat pu-cat--energy">
+                    <span class="pu-ico"><img src="assets/ui/cat-home-energy.svg" alt=""></span>
+                    <span class="pu-cat-txt">
+                      <span class="pu-cat-t">Home Energy</span>
+                      <span class="pu-cat-s">Record heating, cooling or usage changes</span>
+                    </span>
+                    <img class="pu-chev" src="assets/ui/chevron.svg" alt="">
+                  </div>
+                </div>
+        <div class="pu-nav">
+          <span class="pu-tab"><img src="assets/ui/tab-dashboard.svg" alt=""><span>Dashboard</span></span>
+          <span class="pu-tab"><img src="assets/ui/tab-activities.svg" alt=""><span>Activities</span></span>
+          <span class="pu-fab-slot"><span class="pu-fab"><img src="assets/ui/plus.svg" alt=""></span></span>
+          <span class="pu-tab"><img src="assets/ui/tab-projects.svg" alt=""><span>Projects</span></span>
+          <span class="pu-tab"><img src="assets/ui/tab-profile.svg" alt=""><span>Profile</span></span>
+        </div>
+              </div>
+
+              <div class="pu-screen" data-acts="2 3">
+                <div class="pu-hdr">
+                  <span class="pu-hdr-col">
+                    <span class="pu-eyebrow">ADD ACTIVTIES</span>
+                    <span class="pu-h5 pu-h5--l">Log Home Energy</span>
+                  </span>
+                  <span class="pu-round"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg></span>
+                </div>
+                <div class="pu-col">
+                  <span class="pu-label">Energy source</span>
+                  <div class="pu-chips pu-chips--wrap">
+                    <span class="pu-chip pu-chip--lg is-sel pu-pick-1"><img src="assets/ui/src-electricity.svg" alt=""><span>Electricity</span></span>
+                    <span class="pu-chip pu-chip--lg"><img src="assets/ui/src-renewable.svg" alt=""><span>Renewable Energy</span></span>
+                    <span class="pu-chip pu-chip--lg"><img src="assets/ui/src-gas.svg" alt=""><span>Gas</span></span>
+                    <span class="pu-chip pu-chip--lg"><img src="assets/ui/src-oil.svg" alt=""><span>Heating Oil</span></span>
+                    <span class="pu-chip pu-chip--lg"><img src="assets/ui/src-other.svg" alt=""><span>Other</span></span>
+                  </div>
+                </div>
+                <div class="pu-col">
+                  <span class="pu-label">Usage</span>
+                  <div class="pu-usage">
+                    <span class="pu-usage-f"><span class="pu-usage-val">2</span><span class="pu-caret"></span></span>
+                    <span class="pu-input-u">kWh</span>
+                  </div>
+                </div>
+                <div class="pu-col">
+                  <span class="pu-label">Date</span>
+                  <div class="pu-dates">
+                    <span class="pu-chip is-sel"><span>Today</span></span>
+                    <span class="pu-chip"><span>Yesterday</span></span>
+                    <span class="pu-chip"><span>Other</span></span>
+                  </div>
+                </div>
+                <span class="pu-col pu-foot">Emissions will be estimated based on your baseline profile.</span>
+                <span class="pu-guess pu-guess--q">How many kWh is one kettle boil?</span>
+                <span class="pu-guess pu-guess--a">2 kWh — a guess, accepted without comment.</span>
+                <span class="pu-save">Save</span>
+              </div>
+
+            </div>
+          </div>
+
+          <div>
+            <span class="type-label" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#ffe1d6;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">Early version</span>
+            <p class="type-body" style="line-height:1.6;color:#4d476a;margin:16px 0 clamp(24px,3vw,32px);max-width:44ch">Caught in design review before it went into development. The fields looked simple, but “Usage” still assumed a kWh figure almost nobody has memorized — the same problem in a friendlier shape.</p>
+            <ol class="cs-demo-steps">
+              <li><button type="button" class="cs-demo-step" style="--c:#ff806e" aria-pressed="true">
+                <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
+                <span class="cs-demo-txt">
+                  <span class="type-body cs-demo-t" style="font-weight:600">A category, not an activity</span>
+                  <span class="type-body cs-demo-b" style="margin-top:5px !important">Transport or Home Energy — the system's own taxonomy, before the person has said anything.</span>
+                </span>
+              </button></li>
+              <li><button type="button" class="cs-demo-step" style="--c:#ff806e" aria-pressed="false">
+                <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
+                <span class="cs-demo-txt">
+                  <span class="type-body cs-demo-t" style="font-weight:600">Then a number nobody has</span>
+                  <span class="type-body cs-demo-b" style="margin-top:5px !important">Usage, in kilowatt-hours. There is no way to answer it honestly without going to look it up.</span>
+                </span>
+              </button></li>
+              <li><button type="button" class="cs-demo-step" style="--c:#ff806e" aria-pressed="false">
+                <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
+                <span class="cs-demo-txt">
+                  <span class="type-body cs-demo-t" style="font-weight:600">And the guess is taken at face value</span>
+                  <span class="type-body cs-demo-b" style="margin-top:5px !important">No estimate on screen, no working, no baseline to inspect — nothing separates a good number from a bad one.</span>
+                </span>
+              </button></li>
+            </ol>
+            <p class="type-label-mono cs-demo-hint">Pick a step to jump to it</p>
+          </div>
+        </div>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:clamp(24px,3vw,32px);text-align:center">The version we rejected: two taps to a question the user can't answer.</figcaption>
+      </figure>
+      <div style="max-width:1232px">
+        <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:clamp(24px,3vw,32px) 0 0;text-wrap:pretty">I explored free-text logging instead (“boiled water with an electric kettle”), with the system inferring the rest, but engineering determined that reliably translating open text into every input Climatiq needed wasn't feasible in our timeline. More critically, it threatened our AI rule: letting an LLM estimate emissions would make it authoritative rather than interpretive.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">We landed on a middle path: a searchable catalogue of familiar activities, OpenAI to help match a description to one, and the user entering only the single quantity they'd actually know — frequency, duration, distance. Climatiq calculated the estimate from there, shown as <em>Estimated</em> with its methodology attached. Less flexible than free text, but honest about its own certainty, and buildable in the time we had.</p>
       </div>
       <figure style="margin:clamp(40px,5vw,64px) 0 0">
-        <div style="display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between;padding-bottom:22px;border-bottom:1px solid rgba(28,24,51,.13)">
-          <p class="type-eyebrow" style="color:#4d476a;margin:0">Activity log, as built</p>
-          <p class="type-label-mono" style="color:#8f74ff;margin:0">people enter only what they can know</p>
+        <div class="cs-demo" id="cs-log" data-act="1">
+          <div class="pu-stage">
+            <div class="pu-phone" role="img" aria-label="The Persustain add-activity flow: searching “boiled kettle” returns the catalogue activity “Boiling an electric kettle”, the person enters 3 boils for today, a Calculated Footprint of 0.09 kg CO2e appears labelled Estimated, and a methodology sheet shows 3 × 0.031 = 0.09 kg CO2e calculated by Climatiq.">
+
+              <div class="pu-screen" data-acts="1">
+                <div class="pu-hdr">
+                  <span class="pu-hdr-col">
+                    <span class="pu-eyebrow">ADD ACTIVTIES</span>
+                    <span class="pu-h5">What did you do?</span>
+                  </span>
+                  <img class="pu-logo" src="assets/ui/logo.png" alt="">
+                </div>
+                <div class="pu-search">
+                  <img src="assets/ui/search.svg" alt="">
+                  <span class="pu-q"><span class="pu-q-t">boiled kettle</span><span class="pu-caret"></span></span>
+                  <span class="pu-clear">Clear</span>
+                </div>
+                <div class="pu-col">
+                  <span class="pu-label pu-lbl-match">Suggested match</span>
+                  <div class="pu-opt">
+                    <span class="pu-ico"><img src="assets/ui/bolt.svg" alt=""></span>
+                    <span class="pu-opt-txt">
+                      <span class="pu-opt-t">Boiling an electric kettle</span>
+                      <span class="pu-opt-s">Home energy</span>
+                    </span>
+                    <span class="pu-radio"></span>
+                  </div>
+                  <span class="pu-learn pu-learn-match"><img src="assets/ui/help-circle.svg" alt=""><span class="pu-grad">AI matched your words to a catalogue activity.</span></span>
+                </div>
+        <div class="pu-nav">
+          <span class="pu-tab"><img src="assets/ui/tab-dashboard.svg" alt=""><span>Dashboard</span></span>
+          <span class="pu-tab"><img src="assets/ui/tab-activities.svg" alt=""><span>Activities</span></span>
+          <span class="pu-fab-slot"><span class="pu-fab"><img src="assets/ui/plus.svg" alt=""></span></span>
+          <span class="pu-tab"><img src="assets/ui/tab-projects.svg" alt=""><span>Projects</span></span>
+          <span class="pu-tab"><img src="assets/ui/tab-profile.svg" alt=""><span>Profile</span></span>
         </div>
-        <div style="position:relative;margin-top:30px">
-          <div aria-hidden="true" style="position:absolute;top:8px;left:26px;right:26px;height:2px;background:linear-gradient(90deg,#69debe,#7cd2f2 50%,#8f74ff)"></div>
-          <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:clamp(20px,3vw,44px)">
-            <div style="display:flex;flex-direction:column">
-              <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#69debe;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
-              <p class="fluid-card-title" style="line-height:1.2;color:#1c1833;margin:22px 0 0">Choose a known activity</p>
-              <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">A searchable catalogue of familiar activities, instead of technical consumption values.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
+              </div>
+
+              <div class="pu-screen" data-acts="2 3">
+                <div class="pu-hdr pu-hdr--tall">
+                  <span class="pu-hdr-row"><span class="pu-round"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5 4.5 8l5.5 5.5"/></svg></span><img class="pu-logo" src="assets/ui/logo.png" alt=""></span>
+                  <span class="pu-h4">Boiling an electric kettle</span>
+                  <span class="pu-tag"><img src="assets/ui/tag-bolt.svg" alt="">Home energy</span>
+                  <span class="pu-learn pu-learn--start"><img src="assets/ui/sparkles.svg" alt=""><span class="pu-grad">Matched from “boiled the kettle twice”</span></span>
+                </div>
+                <div class="pu-col">
+                  <span class="pu-label">How many times</span>
+                  <div class="pu-chips">
+                    <span class="pu-chip"><span>1 boils</span></span>
+                    <span class="pu-chip"><span>2 boils</span></span>
+                    <span class="pu-chip is-sel pu-pick-1"><span>3 boils</span></span>
+                    <span class="pu-chip"><span>Not sure</span></span>
+                  </div>
+                  <div class="pu-input">
+                    <span class="pu-input-f">or add the number of times manually</span>
+                    <span class="pu-input-u">boils</span>
+                  </div>
+                </div>
+                <div class="pu-col">
+                  <span class="pu-label">When</span>
+                  <div class="pu-chips">
+                    <span class="pu-chip is-sel pu-pick-2"><span>Today</span></span>
+                    <span class="pu-chip"><span>Yesterday</span></span>
+                    <span class="pu-chip"><img src="assets/ui/calendar.svg" alt=""><span>Calendar</span></span>
+                  </div>
+                </div>
+                <div class="pu-card">
+                  <div class="pu-card-row">
+                    <span class="pu-bar"></span>
+                    <span class="pu-card-main">
+                      <span class="pu-card-top">
+                        <span class="pu-card-t">Calculated Footprint</span>
+                        <span class="pu-est pu-grad">ESTIMATED</span>
+                      </span>
+                      <span class="pu-fig">
+                        <span class="pu-num"><span class="pu-strip"><span>0.00</span><span>0.02</span><span>0.04</span><span>0.06</span><span>0.08</span><span>0.09</span></span></span>
+                        <span class="pu-unit">kg CO<sub>2</sub>e</span>
+                      </span>
+                    </span>
+                  </div>
+                  <span class="pu-card-foot">
+                    <span class="pu-rule"></span>
+                    <span class="pu-learn"><img src="assets/ui/help-circle.svg" alt=""><span class="pu-grad">How this number is calculated?</span></span>
+                  </span>
+                </div>
+                <span class="pu-save">Save</span>
+              </div>
+
+              <div class="pu-scrim"></div>
+              <div class="pu-sheet">
+                <span class="pu-sheet-top">
+                  <span class="pu-ico"><img src="assets/ui/bolt.svg" alt=""></span>
+                  <img class="pu-x" src="assets/ui/close.svg" alt="">
+                </span>
+                <span class="pu-col">
+                  <span class="pu-sheet-h">How this number is calculated?</span>
+                  <span class="pu-sheet-p">An estimate, not a measurement. It comes from a published emission factor applied to the one quantity you entered.</span>
+                </span>
+                <dl class="pu-rows">
+                  <div class="pu-row" style="--i:0"><dt>Activity</dt><dd>Boiling an electric kettle</dd></div>
+                  <span class="pu-rule"></span>
+                  <div class="pu-row" style="--i:1"><dt>Your input</dt><dd>3 boils</dd></div>
+                  <span class="pu-rule"></span>
+                  <div class="pu-row" style="--i:2"><dt>Emission factor</dt><dd>0.031 kg CO<sub>2</sub>e per boil</dd></div>
+                  <span class="pu-rule"></span>
+                  <div class="pu-row pu-row--calc" style="--i:3"><dt>Calculation</dt><dd>3 &#215; 0.031 = 0.09 kg CO<sub>2</sub>e</dd></div>
+                  <span class="pu-rule"></span>
+                  <div class="pu-row" style="--i:4"><dt>Calculated by</dt><dd>Climatiq</dd></div>
+                </dl>
+                <span class="pu-learn pu-learn--start" style="width:calc(353 * var(--u))"><img src="assets/ui/help-circle.svg" alt=""><span class="pu-grad">AI is only used to match your description to a catalogue activity. It never produces the emissions figure.</span></span>
+              </div>
+
             </div>
-            <div style="display:flex;flex-direction:column">
-              <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#7cd2f2;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
-              <p class="fluid-card-title" style="line-height:1.2;color:#1c1833;margin:22px 0 0">Enter only what you know</p>
-              <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">Frequency, duration, distance or amount — nothing a person would have to look up.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-            </div>
-            <div style="display:flex;flex-direction:column">
-              <div aria-hidden="true" style="width:16px;height:16px;margin:0 0 0 18px;border-radius:9999px;background:#8f74ff;box-shadow:0 0 0 7px #fff7e8;position:relative;z-index:1"></div>
-              <p class="fluid-card-title" style="line-height:1.2;color:#1c1833;margin:22px 0 0">See how the number was made</p>
-              <p class="type-body" style="line-height:1.55;color:#4d476a;margin:10px 0 0">The result is presented as Estimated, with methodology and assumptions available.</p>
-              <div style="width:100%;aspect-ratio:1/0.93;border-radius:28px;box-shadow:6px 6px 22px rgba(28,24,51,.06);background:linear-gradient(135deg,#f0e9ff,#e6f6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="#8f74ff" stroke-width="1.5"/><path d="M10 8.3v7.4l6.2-3.7L10 8.3z" fill="#8f74ff"/></svg><span class="type-eyebrow" style="color:#4d476a;text-align:center;padding:0 14px">Video placeholder</span></div>
-            </div>
+          </div>
+
+          <div>
+            <ol class="cs-demo-steps">
+              <li><button type="button" class="cs-demo-step" style="--c:#69debe" aria-pressed="true">
+                <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
+                <span class="cs-demo-txt">
+                  <span class="fluid-card-title cs-demo-t">Choose a known activity</span>
+                  <span class="type-body cs-demo-b">A searchable catalogue of familiar activities, instead of technical consumption values.</span>
+                </span>
+              </button></li>
+              <li><button type="button" class="cs-demo-step" style="--c:#7cd2f2" aria-pressed="false">
+                <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
+                <span class="cs-demo-txt">
+                  <span class="fluid-card-title cs-demo-t">Enter only what you know</span>
+                  <span class="type-body cs-demo-b">Frequency, duration, distance or amount — nothing a person would have to look up.</span>
+                </span>
+              </button></li>
+              <li><button type="button" class="cs-demo-step" style="--c:#8f74ff" aria-pressed="false">
+                <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
+                <span class="cs-demo-txt">
+                  <span class="fluid-card-title cs-demo-t">See how the number was made</span>
+                  <span class="type-body cs-demo-b">The result is presented as Estimated, with methodology and assumptions available.</span>
+                </span>
+              </button></li>
+            </ol>
+            <p class="type-label-mono cs-demo-hint">Pick a step to jump to it</p>
           </div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-top:clamp(28px,3.5vw,44px);padding-top:26px;border-top:1px solid rgba(28,24,51,.13)">
@@ -2180,6 +2630,136 @@
       openJourney(hero, false);
     }
   }
+})();
+</script>
+<script>
+// The two activity-log figures. Beats live in CSS, keyed off data-act; this
+// only advances the act, runs the typing, and pauses while off screen.
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function mount(id, dur, enter) {
+    var root = document.getElementById(id);
+    if (!root) return;
+
+    var steps = [].slice.call(root.querySelectorAll('.cs-demo-step'));
+    var screens = [].slice.call(root.querySelectorAll('.pu-screen'));
+    var act = 1, playing = false, timer = null, jobs = [];
+
+    root.classList.add('is-ready');
+
+    function clearJobs() { jobs.forEach(clearTimeout); jobs = []; }
+    function at(ms, fn) { jobs.push(setTimeout(fn, ms)); }
+
+    // Types `text` into el one character at a time; `speed` < 0 deletes.
+    function type(el, text, speed, done) {
+      var i = speed < 0 ? text.length : 0, step = speed < 0 ? -1 : 1, ms = Math.abs(speed);
+      (function next() {
+        el.textContent = text.slice(0, i);
+        if (i === (step > 0 ? text.length : 0)) { if (done) at(0, done); return; }
+        i += step;
+        at(ms, next);
+      })();
+    }
+
+    function paint() {
+      clearJobs();
+      root.classList.remove('is-typing');
+      // Re-set rather than assign: an unchanged attribute would leave the
+      // act's CSS beats sitting at their end state while the typing restarts.
+      root.removeAttribute('data-act');
+      void root.offsetWidth;
+      root.setAttribute('data-act', String(act));
+
+      screens.forEach(function (s) {
+        var acts = s.getAttribute('data-acts').split(' ').map(Number);
+        s.classList.toggle('is-on', acts.indexOf(act) > -1);
+        s.classList.toggle('is-past', acts[acts.length - 1] < act);
+      });
+
+      steps.forEach(function (step, i) {
+        var n = i + 1;
+        step.classList.toggle('is-on', n === act);
+        step.classList.toggle('is-done', n < act);
+        step.setAttribute('aria-pressed', n === act ? 'true' : 'false');
+        var bar = step.querySelector('.cs-demo-fill');
+        if (!bar) return;
+        var live = playing && !reduce.matches;
+        if (n !== act) { bar.style.transitionDuration = '350ms'; bar.style.height = n < act ? '100%' : '0%'; return; }
+        // The active step's rail doubles as a progress bar for the act.
+        bar.style.transitionDuration = '0ms';
+        bar.style.height = '0%';
+        void bar.offsetHeight;
+        bar.style.transitionDuration = (live ? dur[i] : 350) + 'ms';
+        bar.style.height = '100%';
+      });
+
+      enter(root, act, { at: at, type: type, live: playing && !reduce.matches });
+    }
+
+    function schedule() {
+      clearTimeout(timer);
+      if (!playing || reduce.matches) return;
+      timer = setTimeout(function () { act = act % steps.length + 1; paint(); schedule(); }, dur[act - 1]);
+    }
+
+    steps.forEach(function (step, i) {
+      step.addEventListener('click', function () { act = i + 1; paint(); schedule(); });
+    });
+
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting === playing) return;
+          playing = entry.isIntersecting;
+          if (playing) { paint(); schedule(); }
+          else { clearTimeout(timer); clearJobs(); }
+        });
+      }, { threshold: 0.3 }).observe(root);
+    } else {
+      playing = true;
+    }
+
+    paint();
+    schedule();
+  }
+
+  mount('cs-log', [6300, 6400, 7000], function (root, act, ctx) {
+    var q = root.querySelector('.pu-q-t');
+    if (!q) return;
+    if (act !== 1) return;
+    if (!ctx.live) { q.textContent = 'boiled kettle'; return; }
+    root.classList.add('is-typing');
+    ctx.type(q, 'boiled kettle', 88, function () {
+      ctx.at(750, function () { root.classList.remove('is-typing'); });
+    });
+  });
+
+  // The early version's whole point is the hesitation: a number is typed,
+  // second-guessed, deleted, guessed again, and finally left as a shrug.
+  mount('cs-early', [6000, 8200, 6600], function (root, act, ctx) {
+    var val = root.querySelector('.pu-usage-val');
+    if (!val) return;
+    if (!ctx.live) { val.textContent = '2'; return; }
+    if (act === 1) { val.textContent = ''; return; }
+    if (act === 3) { val.textContent = '2'; return; }
+
+    val.textContent = '';
+    root.classList.add('is-typing');
+    ctx.at(1500, function () {
+      ctx.type(val, '2', 140, function () {
+        ctx.at(1100, function () {
+          ctx.type(val, '2', -110, function () {
+            ctx.at(500, function () {
+              ctx.type(val, '10', 140, function () {
+                ctx.at(1200, function () { ctx.type(val, '10', -110); });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
 })();
 </script>
 </body>
