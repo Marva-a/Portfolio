@@ -2,17 +2,25 @@ import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 import Pill from "./ui/Pill";
 import PersustainShowcase from "./persustain/PersustainShowcase";
+import AwemeShowcase from "./aweme/AwemeShowcase";
 import SectionHeading from "./ui/SectionHeading";
 import SlideCounter from "./ui/SlideCounter";
 import useMediaQuery, { TOUCH_QUERY } from "../hooks/useMediaQuery";
 import { color, pillPalette } from "../styles/tokens";
 
+// The second project carries a real product loop rather than only a mesh,
+// so it needs its own id to key off of below, the same way `featured.id`
+// does for Persustain.
+const AWEME_ID = "02";
+
 const projects = [
   {
-    id: "02",
-    title: "02. Project Name",
-    tag: "SaaS",
-    tagBg: pillPalette[3],
+    id: AWEME_ID,
+    title: "02. AweMe",
+    description:
+      "Turning a parent's quiet worry into an early dyslexia screening — and a plan.",
+    tag: "Health & EdTech",
+    tagBg: pillPalette[1],
     meshColor: "#70F2CF",
     meshBlobs: [
       { dx: -0.3, dy: -0.28, scale: 0.95, opacity: 0.55 },
@@ -207,6 +215,7 @@ function ProjectCarousel() {
                   room for the system field beside the phone, so there the
                   phone carries all four beats on its own screen. */}
               {project.id === featured.id && <PersustainShowcase variant="compact" />}
+              {project.id === AWEME_ID && <AwemeShowcase variant="compact" />}
             </div>
 
             <h3 className="font-georgia fluid-card-title mt-5 font-bold" style={{ color: "#FFFDF7" }}>
@@ -350,6 +359,11 @@ export default function SelectedWork() {
                   blobs={project.meshBlobs}
                 />
 
+                {/* AweMe's own nine-screen loop, scaled into this grid
+                    card's footprint — the showcase measures its container
+                    itself, so mounting it is all this needs. */}
+                {project.id === AWEME_ID && <AwemeShowcase variant="featured" />}
+
                 <Pill
                   bg={project.tagBg}
                   color={color.textPrimary}
@@ -366,8 +380,7 @@ export default function SelectedWork() {
                 {project.title}
               </h3>
               <p className="type-body mt-2 text-left" style={{ color: "#FFF7E8" }}>
-                Explore the case studies, strategic thinking behind each key
-                decision and the business outcome.
+                {project.description || DESCRIPTION}
               </p>
             </div>
           ))}
