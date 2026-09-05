@@ -532,7 +532,7 @@ export default function About() {
                       type="button"
                       onClick={() => setActiveIndex(i)}
                       aria-label={`Read the testimonial from ${t.name}`}
-                      className="relative h-11 w-11 shrink-0 rounded-full opacity-70 md:h-10 md:w-10 transition duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:opacity-100 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface)]"
+                      className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full opacity-70 md:h-10 md:w-10 transition duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:opacity-100 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface)]"
                       style={{ border: `2px solid ${color.surface}` }}
                     >
                       {t.photo ? (
