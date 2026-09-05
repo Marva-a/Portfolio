@@ -48,11 +48,12 @@ const testimonials = [
       "Marva served as the Lead Product Designer for PoC and MVP applications across multiple platforms. She brought clarity to complex product challenges and effectively aligned design, development, and client needs throughout the process. On our most recent project, Marva successfully navigated technical and delivery constraints while managing stakeholder expectations to deliver an engaging MVP with innovative core features, demonstrating strong technical fluency and a consistent commitment to accessible UX.",
   },
   {
-    id: "slot-3",
-    name: "Add a name",
-    role: "Role @ Company",
+    id: "carol",
+    name: "Carol Zeng",
+    role: "Sr. Product Designer @ Aequilibrium",
     photo: null,
-    quote: "This slot is empty — add the testimonial text here.",
+    quote:
+      "Marva seamlessly blends strong product thinking with design craft and technical expertise. Her ability to transform abstract concepts into purposeful product experiences that align with business objectives is truly commendable. Her adaptability, strategic thinking, and drive for innovation shine through in every project. She brings clarity to complex problems and consistently turns ideas into thoughtful, impactful solutions. Highly recommended!",
   },
 ];
 
