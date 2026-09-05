@@ -46,6 +46,10 @@ const testimonials = [
     name: "Chris Jung",
     role: "Tech Lead @ ISM Creative",
     photo: chrisPhoto,
+    // The source photo is a full-length shot with his face in the upper
+    // third, off-centre — object-position alone can't crop a square image
+    // into a circle, so this scales and re-centres on his face directly.
+    photoStyle: { transform: "scale(1.7)", transformOrigin: "31% 26%" },
     quote:
       "Marva served as the Lead Product Designer for PoC and MVP applications across multiple platforms. She brought clarity to complex product challenges and effectively aligned design, development, and client needs throughout the process. On our most recent project, Marva successfully navigated technical and delivery constraints while managing stakeholder expectations to deliver an engaging MVP with innovative core features, demonstrating strong technical fluency and a consistent commitment to accessible UX.",
   },
@@ -475,6 +479,7 @@ export default function About() {
                       alt={active.name}
                       loading="lazy"
                       className="h-[72px] w-[72px] rounded-full object-cover"
+                      style={active.photoStyle}
                     />
                   ) : (
                     <div className="h-[72px] w-[72px] rounded-full bg-[#e6e2f5]" />
@@ -535,7 +540,7 @@ export default function About() {
                           alt=""
                           loading="lazy"
                           className="h-full w-full rounded-full object-cover"
-                          style={{ filter: "grayscale(1)" }}
+                          style={{ filter: "grayscale(1)", ...t.photoStyle }}
                         />
                       ) : (
                         <div className="h-full w-full rounded-full bg-[#e6e2f5]" />
