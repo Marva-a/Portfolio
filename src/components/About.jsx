@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import carolPhoto from "../assets/Carol.jpeg";
 import chasingDaylight from "../assets/chasing-daylight.webp";
+import chrisPhoto from "../assets/Chris.jpg";
 import marvaDog from "../assets/marva-dog.jpg";
 import marvaPainting from "../assets/marva-painting.jpg";
 import marvaSculpture from "../assets/marva-sculpture.jpg";
@@ -43,7 +45,7 @@ const testimonials = [
     id: "chris",
     name: "Chris Jung",
     role: "Tech Lead @ ISM Creative",
-    photo: null,
+    photo: chrisPhoto,
     quote:
       "Marva served as the Lead Product Designer for PoC and MVP applications across multiple platforms. She brought clarity to complex product challenges and effectively aligned design, development, and client needs throughout the process. On our most recent project, Marva successfully navigated technical and delivery constraints while managing stakeholder expectations to deliver an engaging MVP with innovative core features, demonstrating strong technical fluency and a consistent commitment to accessible UX.",
   },
@@ -51,7 +53,7 @@ const testimonials = [
     id: "carol",
     name: "Carol Zeng",
     role: "Sr. Product Designer @ Aequilibrium",
-    photo: null,
+    photo: carolPhoto,
     quote:
       "Marva seamlessly blends strong product thinking with design craft and technical expertise. Her ability to transform abstract concepts into purposeful product experiences that align with business objectives is truly commendable. Her adaptability, strategic thinking, and drive for innovation shine through in every project. She brings clarity to complex problems and consistently turns ideas into thoughtful, impactful solutions. Highly recommended!",
   },
