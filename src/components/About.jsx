@@ -48,8 +48,9 @@ const testimonials = [
     photo: chrisPhoto,
     // The source photo is a full-length shot with his face in the upper
     // third, off-centre — object-position alone can't crop a square image
-    // into a circle, so this scales and re-centres on his face directly.
-    photoStyle: { transform: "scale(1.7)", transformOrigin: "31% 26%" },
+    // into a circle, so this nudges his face toward the middle and scales
+    // up. Tuned empirically at the actual 72px/44px render sizes.
+    photoStyle: { transform: "scale(1.7) translate(8%, 10%)" },
     quote:
       "Marva served as the Lead Product Designer for PoC and MVP applications across multiple platforms. She brought clarity to complex product challenges and effectively aligned design, development, and client needs throughout the process. On our most recent project, Marva successfully navigated technical and delivery constraints while managing stakeholder expectations to deliver an engaging MVP with innovative core features, demonstrating strong technical fluency and a consistent commitment to accessible UX.",
   },
