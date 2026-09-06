@@ -85,8 +85,8 @@ const screens = [
     src: reveal,
     // Read one finding, then go to the full dashboard.
     targets: [
-      { rect: [611, 459, 507, 162] },
-      { rect: [660, 677, 188, 44], click: true },
+      { rect: [611, 470, 507, 162] },
+      { rect: [660, 688, 188, 44], click: true },
     ],
   },
   {
