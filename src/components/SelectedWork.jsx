@@ -19,8 +19,10 @@ const projects = [
     title: "02. AweMe",
     description:
       "Turning a parent's quiet worry into an early dyslexia screening — and a plan.",
-    tag: "Health & EdTech",
-    tagBg: pillPalette[1],
+    tags: [
+      { label: "SaaS", bg: pillPalette[3] },
+      { label: "B2B2C", bg: pillPalette[2] },
+    ],
     meshColor: "#70F2CF",
     meshBlobs: [
       { dx: -0.3, dy: -0.28, scale: 0.95, opacity: 0.55 },
@@ -30,8 +32,7 @@ const projects = [
   {
     id: "03",
     title: "03. Project Name",
-    tag: "B2B2C",
-    tagBg: pillPalette[2],
+    tags: [{ label: "B2B2C", bg: pillPalette[2] }],
     meshColor: "#8F74FF",
     meshBlobs: [
       { dx: 0.3, dy: -0.25, scale: 0.9, opacity: 0.5 },
@@ -47,8 +48,7 @@ const hiddenProjects = [
   {
     id: "04",
     title: "04. Project Name",
-    tag: "0-to-1",
-    tagBg: pillPalette[0],
+    tags: [{ label: "0-to-1", bg: pillPalette[0] }],
     meshColor: "#7DDCFF",
     meshBlobs: [
       { dx: -0.25, dy: 0.3, scale: 0.9, opacity: 0.5 },
@@ -58,8 +58,7 @@ const hiddenProjects = [
   {
     id: "05",
     title: "05. Project Name",
-    tag: "B2B2C",
-    tagBg: pillPalette[2],
+    tags: [{ label: "B2B2C", bg: pillPalette[2] }],
     meshColor: "#FF7F6E",
     meshBlobs: [
       { dx: 0.3, dy: 0.22, scale: 0.95, opacity: 0.5 },
@@ -102,13 +101,7 @@ const featured = {
   meshBlobs: FEATURED_MESH_BLOBS,
 };
 
-const allProjects = [
-  featured,
-  ...projects.map((p) => ({
-    ...p,
-    tags: [{ label: p.tag, bg: p.tagBg }],
-  })),
-];
+const allProjects = [featured, ...projects];
 
 const SLIDE_GAP = 16; // px; must match the gap-4 on the track
 
@@ -364,13 +357,20 @@ export default function SelectedWork() {
                     itself, so mounting it is all this needs. */}
                 {project.id === AWEME_ID && <AwemeShowcase variant="featured" />}
 
-                <Pill
-                  bg={project.tagBg}
-                  color={color.textPrimary}
-                  className="type-label absolute right-6 top-6 z-10 font-medium"
-                >
-                  {project.tag}
-                </Pill>
+                {/* A row rather than a single pill: a project can carry more
+                    than one tag, the same as the featured card above. */}
+                <div className="absolute right-6 top-6 z-10 flex gap-2">
+                  {project.tags.map((tag) => (
+                    <Pill
+                      key={tag.label}
+                      bg={tag.bg}
+                      color={color.textPrimary}
+                      className="type-label font-medium"
+                    >
+                      {tag.label}
+                    </Pill>
+                  ))}
+                </div>
               </div>
 
               <h3

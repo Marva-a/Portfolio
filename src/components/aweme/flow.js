@@ -27,12 +27,37 @@ import share from "../../assets/aweme/09-share.webp";
  *
  * A target can also carry `type` (text AwemeScreen types into that field
  * over the underlying placeholder — only on fields the export shows empty;
- * the questionnaire's radio and note are already filled in the export
- * itself, so they're left to the ring alone), `mask` (render it as dots,
- * for the password), `select` (the field is a dropdown — get a flyout
- * instead of typed text), and `hold` (how long the cursor stays on that
- * target, defaulting to DWELL; typed fields get more so the typing has
- * room to finish before the cursor moves on).
+ * the questionnaire's note is already filled in the export itself, so it's
+ * left to the ring alone), `mask` (render it as dots, for the password),
+ * `select` (the field is a dropdown — get a flyout instead of typed text),
+ * `pill` / `radius` (the shape of the control the ring goes around, so it
+ * lands concentric with the real thing rather than as one fixed rounded
+ * rectangle over everything: AweMe's buttons are stadiums — the three that
+ * could be measured cleanly off the exports all come back radius = height/2
+ * — while its inputs and cards sit between 4 and 12 frame px. `radius` is
+ * in frame px like `rect`; `pill` means "half your own height, whatever
+ * that turns out to be"), `radioRect` / `checkboxRect` (a circle or box to
+ * replay as unpicked-then-picked / unchecked-then-checked — measured off
+ * the exports themselves rather than taken from the node's stated size,
+ * since a cover has to be at least as big as the mark it hides or the
+ * original shows as a rim around it; usually inside the target's own
+ * `rect`, but not always: the to-do screen's checkboxRect belongs to the
+ * row a button click completes, not to the button itself), `bakedOn` (the
+ * export already shows that mark made, so it has to be covered from the
+ * moment the screen appears — otherwise the pick reads as something that
+ * was always true rather than something that happens. Where the export
+ * shows the control untouched instead, as the to-do row does, there is
+ * nothing to hide, and nothing is drawn over it until the press lands: the
+ * one checkbox the cursor uses then goes on looking exactly like the three
+ * beside it), and `hold` (how long the cursor stays on that target,
+ * defaulting to DWELL; typed fields get more so the typing has room to
+ * finish before the cursor moves on).
+ *
+ * A screen can also carry `progress` ({ track: [x,y,w,h], fill }) — the
+ * step bar's own baked-in fill is covered and regrown from zero each time
+ * the screen is entered — and `spinner` (a rect to spin a loading ring
+ * over), for the two screens where the *page itself* is doing something,
+ * not just the cursor.
  */
 
 export const FRAME_W = 1728;
@@ -54,22 +79,26 @@ const screens = [
   {
     id: "signup",
     src: signup,
-    // Create an account: your name, your email, go.
+    // Create an account: your name, your email, a password, agree, go.
     targets: [
-      { rect: [634, 551, 460, 46], type: "Sarah Chen" },
-      { rect: [634, 638, 460, 46], type: "sarah.chen@gmail.com", hold: 1500 },
-      { rect: [634, 867, 460, 48], click: true },
+      { rect: [634, 551, 460, 46], radius: 6, type: "Sarah Chen" },
+      { rect: [634, 638, 460, 46], radius: 6, type: "sarah.chen@gmail.com", hold: 1500 },
+      { rect: [634, 725, 460, 46], radius: 6, type: "Sunshine2024!", mask: true, hold: 1300 },
+      { rect: [634, 799, 460, 40], radius: 6, checkboxRect: [632, 796, 24, 24], bakedOn: true, click: true },
+      { rect: [634, 867, 460, 48], pill: true, click: true },
     ],
   },
   {
     id: "intake",
     src: intake,
-    // Who the child is: name, then grade, then on.
+    // Who the child is: name, birthday, then grade, then on.
     targets: [
-      { rect: [564, 505, 600, 50], type: "Leo" },
-      { rect: [564, 703, 600, 50], select: true },
-      { rect: [1114, 924, 90, 48], click: true },
+      { rect: [564, 505, 600, 50], radius: 6, type: "Leo" },
+      { rect: [564, 604, 600, 50], radius: 6, type: "03/14/2020", hold: 1300 },
+      { rect: [564, 703, 600, 50], radius: 6, select: true },
+      { rect: [1114, 924, 90, 48], pill: true, click: true },
     ],
+    progress: { track: [524, 257, 680, 8], fill: 267 },
   },
   {
     id: "question",
@@ -77,10 +106,11 @@ const screens = [
     // The screening question itself: pick the answer, add the note you
     // were always going to add, continue.
     targets: [
-      { rect: [564, 537, 600, 78], click: true },
-      { rect: [564, 738, 600, 100] },
-      { rect: [1114, 910, 90, 48], click: true },
+      { rect: [564, 537, 600, 78], radius: 6, radioRect: [578, 562, 28, 28], bakedOn: true, click: true },
+      { rect: [564, 738, 600, 100], radius: 6 },
+      { rect: [1114, 910, 90, 48], pill: true, click: true },
     ],
+    progress: { track: [524, 252, 680, 8], fill: 272 },
   },
   {
     id: "processing",
@@ -88,14 +118,16 @@ const screens = [
     // Nothing to point at while it thinks — the one screen with no cursor.
     targets: [],
     ms: 2200,
+    progress: { track: [584, 634, 560, 6], fill: 336 },
+    spinner: { rect: [824, 251, 80, 80] },
   },
   {
     id: "reveal",
     src: reveal,
     // Read one finding, then go to the full dashboard.
     targets: [
-      { rect: [611, 470, 507, 162] },
-      { rect: [660, 688, 188, 44], click: true },
+      { rect: [611, 470, 507, 162], radius: 12 },
+      { rect: [660, 688, 188, 44], pill: true, click: true },
     ],
   },
   {
@@ -103,8 +135,8 @@ const screens = [
     src: dashboard,
     // Take in the first indicator card, then open the plan.
     targets: [
-      { rect: [328, 396, 437, 289] },
-      { rect: [24, 155, 232, 42], click: true },
+      { rect: [328, 396, 437, 289], radius: 12 },
+      { rect: [24, 155, 232, 42], radius: 10, click: true },
     ],
   },
   {
@@ -112,8 +144,8 @@ const screens = [
     src: iepPlan,
     // The plain-language summary, then across to the to-do list.
     targets: [
-      { rect: [328, 137, 1352, 249] },
-      { rect: [24, 205, 232, 42], click: true },
+      { rect: [328, 137, 1352, 249], radius: 12 },
+      { rect: [24, 205, 232, 42], radius: 10, click: true },
     ],
   },
   {
@@ -124,9 +156,12 @@ const screens = [
     // after this one. The last click on every screen is the one that earns
     // the next screen.
     targets: [
-      { rect: [328, 272, 631, 81], click: true },
-      { rect: [1513, 616, 135, 37], click: true },
-      { rect: [328, 369, 631, 81], click: true },
+      { rect: [328, 273, 630, 79], radius: 10, click: true },
+      // "Complete Task" — checks off the row's own checkbox (137:1841),
+      // not the button being clicked, since that's the actual effect of
+      // pressing it.
+      { rect: [1512, 615, 138, 39], pill: true, checkboxRect: [348, 299, 25, 25], click: true },
+      { rect: [328, 369, 630, 80], radius: 10, click: true },
     ],
   },
   {
@@ -135,8 +170,8 @@ const screens = [
     // The last thing a parent actually does with all of this: send it to
     // the school.
     targets: [
-      { rect: [356, 294, 381, 42] },
-      { rect: [356, 356, 152, 44], click: true },
+      { rect: [356, 294, 381, 42], radius: 6, type: "jenkins@lincolnelementary.edu", hold: 1500 },
+      { rect: [356, 356, 152, 44], pill: true, click: true },
     ],
   },
 ];
