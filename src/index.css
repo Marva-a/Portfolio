@@ -693,3 +693,76 @@ button:not(:disabled),
     transform: scaleX(1);
   }
 }
+
+/* Esvedra card's headset-reveal intro — same choreography as the case
+   study hero (public/case-studies/esvedra/index.html): the headset turns
+   face-on and pushes toward the viewer while its lenses (already playing
+   the real footage) grow and the frame between them fades, until the two
+   windows merge into the full-size clip underneath. */
+@keyframes esvc-headset-turn {
+  0% {
+    transform: rotateY(-100deg) scale(0.7);
+    opacity: 0;
+  }
+  40% {
+    transform: rotateY(8deg) scale(1);
+    opacity: 1;
+  }
+  55% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+  68% {
+    transform: rotateY(0deg) scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(0deg) scale(2.1);
+    opacity: 0;
+  }
+}
+@keyframes esvc-frame-fade {
+  0% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes esvc-overlay-fade {
+  0% {
+    opacity: 1;
+  }
+  68% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.esvc-icon.esvc-play {
+  animation: esvc-headset-turn 3s ease-in-out both;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.esvc-frame.esvc-play {
+  animation: esvc-frame-fade 3s ease-in-out both;
+}
+.esvc-overlay.esvc-play {
+  animation: esvc-overlay-fade 3s ease-in-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .esvc-icon.esvc-play,
+  .esvc-frame.esvc-play,
+  .esvc-overlay.esvc-play {
+    animation: none;
+    opacity: 0;
+  }
+}

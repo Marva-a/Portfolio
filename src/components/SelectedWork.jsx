@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motio
 import Pill from "./ui/Pill";
 import PersustainShowcase from "./persustain/PersustainShowcase";
 import AwemeShowcase from "./aweme/AwemeShowcase";
+import EsvedraShowcase from "./esvedra/EsvedraShowcase";
 import SectionHeading from "./ui/SectionHeading";
 import SlideCounter from "./ui/SlideCounter";
 import useMediaQuery, { TOUCH_QUERY } from "../hooks/useMediaQuery";
@@ -12,6 +13,9 @@ import { color, pillPalette } from "../styles/tokens";
 // so it needs its own id to key off of below, the same way `featured.id`
 // does for Persustain.
 const AWEME_ID = "02";
+// Esvedra carries its own hero animation (a headset-reveal video loop, same
+// as AweMe's product loop), so it needs an id to key off of below too.
+const ESVEDRA_ID = "03";
 
 const projects = [
   {
@@ -30,9 +34,19 @@ const projects = [
     ],
   },
   {
-    id: "03",
-    title: "03. Project Name",
-    tags: [{ label: "B2B2C", bg: pillPalette[2] }],
+    id: ESVEDRA_ID,
+    title: "03. Esvedra",
+    // No href yet — the case study page is still a draft (see
+    // public/case-studies/esvedra/index.html's own header comment) and
+    // isn't part of this deploy. Add it back once that page is ready; the
+    // card stays inert until then, the same rule the mobile carousel and
+    // desktop grid already apply to any project without one.
+    description:
+      "From spatial and cognitive anxiety to calm, meditative focus in VR.",
+    tags: [
+      { label: "Usability Redesign", bg: pillPalette[2] },
+      { label: "VR/XR", bg: pillPalette[1] },
+    ],
     meshColor: "#8F74FF",
     meshBlobs: [
       { dx: 0.3, dy: -0.25, scale: 0.9, opacity: 0.5 },
@@ -209,6 +223,7 @@ function ProjectCarousel() {
                   phone carries all four beats on its own screen. */}
               {project.id === featured.id && <PersustainShowcase variant="compact" />}
               {project.id === AWEME_ID && <AwemeShowcase variant="compact" />}
+              {project.id === ESVEDRA_ID && <EsvedraShowcase variant="compact" />}
             </div>
 
             <h3 className="font-georgia fluid-card-title mt-5 font-bold" style={{ color: "#FFFDF7" }}>
@@ -340,10 +355,15 @@ export default function SelectedWork() {
 
         {/* Grid of remaining projects */}
         <div className="mt-12 grid gap-x-6 gap-y-10 md:grid-cols-2">
-          {projects.map((project) => (
+          {projects.map((project) => {
+            // Same "stay inert until the case study exists" rule as the
+            // mobile carousel: only a project with an href becomes a link.
+            const Wrapper = project.href ? "a" : "div";
+            return (
             <div key={project.id}>
-              <div
-                className={`relative overflow-hidden rounded-3xl bg-[#24174A] md:h-[437px] md:cursor-none ${CARD_HOVER}`}
+              <Wrapper
+                {...(project.href ? { href: project.href } : {})}
+                className={`relative block overflow-hidden rounded-3xl bg-[#24174A] md:h-[437px] md:cursor-none ${CARD_HOVER}`}
                 {...cardHoverProps}
               >
                 <CardMesh
@@ -356,6 +376,10 @@ export default function SelectedWork() {
                     card's footprint — the showcase measures its container
                     itself, so mounting it is all this needs. */}
                 {project.id === AWEME_ID && <AwemeShowcase variant="featured" />}
+
+                {/* Esvedra's headset-reveal video loop, same contract as
+                    AweMe's above. */}
+                {project.id === ESVEDRA_ID && <EsvedraShowcase variant="featured" />}
 
                 {/* A row rather than a single pill: a project can carry more
                     than one tag, the same as the featured card above. */}
@@ -371,19 +395,25 @@ export default function SelectedWork() {
                     </Pill>
                   ))}
                 </div>
-              </div>
+              </Wrapper>
 
+              <Wrapper
+                {...(project.href ? { href: project.href } : {})}
+                className="mt-6 block text-left"
+              >
               <h3
-                className="font-georgia fluid-card-title mt-6 text-left font-bold"
+                className="font-georgia fluid-card-title font-bold"
                 style={{ color: "#FFFDF7" }}
               >
                 {project.title}
               </h3>
-              <p className="type-body mt-2 text-left" style={{ color: "#FFF7E8" }}>
+              <p className="type-body mt-2" style={{ color: "#FFF7E8" }}>
                 {project.description || DESCRIPTION}
               </p>
+              </Wrapper>
             </div>
-          ))}
+            );
+          })}
         </div>
         </div>
       </div>
