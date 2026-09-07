@@ -24,6 +24,15 @@ import share from "../../assets/aweme/09-share.webp";
  * needed digging: intake inputs 144:199/144:209 and nav 144:222,
  * questionnaire 144:26/144:38/181:2347, reveal CTA 144:291, todo task
  * 137:1841 and its 137:1899 footer button, share 137:1969/137:1971.
+ *
+ * A target can also carry `type` (text AwemeScreen types into that field
+ * over the underlying placeholder — only on fields the export shows empty;
+ * the questionnaire's radio and note are already filled in the export
+ * itself, so they're left to the ring alone), `mask` (render it as dots,
+ * for the password), `select` (the field is a dropdown — get a flyout
+ * instead of typed text), and `hold` (how long the cursor stays on that
+ * target, defaulting to DWELL; typed fields get more so the typing has
+ * room to finish before the cursor moves on).
  */
 
 export const FRAME_W = 1728;
@@ -47,8 +56,8 @@ const screens = [
     src: signup,
     // Create an account: your name, your email, go.
     targets: [
-      { rect: [634, 551, 460, 46] },
-      { rect: [634, 638, 460, 46] },
+      { rect: [634, 551, 460, 46], type: "Sarah Chen" },
+      { rect: [634, 638, 460, 46], type: "sarah.chen@gmail.com", hold: 1500 },
       { rect: [634, 867, 460, 48], click: true },
     ],
   },
@@ -57,8 +66,8 @@ const screens = [
     src: intake,
     // Who the child is: name, then grade, then on.
     targets: [
-      { rect: [564, 505, 600, 50] },
-      { rect: [564, 703, 600, 50] },
+      { rect: [564, 505, 600, 50], type: "Leo" },
+      { rect: [564, 703, 600, 50], select: true },
       { rect: [1114, 924, 90, 48], click: true },
     ],
   },
@@ -132,8 +141,11 @@ const screens = [
   },
 ];
 
-export const FLOW = screens.map((screen) => ({
-  ...screen,
-  dwell: DWELL,
-  ms: screen.ms ?? screen.targets.length * DWELL + SETTLE,
-}));
+export const FLOW = screens.map((screen) => {
+  const holds = screen.targets.map((t) => t.hold ?? DWELL);
+  return {
+    ...screen,
+    holds,
+    ms: screen.ms ?? holds.reduce((sum, h) => sum + h, 0) + SETTLE,
+  };
+});
