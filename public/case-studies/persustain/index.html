@@ -246,6 +246,21 @@
   .pu-usage .pu-caret { height:calc(24 * var(--u)); }
   .pu-foot { font-size:calc(12 * var(--u)); line-height:calc(20 * var(--u)); color:#595a5b; border-radius:calc(6 * var(--u)); }
 
+  /* ---- the dashboard trade-off: exact Figma exports, annotated ---------- */
+  .pd-shot { position:relative; background:#f8f9fb; transition:opacity .22s ease; }
+  .pd-shot-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+  /* Same highlight language as the early-version "pu-nudge" ring: a soft
+     colour-coded glow around the region, not a hard outline. */
+  .pd-hl { position:absolute; border-radius:calc(16 * var(--u)); box-shadow:0 0 0 calc(3 * var(--u)) var(--hl-ring, rgba(255,128,110,.55)), 0 calc(8 * var(--u)) calc(24 * var(--u)) rgba(28,24,51,.18); pointer-events:none; transition:left .45s cubic-bezier(.22,1,.36,1), top .45s cubic-bezier(.22,1,.36,1), width .45s cubic-bezier(.22,1,.36,1), height .45s cubic-bezier(.22,1,.36,1), box-shadow .3s ease; }
+  /* Same speech-bubble callout as .pu-guess in the early version: ink
+     background, cream text — kept dark regardless of the highlight colour
+     so the label text always meets contrast; the dot alone carries colour. */
+  .pd-hl-label { position:absolute; display:inline-flex; align-items:center; gap:calc(7 * var(--u)); padding:calc(8 * var(--u)) calc(13 * var(--u)); border-radius:calc(12 * var(--u)); background:#1c1833; color:#fff7e8; font-family:"DM Sans",system-ui,sans-serif; font-size:calc(12 * var(--u)); font-weight:600; line-height:calc(16 * var(--u)); white-space:nowrap; box-shadow:0 calc(8 * var(--u)) calc(20 * var(--u)) rgba(28,24,51,.28); transition:left .45s cubic-bezier(.22,1,.36,1), top .45s cubic-bezier(.22,1,.36,1); }
+  .pd-hl-label::before { content:""; display:block; flex:0 0 auto; width:calc(8 * var(--u)); height:calc(8 * var(--u)); border-radius:9999px; background:var(--hl, #ff806e); }
+  .pd-hl-label::after { content:""; position:absolute; left:calc(20 * var(--u)); bottom:calc(-4 * var(--u)); width:calc(9 * var(--u)); height:calc(9 * var(--u)); background:#1c1833; transform:rotate(45deg); }
+  @keyframes pd-hl-pop { from { opacity:0; transform:scale(.92); } }
+  .pd-hl, .pd-hl-label { animation:pd-hl-pop .4s cubic-bezier(.22,1,.36,1) .15s both; }
+
   /* ===== the two animated figures ======================================
      Same engine both times: a phone that plays the flow, captions beside
      it that light up in step and double as controls. */
@@ -319,7 +334,7 @@
   #cs-early[data-act="3"] .pu-save { animation:pu-glow 1.4s ease-in-out 2.2s 1; }
 
   @media (prefers-reduced-motion:reduce) {
-    .cs-demo .pu-screen, .pu-sheet, .pu-scrim, .cs-demo-fill, .cs-demo-dot, .cs-demo-txt, .pu-cat, .pu-usage { transition:none !important; }
+    .cs-demo .pu-screen, .pu-sheet, .pu-scrim, .cs-demo-fill, .cs-demo-dot, .cs-demo-txt, .pu-cat, .pu-usage, .pd-shot, .pd-hl, .pd-hl-label { transition:none !important; animation:none !important; }
   }
 </style>
 <style>
@@ -2091,7 +2106,41 @@
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The faster path was to keep the familiar tracking patterns and move implementation forward. The risk was bigger than a UI inconsistency: we could deliver an MVP whose interface no longer represented the product model we had defined.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I went back to our object map and used it to trace what had disappeared from the implemented experience. That showed that the individual activity was being treated as the end point, rather than as an input into a shared climate project.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I reshaped the experience to make that relationship visible: personal impact remained measurable, but it was explicitly connected to the user’s project participation, contribution share, aggregation, and eventual verification.</p>
-        <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">The object map became our reference point when implementation started drifting toward familiar patterns. It gave the team a shared product language for deciding what needed to stay—not because I preferred one visual solution, but because removing those relationships would change what Persustain actually was.</p>
+      </div>
+      <figure style="margin:clamp(32px,4vw,48px) 0 0">
+        <div class="cs-demo" id="cs-dash" data-act="1">
+          <div class="pu-stage">
+            <div class="pu-phone pd-shot" id="cs-dash-phone" style="aspect-ratio:393/998" role="img" aria-label="The Persustain dashboard exactly as designed in Figma. V1, the drifting build: February's footprint card, then straight into the personal trend chart — highlighted, because none of it connects to a project. V2, the corrected build: the same two cards, with a My Impact so far card now inserted between them — highlighted — showing one project joined, 12 kg CO2e logged, value pending verification, a 12.5% contribution share and the project's aggregation progress.">
+              <img class="pd-shot-img" id="cs-dash-img" src="assets/ui/dashboard-v1-figma.png" alt="">
+              <div class="pd-hl" id="cs-dash-hl" style="--hl:#ff806e;--hl-ring:rgba(255,128,110,.55);left:5.1%;top:14.8%;width:89.8%;height:75.5%"></div>
+              <span class="pd-hl-label" id="cs-dash-hl-label" style="left:7.5%;top:16.8%">All individual — no shared layer</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="type-label" id="cs-dash-badge" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#ffe1d6;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06)">V1 — drifting</span>
+            <ol class="cs-demo-steps" style="margin-top:20px">
+              <li><button type="button" class="cs-demo-step" style="--c:#ff806e" aria-pressed="true">
+                <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
+                <span class="cs-demo-txt">
+                  <span class="type-body cs-demo-t" style="font-weight:600">The footprint is the end point</span>
+                  <span class="type-body cs-demo-b" style="margin-top:5px !important">Current Period, then straight into the personal trend chart. Everything on screen — highlighted — is about the individual, with nothing connecting it to a project.</span>
+                </span>
+              </button></li>
+              <li><button type="button" class="cs-demo-step" style="--c:#69debe" aria-pressed="false">
+                <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
+                <span class="cs-demo-txt">
+                  <span class="type-body cs-demo-t" style="font-weight:600">A shared project appears</span>
+                  <span class="type-body cs-demo-b" style="margin-top:5px !important">Same build, one card added — highlighted: what's been logged, and the climate project it feeds, with contribution share and aggregation progress attached.</span>
+                </span>
+              </button></li>
+            </ol>
+            <p class="type-label-mono cs-demo-hint">Pick a step to jump to it</p>
+          </div>
+        </div>
+        <figcaption class="type-caption" style="color:#4d476a;margin-top:clamp(24px,3vw,32px);text-align:center">Both screens exactly as designed — the highlight marks what's under discussion in each.</figcaption>
+      </figure>
+      <div style="max-width:1232px">
 
         <div style="margin:clamp(48px,6vw,80px) 0 0;padding-top:clamp(24px,3vw,34px);border-top:1px solid rgba(28,24,51,.13)">
           <p class="cs-tradeoff-kicker type-eyebrow">Trade-off</p>
@@ -2725,6 +2774,88 @@
     paint();
     schedule();
   }
+
+  // The dashboard trade-off: no typing beats, just the card arriving in two
+  // stages and a badge that flips from the drifting build to the corrected one.
+  // The dashboard trade-off: two exact exports (not a rebuild), swapped with
+  // their own highlight box rather than typed or animated beats.
+  (function () {
+    var root = document.getElementById('cs-dash');
+    if (!root) return;
+    var phone = document.getElementById('cs-dash-phone');
+    var img = document.getElementById('cs-dash-img');
+    var hl = document.getElementById('cs-dash-hl');
+    var label = document.getElementById('cs-dash-hl-label');
+    var badge = document.getElementById('cs-dash-badge');
+    var steps = [].slice.call(root.querySelectorAll('.cs-demo-step'));
+    var states = [
+      {
+        ratio: '393/998', src: 'assets/ui/dashboard-v1-figma.png',
+        badge: 'V1 — drifting', badgeBg: '#ffe1d6',
+        hl: { x: 5.1, y: 14.8, w: 89.8, h: 75.5, color: '#ff806e', ring: 'rgba(255,128,110,.55)' },
+        label: { x: 7.5, y: 16.8, text: 'All individual — no shared layer' }
+      },
+      {
+        ratio: '393/1502', src: 'assets/ui/dashboard-v2-figma.png',
+        badge: 'V2 — corrected', badgeBg: '#e8fff6',
+        hl: { x: 5.1, y: 30.7, w: 89.8, h: 31.9, color: '#69debe', ring: 'rgba(105,222,190,.55)' },
+        label: { x: 7.5, y: 32, text: 'New: the shared-project link' }
+      }
+    ];
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var act = 1, playing = false, timer = null;
+    var durs = [4400, 5200];
+
+    function paint() {
+      var s = states[act - 1];
+      phone.style.opacity = 0;
+      setTimeout(function () {
+        phone.style.aspectRatio = s.ratio;
+        img.src = s.src;
+        hl.style.setProperty('--hl-ring', s.hl.ring);
+        hl.style.left = s.hl.x + '%'; hl.style.top = s.hl.y + '%';
+        hl.style.width = s.hl.w + '%'; hl.style.height = s.hl.h + '%';
+        label.style.setProperty('--hl', s.hl.color);
+        label.style.left = s.label.x + '%'; label.style.top = s.label.y + '%';
+        label.textContent = s.label.text;
+        badge.textContent = s.badge; badge.style.background = s.badgeBg;
+        phone.style.opacity = 1;
+      }, reduce.matches ? 0 : 180);
+
+      steps.forEach(function (step, i) {
+        var n = i + 1;
+        step.classList.toggle('is-on', n === act);
+        step.classList.toggle('is-done', n < act);
+        step.setAttribute('aria-pressed', n === act ? 'true' : 'false');
+      });
+      root.classList.add('is-ready');
+    }
+
+    function schedule() {
+      clearTimeout(timer);
+      if (!playing || reduce.matches) return;
+      timer = setTimeout(function () { act = act % states.length + 1; paint(); schedule(); }, durs[act - 1]);
+    }
+
+    steps.forEach(function (step, i) {
+      step.addEventListener('click', function () { act = i + 1; paint(); schedule(); });
+    });
+
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting === playing) return;
+          playing = entry.isIntersecting;
+          if (playing) { paint(); schedule(); } else { clearTimeout(timer); }
+        });
+      }, { threshold: 0.3 }).observe(root);
+    } else {
+      playing = true;
+    }
+
+    paint();
+    schedule();
+  })();
 
   mount('cs-log', [6300, 6400, 7000], function (root, act, ctx) {
     var q = root.querySelector('.pu-q-t');
