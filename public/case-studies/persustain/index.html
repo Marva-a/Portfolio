@@ -294,6 +294,25 @@
   .cs-demo-hint { font-size:12px; letter-spacing:.09em; text-transform:uppercase; color:#4d476a; opacity:.7; margin:clamp(20px,2.4vw,28px) 0 0 !important; padding-left:2.6rem; }
   .cs-demo:not(.is-ready) .cs-demo-hint { display:none; }
 
+  .cs-legend { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:clamp(20px,3vw,40px); margin:clamp(28px,3vw,36px) 0 0; padding:clamp(20px,2.6vw,28px) clamp(18px,2.6vw,30px); border-radius:24px; background:#fffdf7; box-shadow:6px 6px 22px rgba(28,24,51,.06); }
+  .cs-legend-list { list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:4px; }
+  .cs-legend-item { display:grid; grid-template-columns:96px minmax(0,1fr); align-items:center; column-gap:12px; padding:9px 12px; border-radius:14px; transition:opacity .35s ease, background-color .35s ease, box-shadow .35s ease; }
+  .cs-legend-sample { display:flex; align-items:center; font-family:'Raleway',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+  .cs-legend-sample svg { display:block; width:22px; height:22px; }
+  .cs-legend-pill { display:inline-block; padding:3px 9px; border:1.5px solid #5860e8; border-radius:9999px; color:#5860e8; font-size:11px; font-weight:600; letter-spacing:.08em; line-height:1.3; }
+  .cs-legend-paren { color:#a0a1a3; font-size:14px; }
+  .cs-legend-name { display:block; color:#1c1833; font-weight:600; line-height:1.3; }
+  .cs-legend-def { display:block; color:#4d476a; line-height:1.4; margin-top:2px; }
+  .cs-legend.is-live .cs-legend-item:not(.is-on) { opacity:.35; }
+  .cs-legend-item.is-on { background:#fff; box-shadow:0 0 0 2px var(--c, #8f74ff), 0 6px 18px rgba(28,24,51,.08); }
+  .cs-legend.is-intro .cs-legend-item { opacity:0; transform:translateY(6px); }
+  .cs-legend.is-in .cs-legend-item { animation:cs-legend-in .45s cubic-bezier(.22,1,.36,1) both; }
+  .cs-legend.is-in .cs-legend-item:nth-child(2) { animation-delay:.12s; }
+  .cs-legend.is-in .cs-legend-item:nth-child(3) { animation-delay:.24s; }
+  .cs-legend.is-in [data-group="trust"] .cs-legend-item { animation-delay:.42s; }
+  .cs-legend.is-in [data-group="trust"] .cs-legend-item:nth-child(2) { animation-delay:.54s; }
+  @keyframes cs-legend-in { from { opacity:0; transform:translateY(6px) } to { opacity:1; transform:none } }
+
   @keyframes pu-blink { 0%,49% { opacity:1 } 50%,100% { opacity:0 } }
   @keyframes pu-rise { from { opacity:0; transform:translateY(calc(11 * var(--u))) } }
   @keyframes pu-pick { 0% { border-color:transparent } 55% { transform:scale(1.06) } }
@@ -334,7 +353,8 @@
   #cs-early[data-act="3"] .pu-save { animation:pu-glow 1.4s ease-in-out 2.2s 1; }
 
   @media (prefers-reduced-motion:reduce) {
-    .cs-demo .pu-screen, .pu-sheet, .pu-scrim, .cs-demo-fill, .cs-demo-dot, .cs-demo-txt, .pu-cat, .pu-usage, .pd-shot, .pd-hl, .pd-hl-label { transition:none !important; animation:none !important; }
+    .cs-demo .pu-screen, .pu-sheet, .pu-scrim, .cs-demo-fill, .cs-demo-dot, .cs-demo-txt, .pu-cat, .pu-usage, .pd-shot, .pd-hl, .pd-hl-label, .cs-legend-item { transition:none !important; animation:none !important; }
+    .cs-legend.is-intro .cs-legend-item { opacity:1; transform:none; }
   }
 </style>
 <style>
@@ -1607,6 +1627,38 @@
         <p class="cs-lead" style="line-height:1.5;color:#4d476a;margin:34px 0 0;text-wrap:pretty">The client's roadmap ran from individual action all the way to verified carbon credits with market value. Cutting that from the product would have erased what made it distinctive. Showing it as already functional wouldn't have survived someone's first five minutes in the app. I needed both — the full ambition, and honesty about what was real today.</p>
         <p class="cs-copy" style="line-height:1.65;color:#4d476a;margin:20px 0 0;text-wrap:pretty">I specified two dimensions and kept them deliberately separate, so one could never be mistaken for the other.</p>
       </div>
+      <div class="cs-legend is-intro" id="cs-legend">
+        <div data-group="lifecycle">
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">Lifecycle status <span style="color:#4d476a">— the icon</span></p>
+          <ul class="cs-legend-list">
+            <li class="cs-legend-item" data-key="completed">
+              <span class="cs-legend-sample" aria-hidden="true"><svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#5860e8"/><path d="M6.8 11.2l2.8 2.8 5.6-5.6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="type-body"><span class="cs-legend-name">Completed</span><span class="cs-legend-def">Done, and real.</span></span>
+            </li>
+            <li class="cs-legend-item" data-key="in-progress">
+              <span class="cs-legend-sample" aria-hidden="true"><svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="10.25" fill="#eef0fc" stroke="#5860e8" stroke-width="1.5"/><circle cx="11" cy="11" r="3.2" fill="#5860e8"/></svg></span>
+              <span class="type-body"><span class="cs-legend-name">In progress</span><span class="cs-legend-def">Happening now, not finished.</span></span>
+            </li>
+            <li class="cs-legend-item" data-key="awaiting">
+              <span class="cs-legend-sample" aria-hidden="true"><svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#e4e5e7"/><circle cx="11" cy="11" r="3.2" fill="#b4b5b7"/></svg></span>
+              <span class="type-body"><span class="cs-legend-name">Awaiting action</span><span class="cs-legend-def">Hasn't started yet.</span></span>
+            </li>
+          </ul>
+        </div>
+        <div data-group="trust">
+          <p class="type-label-mono" style="color:#8f74ff;margin:0">Trust state <span style="color:#4d476a">— the label</span></p>
+          <ul class="cs-legend-list">
+            <li class="cs-legend-item" data-key="estimated">
+              <span class="cs-legend-sample" aria-hidden="true"><span class="cs-legend-pill">ESTIMATED</span></span>
+              <span class="type-body"><span class="cs-legend-name">Estimated</span><span class="cs-legend-def">Calculated — in an MVP, not always exact.</span></span>
+            </li>
+            <li class="cs-legend-item" data-key="simulated">
+              <span class="cs-legend-sample" aria-hidden="true"><span class="cs-legend-paren">(Simulated)</span></span>
+              <span class="type-body"><span class="cs-legend-name">Simulated</span><span class="cs-legend-def">Shown for the vision — not built in this phase.</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div style="max-width:1232px">
         <p class="type-eyebrow" style="color:#1c1833;margin:clamp(28px,3vw,36px) 0 0">A user opens a project and sees:</p>
       </div>
@@ -1621,17 +1673,7 @@
           </div>
 
           <div>
-            <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,32px)">
-              <div>
-                <p class="type-label-mono" style="color:#4d476a;margin:0 0 8px">Lifecycle status</p>
-                <span class="type-label" id="cs-lifecycle-badge-status" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:#e8fff6;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#1c1833;box-shadow:6px 6px 22px rgba(28,24,51,.06);transition:background-color .3s ease">Completed</span>
-              </div>
-              <div>
-                <p class="type-label-mono" style="color:#4d476a;margin:0 0 8px">Trust state</p>
-                <span class="type-label" id="cs-lifecycle-badge-trust" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9999px;background:transparent;border:1px dashed rgba(28,24,51,.3);letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#4d476a;transition:background-color .3s ease,border-color .3s ease,color .3s ease">None needed</span>
-              </div>
-            </div>
-            <ol class="cs-demo-steps" style="margin-top:24px">
+            <ol class="cs-demo-steps">
               <li><button type="button" class="cs-demo-step" style="--c:#69debe" aria-pressed="true">
                 <span class="cs-demo-rail" aria-hidden="true"><span class="cs-demo-dot"></span><span class="cs-demo-line"><i class="cs-demo-fill"></i></span></span>
                 <span class="cs-demo-txt">
@@ -2886,9 +2928,9 @@
     schedule();
   })();
 
-  // The lifecycle/trust scenario: one real screenshot, never swapped — only
-  // the highlight box, its label and the badge move between four regions of
-  // the same evidence-pack card.
+  // The lifecycle/trust scenario. The legend is read first: its items stagger
+  // in, then each step moves the highlight over the real screen and lights the
+  // legend entries that explain what's highlighted.
   (function () {
     var root = document.getElementById('cs-lifecycle');
     if (!root) return;
@@ -2896,55 +2938,64 @@
     var img = document.getElementById('cs-lifecycle-img');
     var hl = document.getElementById('cs-lifecycle-hl');
     var label = document.getElementById('cs-lifecycle-hl-label');
-    var statusBadge = document.getElementById('cs-lifecycle-badge-status');
-    var trustBadge = document.getElementById('cs-lifecycle-badge-trust');
+    var legend = document.getElementById('cs-legend');
+    var legendItems = legend ? [].slice.call(legend.querySelectorAll('.cs-legend-item')) : [];
     var steps = [].slice.call(root.querySelectorAll('.cs-demo-step'));
-    var noTrust = { text: 'None needed', bg: 'transparent', border: '1px dashed rgba(28,24,51,.3)', color: '#4d476a' };
-    var noStatus = { text: '—', bg: 'transparent', border: '1px dashed rgba(28,24,51,.3)', color: '#4d476a' };
     var evidenceShot = { src: 'assets/22-project-impact-lifecycle.png?v=2', ratio: '636/580' };
     var contributionShot = { src: 'assets/21-project-attributed-contribution.png', ratio: '1143/1647' };
     var states = [
       {
-        shot: evidenceShot,
-        status: { text: 'Completed', bg: '#e8fff6' },
-        trust: noTrust,
+        shot: evidenceShot, keys: ['completed'],
         hl: { x: 4, y: 33.5, w: 92, h: 12, color: '#69debe', ring: 'rgba(105,222,190,.55)' },
         label: { x: 6, y: 29, text: 'Completed' }
       },
       {
-        shot: contributionShot,
-        status: noStatus,
-        trust: { text: 'Estimated', bg: '#f0e9ff', border: 'none', color: '#1c1833' },
+        shot: contributionShot, keys: ['estimated'],
         hl: { x: 8, y: 5.5, w: 84, h: 44, color: '#8f74ff', ring: 'rgba(143,116,255,.5)' },
         label: { x: 10, y: 2, text: 'Estimated' }
       },
       {
-        shot: evidenceShot,
-        status: { text: 'In progress', bg: '#e6f6ff' },
-        trust: noTrust,
+        shot: evidenceShot, keys: ['in-progress'],
         hl: { x: 4, y: 45, w: 92, h: 11, color: '#4fb0e6', ring: 'rgba(79,176,230,.5)' },
         label: { x: 6, y: 40.5, text: 'In progress' }
       },
       {
-        shot: evidenceShot,
-        status: { text: 'Awaiting action', bg: '#fff7e8' },
-        trust: { text: 'Simulated', bg: '#ffe1d6', border: 'none', color: '#1c1833' },
+        shot: evidenceShot, keys: ['awaiting', 'simulated'],
         hl: { x: 4, y: 56, w: 92, h: 39, color: '#ff806e', ring: 'rgba(255,128,110,.55)' },
-        label: { x: 6, y: 51.5, text: 'Simulated' }
+        label: { x: 6, y: 51.5, text: 'Awaiting action · Simulated' }
       }
     ];
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     var act = 1, playing = false, timer = null;
-    var durs = [4200, 5400, 5200, 5200];
+    var durs = [4200, 5400, 5200, 5600];
+    var introDone = !legend || reduce.matches || !window.IntersectionObserver;
+    var introStarted = false;
+    if (introDone && legend) legend.classList.remove('is-intro');
+
+    // Staggered legend entrance; the walkthrough only begins once it's done.
+    function startIntro() {
+      if (introDone || introStarted) return;
+      introStarted = true;
+      legend.classList.add('is-in');
+      setTimeout(function () {
+        legend.classList.remove('is-intro', 'is-in');
+        introDone = true;
+        if (playing) { paint(); schedule(); }
+      }, 1300);
+    }
+
+    var paintId = 0;
 
     function paint() {
+      var id = ++paintId;
       var s = states[act - 1];
-      var shotChanged = img.getAttribute('data-shot') !== s.shot.src;
+      var shotChanged = img.getAttribute('src') !== s.shot.src;
       phone.style.opacity = shotChanged ? 0 : 1;
       setTimeout(function () {
-        if (shotChanged) {
+        // A newer step may have been painted during the fade; let it win.
+        if (id !== paintId) return;
+        if (img.getAttribute('src') !== s.shot.src) {
           img.src = s.shot.src;
-          img.setAttribute('data-shot', s.shot.src);
           phone.style.aspectRatio = s.shot.ratio;
         }
         hl.style.setProperty('--hl-ring', s.hl.ring);
@@ -2954,12 +3005,16 @@
         label.style.setProperty('--hl', s.hl.color);
         label.style.left = s.label.x + '%'; label.style.top = s.label.y + '%';
         label.textContent = s.label.text;
-        statusBadge.textContent = s.status.text; statusBadge.style.background = s.status.bg;
-        statusBadge.style.border = s.status.border || 'none'; statusBadge.style.color = s.status.color || '#1c1833';
-        trustBadge.textContent = s.trust.text; trustBadge.style.background = s.trust.bg;
-        trustBadge.style.border = s.trust.border || 'none'; trustBadge.style.color = s.trust.color || '#1c1833';
         phone.style.opacity = 1;
       }, shotChanged && !reduce.matches ? 180 : 0);
+
+      if (legend && introDone) {
+        legend.classList.add('is-live');
+        legend.style.setProperty('--c', s.hl.color);
+        legendItems.forEach(function (item) {
+          item.classList.toggle('is-on', s.keys.indexOf(item.getAttribute('data-key')) > -1);
+        });
+      }
 
       steps.forEach(function (step, i) {
         var n = i + 1;
@@ -2972,7 +3027,7 @@
 
     function schedule() {
       clearTimeout(timer);
-      if (!playing || reduce.matches) return;
+      if (!playing || !introDone || reduce.matches) return;
       timer = setTimeout(function () { act = act % states.length + 1; paint(); schedule(); }, durs[act - 1]);
     }
 
@@ -2981,11 +3036,19 @@
     });
 
     if (window.IntersectionObserver) {
+      if (legend && !introDone) {
+        var legendIo = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { startIntro(); legendIo.disconnect(); }
+        }, { threshold: 0.5 });
+        legendIo.observe(legend);
+      }
       new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting === playing) return;
           playing = entry.isIntersecting;
-          if (playing) { paint(); schedule(); } else { clearTimeout(timer); }
+          if (!playing) { clearTimeout(timer); return; }
+          paint();
+          if (introDone) schedule(); else startIntro();
         });
       }, { threshold: 0.3 }).observe(root);
     } else {
